@@ -2,6 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import db from './db/db.js';
 
+// Routes
+import auth from './routes/auth.js';
+import errorHandler from './middleware/errorHandler.js';
+
 dotenv.config();
 
 const app = express();
@@ -9,6 +13,11 @@ db();
 
 // body parser
 app.use(express.json());
+
+app.use('/api/v1/auth', auth);
+
+// after all routes
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
