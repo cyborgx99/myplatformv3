@@ -10,17 +10,24 @@ import ErrorResponse from '../middleware/ErrorResponse.js';
 
 export const registerUser = asyncHandler(async (req, res, next) => {
   const { name, lastName, email, password } = req.body;
-  // Check if user registered
+
+  // Check if user already in DB
   let user = await User.findOne({ email });
   if (user) {
     return next(new ErrorResponse('User Already Exists', 400));
   }
 
-  const token = jwt.sign(
-    { name, lastName, email, password },
-    process.env.JWT_ACCOUNT_ACTIVATION,
-    { expiresIn: '60m' }
-  );
+  // validation by Mongoose
+  await User.create({
+    name,
+    email,
+    lastName,
+    password,
+  });
+
+  const token = jwt.sign({ email }, process.env.JWT_ACCOUNT_ACTIVATION, {
+    expiresIn: '60m',
+  });
 
   const html = `<p>Click the following link to activate your account:</p>
   <a href="${req.protocol}://${req.get(
@@ -41,7 +48,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     });
     res.status(200).json({
       success: true,
-      data: 'Email Sent',
+      data: 'Verification Email Has Been Sent',
     });
   } catch (err) {
     console.log(err);
@@ -49,7 +56,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-// @desc Activate account (Finish Registration)
+// @desc Activate account (Verify Email)
 // @route POST /api/v1/auth/activation
 // @access Public
 
@@ -64,23 +71,26 @@ export const activateRegisteredUser = asyncHandler(async (req, res, next) => {
     token,
     process.env.JWT_ACCOUNT_ACTIVATION,
     async (err, decoded) => {
-      if (err) next(new ErrorResponse('Invalid or Expired Link', 401));
-      const { name, email, lastName, password } = decoded;
+      if (err) {
+        return next(new ErrorResponse('Invalid or Expired Link', 401));
+      }
+      const { email } = decoded;
+      let user = await User.findOne({ email });
 
-      let userActivated = await User.findOne({ email });
-
-      if (userActivated) {
+      if (user.emailVerified === true) {
         return next(
-          new ErrorResponse(`User ${email} has already been activated`, 401)
+          new ErrorResponse(`${email} has already been verified`, 401)
         );
       }
 
-      await User.create({
-        name,
-        email,
-        lastName,
-        password,
-      });
+      user = await User.findByIdAndUpdate(
+        user.id,
+        { emailVerified: true },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
 
       return res.json({
         success: true,
@@ -89,4 +99,142 @@ export const activateRegisteredUser = asyncHandler(async (req, res, next) => {
       });
     }
   );
+});
+
+// @desc Send reset password link to email
+// @route POST /api/v1/auth/resetrequest
+// @access Public
+export const resetPasswordRequest = asyncHandler(async (req, res, next) => {
+  const { email } = req.body;
+  let user = await User.findOne({ email });
+  if (!user) {
+    return next(new ErrorResponse('Something Went Wrong Try Again', 400));
+  }
+
+  // creating reset token
+  const token = jwt.sign(
+    { id: user._id, email: user.email },
+    process.env.JWT_RESET_PASSWORD,
+    {
+      expiresIn: '15m',
+    }
+  );
+
+  // Set reset link in DB
+  user = await User.findByIdAndUpdate(
+    user.id,
+    { resetPasswordLink: token },
+    {
+      new: true,
+      runValidators: false,
+    }
+  );
+
+  // Message with token
+  const html = `
+  <p>Hello there :) </p>
+  <a href="${req.protocol}://${req.get(
+    'host'
+  )}/api/v1/reset-password/${token}">Click Me To Reset Your Password</a>
+  <hr />
+  <p>Or use the following link to reset your password:</p>
+  <p>${req.protocol}://${req.get('host')}/api/v1/reset-password/${token}</p>
+  <hr />
+  <p>This email may contain sensitive information</p>
+  <p>${req.protocol}://${req.get('host')}</p>
+  `;
+
+  // Sending reset token via email
+  try {
+    await sendEmail({
+      email,
+      subject: 'Password Reset',
+      html,
+    });
+    res.status(200).json({
+      success: true,
+      data: 'Check Your Email',
+    });
+  } catch (err) {
+    console.log(err);
+    return next(new ErrorResponse('Email could not be sent', 500));
+  }
+});
+
+// @desc Set New Password Using Link From Email
+// @route POST /api/v1/auth/reset-password
+// @access Public
+
+export const setNewPassword = asyncHandler(async (req, res, next) => {
+  const { resetPasswordLink, newPassword } = req.body;
+
+  jwt.verify(
+    resetPasswordLink,
+    process.env.JWT_RESET_PASSWORD,
+    async (err, decoded) => {
+      if (err) {
+        return next(new ErrorResponse('Invalid or Expired Link', 401));
+      }
+      let user = await User.findOne({ resetPasswordLink });
+      if (!user) {
+        return next(new ErrorResponse('Invalid or Expired Link', 401));
+      }
+
+      // Set new password
+      user.password = newPassword;
+      user.resetPasswordLink = undefined;
+      await user.save();
+
+      res.status(200).json({
+        success: true,
+        data: 'Use New Password To Log In',
+      });
+    }
+  );
+});
+
+export const login = asyncHandler(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  //   Check for user
+  const user = await User.findOne({ email }).select('+password');
+
+  if (user.emailVerified === false) {
+    return next(new ErrorResponse('Please Verify Your Email'), 401);
+  }
+
+  if (!user) {
+    return next(new ErrorResponse('Invalid Credentials'), 401);
+  }
+
+  // Check if passwords match
+  const isMatch = await user.matchPassword(password);
+
+  if (!isMatch) {
+    return next(new ErrorResponse('Invalid Credentials'), 401);
+  }
+
+  const token = jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_TOKEN,
+    {
+      expiresIn: '3d',
+    }
+  );
+
+  const options = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
+
+  if (process.env.NODE_ENV === 'production') {
+    options.secure = true;
+  }
+
+  res.status(200).cookie('token', token, options).json({
+    success: true,
+    token,
+  });
 });

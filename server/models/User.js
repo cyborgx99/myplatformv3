@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const UserSchema = new mongoose.Schema(
   {
@@ -19,6 +21,10 @@ const UserSchema = new mongoose.Schema(
         'Please add a valid email',
       ],
     },
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
     role: {
       type: String,
       enum: ['student', 'teacher'],
@@ -31,11 +37,24 @@ const UserSchema = new mongoose.Schema(
       //   not gonna return password by default
       select: false,
     },
-    resetPasswordToken: String,
+    resetPasswordLink: String,
   },
   {
     timestamps: true,
   }
 );
+
+// Encrypt user password before saving
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+  const salt = await bcrypt.genSalt(11);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+UserSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 export default mongoose.model('User', UserSchema);
