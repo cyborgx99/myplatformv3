@@ -4,27 +4,8 @@ import asyncHandler from '../middleware/asyncHandler.js';
 import jwt from 'jsonwebtoken';
 import ErrorResponse from '../middleware/ErrorResponse.js';
 
-// @desc Send Confirm Registration Link to User's Email
-// @route POST /api/v1/auth/register
-// @access Public
-
-export const registerUser = asyncHandler(async (req, res, next) => {
-  const { name, lastName, email, password } = req.body;
-
-  // Check if user already in DB
-  let user = await User.findOne({ email });
-  if (user) {
-    return next(new ErrorResponse('User Already Exists', 400));
-  }
-
-  // validation by Mongoose
-  await User.create({
-    name,
-    email,
-    lastName,
-    password,
-  });
-
+// helper function create message to send via email
+const htmlMessage = (req, email) => {
   const token = jwt.sign({ email }, process.env.JWT_ACCOUNT_ACTIVATION, {
     expiresIn: '60m',
   });
@@ -39,6 +20,31 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     <hr />
     <p>This email may contain sensitive information</p>
     <p>${req.protocol}://${req.get('host')}</p>`;
+  return html;
+};
+
+// @desc Register user and send Confirm Registration Link to User's Email
+// @route POST /api/v1/auth/register
+// @access Public
+
+export const registerUser = asyncHandler(async (req, res, next) => {
+  const { name, lastName, email, password } = req.body;
+
+  // Check if user already in DB
+  let user = await User.findOne({ email });
+  if (user) {
+    return next(new ErrorResponse('User Already Exists', 400));
+  }
+
+  const html = htmlMessage(req, email);
+
+  // validation done by Mongoose
+  await User.create({
+    name,
+    email,
+    lastName,
+    password,
+  });
 
   try {
     await sendEmail({
@@ -48,7 +54,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     });
     res.status(200).json({
       success: true,
-      data: 'Verification Email Has Been Sent',
+      data: 'Confirmation Email Has Been Sent',
     });
   } catch (err) {
     console.log(err);
@@ -102,7 +108,7 @@ export const activateRegisteredUser = asyncHandler(async (req, res, next) => {
 });
 
 // @desc Send reset password link to email
-// @route POST /api/v1/auth/resetrequest
+// @route POST /api/v1/auth/reset-request
 // @access Public
 export const resetPasswordRequest = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
@@ -120,7 +126,7 @@ export const resetPasswordRequest = asyncHandler(async (req, res, next) => {
     }
   );
 
-  // Set reset link in DB
+  // Set reset link (token) in DB
   user = await User.findByIdAndUpdate(
     user.id,
     { resetPasswordLink: token },
@@ -199,12 +205,24 @@ export const login = asyncHandler(async (req, res, next) => {
   //   Check for user
   const user = await User.findOne({ email }).select('+password');
 
-  if (user.emailVerified === false) {
-    return next(new ErrorResponse('Please Verify Your Email'), 401);
-  }
-
   if (!user) {
     return next(new ErrorResponse('Invalid Credentials'), 401);
+  }
+
+  if (user.emailVerified === false) {
+    const html = htmlMessage(req, email);
+    try {
+      await sendEmail({
+        email,
+        subject: 'Confirm Your Registration',
+        html,
+      });
+    } catch (err) {
+      console.log(err);
+      return next(new ErrorResponse('Email could not be sent', 500));
+    }
+
+    return next(new ErrorResponse('Please Verify Your Email'), 401);
   }
 
   // Check if passwords match

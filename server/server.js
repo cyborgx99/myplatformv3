@@ -1,9 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import db from './db/db.js';
+import cookieParser from 'cookie-parser';
 
 // Route imports
 import auth from './routes/auth.js';
+import profile from './routes/profile.js';
 import errorHandler from './middleware/errorHandler.js';
 
 dotenv.config();
@@ -13,8 +15,10 @@ db();
 
 // body parser
 app.use(express.json());
+app.use(cookieParser());
 // Routes
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/profile', profile);
 
 // after all routes
 app.use(errorHandler);
