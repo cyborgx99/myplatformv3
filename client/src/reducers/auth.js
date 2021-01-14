@@ -1,7 +1,12 @@
-import { USER_REGISTER_SUCCESS } from '../actions/types';
+import {
+  USER_REGISTER_FAIL,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_SUCCESS,
+} from '../actions/types';
 
 const initialState = {
   token: '',
+  loading: false,
   isAuthenticated: false,
   user: null,
   userActivated: null,
@@ -9,16 +14,24 @@ const initialState = {
   resetLink: null,
 };
 
-export default function (state = initialState, action) {
+export default function auth(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    //   case ACTIVATION_ERROR:
-    //     return {
-    //       ...state,
-    //       userActivated: false,
-    //       loading: false
-    //     };
-
+    case USER_REGISTER_REQUEST:
+      return {
+        loading: true,
+      };
+    case USER_REGISTER_SUCCESS:
+      return {
+        loading: false,
+        userInfo: payload,
+      };
+    case USER_REGISTER_FAIL:
+      console.log(payload);
+      return {
+        loading: false,
+        error: payload,
+      };
     default:
       return state;
   }

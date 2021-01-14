@@ -2,7 +2,10 @@ import ErrorResponse from './ErrorResponse.js';
 
 const errorHandler = (err, req, res, next) => {
   let error = { ...err };
+
   error.message = err.message;
+
+  console.log(1, error.message);
 
   // log to dev console
   console.log(err.stack);
@@ -27,7 +30,7 @@ const errorHandler = (err, req, res, next) => {
 
   res.status(error.statusCode || 500).json({
     success: false,
-    error: error.message || 'Server Error',
+    errors: error.message || 'Server Error',
   });
 };
 
