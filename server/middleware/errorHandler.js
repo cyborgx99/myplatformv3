@@ -5,8 +5,6 @@ const errorHandler = (err, req, res, next) => {
 
   error.message = err.message;
 
-  console.log(1, error.message);
-
   // log to dev console
   console.log(err.stack);
 

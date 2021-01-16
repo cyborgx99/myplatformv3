@@ -1,6 +1,5 @@
 import Profile from '../models/Profile.js';
 import asyncHandler from '../middleware/asyncHandler.js';
-import jwt from 'jsonwebtoken';
 import ErrorResponse from '../middleware/ErrorResponse.js';
 
 // @desc Get Current User Profile
@@ -90,3 +89,18 @@ export const deleteProfile = asyncHandler(async (req, res, next) => {
     data: {},
   });
 });
+
+// @desc  Upload users avatar to cloudinary via npm package
+// @route POST /api/v1/profile/uploadavatar
+// @access Private
+// export const uploadAvatar = asyncHandler(async (req, res, next) => {
+//   const result = await v2.uploader.upload(req.body.avatar, {
+//     upload_preset: 'sayprivet2',
+//   });
+//   const { url } = result;
+
+//   res.status(200).json({
+//     success: true,
+//     data: url,
+//   });
+// });

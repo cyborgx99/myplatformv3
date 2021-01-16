@@ -9,6 +9,7 @@ import {
   contactUs,
   getMe,
   login,
+  logout,
   registerUser,
   resetPasswordRequest,
   setNewPassword,
@@ -19,6 +20,7 @@ const router = express.Router();
 
 router.post('/contact-us', contactUs);
 router.get('/getme', protectedRoute, getMe);
+router.get('/logout', logout);
 router.post('/register', registerUser);
 router.post('/activation', activateRegisteredUser);
 router.post('/login', validateLogin, login);

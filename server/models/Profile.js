@@ -43,10 +43,6 @@ const ProfileSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    youtube: {
-      type: String,
-      trim: true,
-    },
     twitter: {
       type: String,
       trim: true,

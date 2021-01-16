@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import db from './db/db.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 // Route imports
 import auth from './routes/auth.js';
@@ -16,6 +17,7 @@ db();
 // body parser
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 // Routes
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/profile', profile);

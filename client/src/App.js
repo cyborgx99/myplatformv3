@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { loadUser } from './actions/auth';
 import Spinner from './components/Spinner/Spinner';
 import SpinningModal from './components/Modal/SpinningModal';
+import CreateProfile from './pages/Profile/CreateProfile';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,8 @@ const App = () => {
       <Route path='/' component={Modal} />
       <Route path='/' component={SpinningModal} />
       <Route exact path='/' component={LandingPage} />
-      <Route exact path='/:token' component={LandingPage} />
+      <Route exact path='/confirm/:token' component={LandingPage} />
+      <Route exact path='/profile' component={CreateProfile} />
     </Router>
   );
 };

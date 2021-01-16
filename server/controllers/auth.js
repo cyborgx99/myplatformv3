@@ -11,10 +11,10 @@ const htmlMessage = (req, email) => {
   });
 
   const html = `<p>Click the following link to activate your account:</p>
-  <a href="${process.env.CLIENT_URL}/${token}">Click Me To Activate Your Account</a>
+  <a href="${process.env.CLIENT_URL}/confirm/${token}">Click Me To Activate Your Account</a>
   <hr />
     <p>Or copy paste the link into your browser:
-    <p>${process.env.CLIENT_URL}/${token}</p>
+    <p>${process.env.CLIENT_URL}/confirm/${token}</p>
     <hr />
     <p>This email may contain sensitive information</p>
     <p>${process.env.CLIENT_URL}</p>`;
@@ -253,6 +253,22 @@ export const login = asyncHandler(async (req, res, next) => {
     success: true,
     user,
   });
+});
+
+// @desc removing http only cookie and logging out the user
+// @route POST /api/v1/auth/logout
+// @access Private
+export const logout = asyncHandler(async (req, res, next) => {
+  res
+    .status(200)
+    .cookie('token', 'empty', {
+      httpOnly: true,
+      expires: new Date(Date.now() + 5 * 1000),
+    })
+    .json({
+      success: true,
+      data: 'Logged out successfully',
+    });
 });
 
 // @desc get users details via token in cookie (auth middleware )

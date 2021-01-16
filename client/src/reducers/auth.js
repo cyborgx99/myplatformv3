@@ -7,11 +7,13 @@ import {
   USER_LOGIN_SUCCESS,
   USER_REGISTER_FAIL,
   USER_REGISTER_SUCCESS,
+  USER_LOGOUT_FAIL,
+  USER_LOGOUT_SUCCESS,
 } from '../actions/types';
 
 const initialState = {
   loading: true,
-  user: '',
+  user: {},
   registering: '',
   error: '',
 };
@@ -25,15 +27,23 @@ export default function auth(state = initialState, action) {
         ...state,
         loading: false,
         registering: payload,
+        error: '',
       };
     case USER_REGISTER_FAIL:
     case USER_LOGIN_FAIL:
     case USER_LOADED_FAIL:
-    case USER_CONFIRM_EMAIL_FAIL:
+    case USER_LOGOUT_FAIL:
       return {
         ...state,
         user: {},
+        registering: '',
         loading: false,
+        error: payload,
+      };
+
+    case USER_CONFIRM_EMAIL_FAIL:
+      return {
+        ...state,
         error: payload,
       };
 
@@ -43,6 +53,16 @@ export default function auth(state = initialState, action) {
         ...state,
         loading: false,
         user: payload.user,
+        error: '',
+      };
+
+    case USER_LOGOUT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: '',
+        registering: '',
+        error: '',
       };
 
     default:

@@ -238,6 +238,10 @@ a {
   cursor: pointer;
 }
 
+#main-navbar ul a {
+  color: white;
+}
+
 .show-nav-btn {
   position: fixed;
   background: none;
@@ -257,20 +261,11 @@ a {
 
 /* Login Form */
 
-.credentials-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  justify-content: center;
-}
-
 .credentials-content {
   padding: 0.2rem 2rem;
   text-align: center;
   max-width: 24rem;
   margin: auto;
-
   font-size: 1.1rem;
 }
 
@@ -288,7 +283,7 @@ a {
   outline: 2px solid var(--primary-color);
 }
 
-/* Login Form End */
+/* Login Form  */
 
 /* Confirm Email Page */
 .confirm-page {
@@ -317,3 +312,65 @@ a {
   margin: 0 0.25rem;
 }
 /* Contact Us END */
+
+/* Profile */
+
+.profile-content {
+  max-width: 24rem;
+  margin: auto;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.profile-content img {
+  max-width: 125px;
+  margin: auto;
+}
+
+.profile-content input,
+.profile-content textarea {
+  margin: 0.2rem 0rem;
+  resize: none;
+  width: 200px;
+
+  border-radius: 4px;
+  text-align: center;
+}
+
+.profile-content input {
+  height: 25px;
+}
+
+.profile-content input:focus,
+.profile-content textarea:focus {
+  box-shadow: 0 0 3pt 2pt var(--primary-color);
+}
+
+.profile-btn {
+  text-align: center;
+  align-self: center;
+  min-width: 40%;
+  color: white;
+  background-color: var(--primary-color);
+  padding: 5px;
+  margin: 5px;
+}
+
+.profile-btn:hover {
+  color: white;
+  background-color: var(--primary-hover);
+}
+
+.add-avatar-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.content-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Profile END */

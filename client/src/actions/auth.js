@@ -8,6 +8,8 @@ import {
   USER_REGISTER_SUCCESS,
   USER_CONFIRM_EMAIL_SUCCESS,
   USER_CONFIRM_EMAIL_FAIL,
+  USER_LOGOUT_SUCCESS,
+  USER_LOGOUT_FAIL,
 } from './types';
 import swal from 'sweetalert2';
 import { toggleModal } from './modal';
@@ -126,6 +128,26 @@ export const login = (email, password) => async (dispatch) => {
     swal.fire({
       icon: 'warning',
       html: error.response.data.errors.split(',').join('<br>'),
+    });
+  }
+};
+
+// Logout / Clear
+
+export const logout = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get('/api/v1/auth/logout');
+    dispatch({
+      type: USER_LOGOUT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_LOGOUT_FAIL,
+      payload:
+        error.response && error.response.data.errors
+          ? error.response.data.errors
+          : error.message,
     });
   }
 };
