@@ -27,6 +27,6 @@ export const protectedRoute = asyncHandler(async (req, res, next) => {
     req.user = await User.findById(decoded.id);
     next();
   } catch (err) {
-    return next(new ErrorResponse('Not authorized', 401));
+    return next(new ErrorResponse('Not authorizedx', 401));
   }
 });

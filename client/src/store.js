@@ -11,7 +11,7 @@ import rootReducer from './reducers/rootReducer';
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['modal'],
+  blacklist: ['modal', 'auth', 'spinner'],
   stateReconciler: autoMergeLevel2,
 };
 

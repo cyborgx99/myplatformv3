@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { toggleModal } from '../actions/modal';
 import SignUpForm from './SignUpForm';
 import ResetPassForm from './ResetPassForm';
+import { login } from '../actions/auth';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +14,8 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit = (e) => {
-    console.log('fFS');
+    e.preventDefault();
+    dispatch(login(email, password));
   };
 
   return (
@@ -49,21 +50,21 @@ const LoginForm = () => {
       </form>
       <p>
         Don't have an account?{' '}
-        <Link
-          className='text-primary'
+        <span
+          className='text-primary pointer'
           onClick={() => dispatch(toggleModal('open', <SignUpForm />))}
         >
           Sign Up
-        </Link>
+        </span>
       </p>
       <p>
         Forgot your password?{' '}
-        <Link
-          className='text-primary'
+        <span
+          className='text-primary pointer'
           onClick={() => dispatch(toggleModal('open', <ResetPassForm />))}
         >
           Reset
-        </Link>
+        </span>
       </p>
     </div>
   );

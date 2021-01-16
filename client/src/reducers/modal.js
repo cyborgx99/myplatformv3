@@ -13,6 +13,7 @@ export default function modal(state = initialState, action) {
         ...state,
         toggle: payload.toggle,
         content: payload.content,
+        type: payload.type,
       };
 
     default:

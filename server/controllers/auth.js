@@ -11,15 +11,13 @@ const htmlMessage = (req, email) => {
   });
 
   const html = `<p>Click the following link to activate your account:</p>
-  <a href="${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/activation/${token}">Click Me To Activate Your Account</a>
+  <a href="${process.env.CLIENT_URL}/${token}">Click Me To Activate Your Account</a>
   <hr />
     <p>Or copy paste the link into your browser:
-    <p>${req.protocol}://${req.get('host')}/api/v1/auth/activation/${token}</p>
+    <p>${process.env.CLIENT_URL}/${token}</p>
     <hr />
     <p>This email may contain sensitive information</p>
-    <p>${req.protocol}://${req.get('host')}</p>`;
+    <p>${process.env.CLIENT_URL}</p>`;
   return html;
 };
 
@@ -139,15 +137,13 @@ export const resetPasswordRequest = asyncHandler(async (req, res, next) => {
   // Message with token
   const html = `
   <p>Hello there :) </p>
-  <a href="${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/reset-password/${token}">Click Me To Reset Your Password</a>
+  <a href="${process.env.CLIENT_URL}/reset-password/${token}">Click Me To Reset Your Password</a>
   <hr />
   <p>Or use the following link to reset your password:</p>
-  <p>${req.protocol}://${req.get('host')}/api/v1/reset-password/${token}</p>
+  <p>${process.env.CLIENT_URL}/reset-password/${token}</p>
   <hr />
   <p>This email may contain sensitive information</p>
-  <p>${req.protocol}://${req.get('host')}</p>
+  <p>${process.env.CLIENT_URL}</p>
   `;
 
   // Sending reset token via email
@@ -251,8 +247,56 @@ export const login = asyncHandler(async (req, res, next) => {
     options.secure = true;
   }
 
+  user.password = undefined;
+
   res.status(200).cookie('token', token, options).json({
     success: true,
-    token,
+    user,
   });
+});
+
+// @desc get users details via token in cookie (auth middleware )
+// @route POST /api/v1/auth/getme
+// @access Private
+export const getMe = asyncHandler(async (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    user: req.user,
+  });
+});
+
+// @desc Contact us emaild sending
+// @route POST /api/v1/auth/contact-us
+// @access Public
+export const contactUs = asyncHandler(async (req, res, next) => {
+  const { email, name, message } = req.body;
+
+  if (!email || !name || !message) {
+    return next(new ErrorResponse('Please fill all fields'), 401);
+  }
+
+  // Message
+  const html = `
+  <p> You have a new visitor :) </p>
+  <hr />
+  <p>Their name: ${name}</p>
+  <p>Their email: ${email} </p>
+  <hr />
+  <p>Their message: ${message}</p>
+  `;
+  // Sending reset token via email
+  try {
+    await sendEmail({
+      email: 'cyborgx999@gmail.com',
+      subject: 'New Visitor Language Platform',
+      html,
+    });
+    res.status(200).json({
+      success: true,
+      data: `Thank you! We'll get back to us ASAP :)`,
+    });
+  } catch (err) {
+    console.log(err);
+    return next(new ErrorResponse('Your message could not be sent', 500));
+  }
 });

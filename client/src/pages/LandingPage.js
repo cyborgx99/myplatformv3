@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-const LandingPage = () => {
-  const handleClick = () => {
-    console.log('clicked');
-  };
+import { confirmEmail } from '../actions/auth';
+
+const LandingPage = ({ history, match }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    let token = match.params.token;
+    if (token) {
+      dispatch(confirmEmail(token));
+      history.push('/');
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <section className='landing-page'>

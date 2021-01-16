@@ -6,14 +6,19 @@ import {
 } from '../middleware/validators.js';
 import {
   activateRegisteredUser,
+  contactUs,
+  getMe,
   login,
   registerUser,
   resetPasswordRequest,
   setNewPassword,
 } from '../controllers/auth.js';
+import { protectedRoute } from '../middleware/auth.js';
 
 const router = express.Router();
 
+router.post('/contact-us', contactUs);
+router.get('/getme', protectedRoute, getMe);
 router.post('/register', registerUser);
 router.post('/activation', activateRegisteredUser);
 router.post('/login', validateLogin, login);

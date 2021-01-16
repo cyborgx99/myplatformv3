@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
@@ -7,6 +6,7 @@ import { toggleModal } from '../actions/modal';
 import LoginForm from './LoginForm';
 import ResetPassForm from './ResetPassForm';
 import { register } from '../actions/auth';
+import swal from 'sweetalert2';
 
 const SignUpForm = () => {
   const [name, setName] = useState('');
@@ -20,6 +20,10 @@ const SignUpForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
+      swal.fire({
+        icon: 'warning',
+        html: 'Passwords Do Not Match',
+      });
     } else {
       dispatch(register(name, lastName, email, password));
     }
@@ -40,7 +44,7 @@ const SignUpForm = () => {
           name='name'
           value={name}
           onChange={(e) => setName(e.target.value)}
-          required
+          // required
         />
         <input
           type='text'
@@ -48,7 +52,7 @@ const SignUpForm = () => {
           name='lastName'
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-          required
+          // required
         />
         <input
           type='email'
@@ -56,13 +60,13 @@ const SignUpForm = () => {
           name='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
+          // required
         />
         <input
           type='password'
           placeholder='Password'
           name='password'
-          minLength='6'
+          // minLength='6'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -70,7 +74,7 @@ const SignUpForm = () => {
           type='password'
           placeholder='Confirm Password'
           name='password2'
-          minLength='6'
+          // minLength='6'
           value={password2}
           onChange={(e) => setPassword2(e.target.value)}
         />

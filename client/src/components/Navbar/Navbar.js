@@ -4,11 +4,13 @@ import {
   faBars,
   faUserPlus,
   faSignInAlt,
+  faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
 import LoginForm from '../../pages/LoginForm';
 import SignUpForm from '../../pages/SignUpForm';
 import { toggleModal } from '../../actions/modal';
+import ContactUsForm from '../../pages/ContactUsForm';
 
 const Navbar = (props) => {
   const dispatch = useDispatch();
@@ -18,7 +20,9 @@ const Navbar = (props) => {
       <nav id='main-navbar'>
         <ul>
           <li>Platform</li>
-          <li>Contact Us</li>
+          <li onClick={() => dispatch(toggleModal('open', <ContactUsForm />))}>
+            <FontAwesomeIcon icon={faEnvelope} /> Contact Us
+          </li>
           <li onClick={() => dispatch(toggleModal('open', <LoginForm />))}>
             <FontAwesomeIcon icon={faSignInAlt} /> Login
           </li>

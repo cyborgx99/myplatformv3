@@ -2,7 +2,6 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { toggleModal } from '../actions/modal';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
@@ -39,21 +38,21 @@ const ResetPassForm = () => {
         </button>
         <p>
           Already have an account?{' '}
-          <Link
-            className='text-primary'
+          <span
+            className='text-primary pointer'
             onClick={() => dispatch(toggleModal('open', <LoginForm />))}
           >
             Sign In
-          </Link>
+          </span>
         </p>
         <p>
           Don't have an account?{' '}
-          <Link
-            className='text-primary'
+          <span
+            className='text-primary pointer'
             onClick={() => dispatch(toggleModal('open', <SignUpForm />))}
           >
             Sign Up
-          </Link>
+          </span>
         </p>
       </form>
     </div>
