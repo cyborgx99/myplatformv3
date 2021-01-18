@@ -44,6 +44,7 @@ export default function auth(state = initialState, action) {
     case USER_CONFIRM_EMAIL_FAIL:
       return {
         ...state,
+        loading: false,
         error: payload,
       };
 

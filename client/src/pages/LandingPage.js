@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import { confirmEmail } from '../actions/auth';
 
-const LandingPage = ({ history, match }) => {
+const LandingPage = ({ match }) => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
@@ -21,7 +21,7 @@ const LandingPage = ({ history, match }) => {
     return <Redirect to='/' />;
   }
   if (auth.user.isAuthenticated) {
-    return <Redirect to='/profile' />;
+    return <Redirect to='/dashboard' />;
   }
 
   return (

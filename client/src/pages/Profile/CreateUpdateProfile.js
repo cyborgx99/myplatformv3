@@ -19,23 +19,26 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert2';
-import { toggleModal } from '../../actions/modal';
-import { uploadAvatar } from '../../actions/profile';
+import { createUserProfile, updateUserProfile } from '../../actions/profile';
 import AddAvatar from './AddAvatar';
 
-const CreateProfile = ({ history }) => {
+const CreateUpdateProfile = ({ history }) => {
+  const dispatch = useDispatch();
+  const profile = useSelector((state) => state.profile);
+
+  const [newAvatar, setNewAvatar] = useState('');
   const [formData, setFormData] = useState({
-    skype: '',
-    telegram: '',
-    whatsApp: '',
-    myHobbies: '',
-    goals: '',
-    birthday: '',
-    bio: '',
-    twitter: '',
-    facebook: '',
-    linkedin: '',
-    instagram: '',
+    skype: profile.skype || '',
+    telegram: profile.telegram || '',
+    whatsApp: profile.whatsApp || '',
+    myHobbies: profile.myHobbies || '',
+    goals: profile.goals || '',
+    birthday: profile.birthday || '',
+    bio: profile.bio || '',
+    twitter: profile.twitter || '',
+    facebook: profile.facebook || '',
+    linkedin: profile.linkedin || '',
+    instagram: profile.instagram || '',
   });
 
   const {
@@ -52,14 +55,6 @@ const CreateProfile = ({ history }) => {
     twitter,
   } = formData;
 
-  const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
-  const [newAvatar, setNewAvatar] = useState('');
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-  };
-
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -72,7 +67,28 @@ const CreateProfile = ({ history }) => {
           upload_preset: process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET,
         }
       );
-      console.log(data.url);
+      let avatar;
+      avatar = data.url;
+      const profileObj = {
+        avatar,
+        skype,
+        telegram,
+        whatsApp,
+        goals,
+        bio,
+        birthday,
+        myHobbies,
+        facebook,
+        linkedin,
+        instagram,
+        twitter,
+      };
+      if (profile.profileId) {
+        const id = profile.profileId;
+        dispatch(updateUserProfile(profileObj, id));
+      } else {
+        dispatch(createUserProfile(profileObj));
+      }
     } catch (err) {
       console.log(err);
       swal.fire({
@@ -81,21 +97,45 @@ const CreateProfile = ({ history }) => {
         icon: 'error',
       });
     }
+  };
 
-    // const ffs = await dispatch(uploadAvatar(newAvatar));
-    // console.log(ffs);
+  const submitCreateProfileForm = (e) => {
+    e.preventDefault();
+    if (newAvatar) {
+      uploadToCloudinary();
+    } else {
+      dispatch(createUserProfile(formData));
+    }
+  };
+
+  const submitUpdateProfileForm = (e) => {
+    e.preventDefault();
+    if (newAvatar) {
+      uploadToCloudinary();
+    } else {
+      const id = profile.profileId;
+      dispatch(updateUserProfile(formData, id));
+    }
   };
 
   return (
-    <form className='profile-content' onSubmit={(e) => onSubmit(e)}>
-      <h2>Create Your Profile</h2>
+    <form className='profile-content'>
+      {profile.profileId ? (
+        <h2>Update Your Profile</h2>
+      ) : (
+        <h2>Create Your Profile</h2>
+      )}
       <small className='text-center'>
         <FontAwesomeIcon icon={faUser} /> Please tell us more about you
       </small>
-      <AddAvatar setNewAvatar={setNewAvatar} newAvatar={newAvatar} />
+      <AddAvatar
+        currentAvatar={profile.avatar}
+        setNewAvatar={setNewAvatar}
+        newAvatar={newAvatar}
+      />
       <div className='content-group'>
         <small className='form-text'>
-          <FontAwesomeIcon icon={faSkype} color='#00aff0' /> Skype account:
+          <FontAwesomeIcon icon={faSkype} color='#00aff0' /> Skype:
         </small>
         <input
           type='text'
@@ -107,8 +147,7 @@ const CreateProfile = ({ history }) => {
       </div>
       <div className='content-group'>
         <small className='form-text'>
-          <FontAwesomeIcon icon={faTelegram} color='#0088cc' /> Telegram
-          account:
+          <FontAwesomeIcon icon={faTelegram} color='#0088cc' /> Telegram:
         </small>
         <input
           type='text'
@@ -120,8 +159,7 @@ const CreateProfile = ({ history }) => {
       </div>
       <div className='content-group'>
         <small className='form-text'>
-          <FontAwesomeIcon icon={faWhatsapp} color='#25D366' /> WhatsApp
-          account:
+          <FontAwesomeIcon icon={faWhatsapp} color='#25D366' /> WhatsApp:
         </small>
         <input
           type='text'
@@ -227,14 +265,23 @@ const CreateProfile = ({ history }) => {
         ></textarea>
       </div>
 
-      <button
-        onClick={() => dispatch(toggleModal('open', <CreateProfile />))}
-        className='profile-btn'
-      >
-        Create Profile
-      </button>
+      {profile.profileId ? (
+        <button
+          onClick={(e) => submitUpdateProfileForm(e)}
+          className='profile-btn'
+        >
+          Update Profile
+        </button>
+      ) : (
+        <button
+          onClick={(e) => submitCreateProfileForm(e)}
+          className='profile-btn'
+        >
+          Create Profile
+        </button>
+      )}
     </form>
   );
 };
 
-export default CreateProfile;
+export default CreateUpdateProfile;

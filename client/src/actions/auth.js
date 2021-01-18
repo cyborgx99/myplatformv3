@@ -132,7 +132,7 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-// Logout / Clear
+// Logout / request to the server to clean cookie
 
 export const logout = () => async (dispatch) => {
   try {

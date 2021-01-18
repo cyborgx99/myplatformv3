@@ -7,6 +7,7 @@ import cors from 'cors';
 // Route imports
 import auth from './routes/auth.js';
 import profile from './routes/profile.js';
+import expensetracker from './routes/expensetracker.js';
 import errorHandler from './middleware/errorHandler.js';
 
 dotenv.config();

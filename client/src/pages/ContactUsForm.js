@@ -34,7 +34,7 @@ const ContactUsForm = () => {
       </p>
       <form onSubmit={onSubmit}>
         <input
-          // required
+          required
           placeholder='Your Name'
           type='text'
           name='name'
@@ -43,7 +43,7 @@ const ContactUsForm = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <input
-          // required
+          required
           placeholder='Your Email'
           type='email'
           name='email'
@@ -52,7 +52,7 @@ const ContactUsForm = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <textarea
-          // required
+          required
           value={message}
           rows='5'
           placeholder='Your Message'

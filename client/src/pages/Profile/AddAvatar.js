@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import swal from 'sweetalert2';
-import { Link } from 'react-router-dom';
 
 const AddAvatar = ({ newAvatar, currentAvatar, setNewAvatar }) => {
   const hiddenInput = useRef('');
@@ -20,16 +19,22 @@ const AddAvatar = ({ newAvatar, currentAvatar, setNewAvatar }) => {
     } else {
       const file = e.target.files[0];
       const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setNewAvatar(reader.result);
-      };
+      if (file) {
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          setNewAvatar(reader.result);
+        };
+      }
     }
   };
 
   return (
     <div className='add-avatar-container'>
-      <img src={newAvatar ? newAvatar : currentAvatar} alt='avatar' />
+      <img
+        onClick={(e) => handleClick(e)}
+        src={newAvatar ? newAvatar : currentAvatar}
+        alt='avatar'
+      />
       <input
         type='file'
         name='avatar'
@@ -37,13 +42,7 @@ const AddAvatar = ({ newAvatar, currentAvatar, setNewAvatar }) => {
         ref={hiddenInput}
         onChange={(e) => handleFileInput(e)}
       />
-      <button
-        onClick={(e) => handleClick(e)}
-        className='profile-btn'
-        type='submit'
-      >
-        Select Avatar
-      </button>
+      <small>Click to select new avatar</small>
     </div>
   );
 };

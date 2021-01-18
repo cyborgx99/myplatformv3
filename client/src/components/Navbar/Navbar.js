@@ -7,8 +7,8 @@ import {
   faSignInAlt,
   faEnvelope,
   faDesktop,
-  faUserCircle,
   faSignOutAlt,
+  faLaptop,
 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from '../../pages/LoginForm';
@@ -64,8 +64,8 @@ const Navbar = (props) => {
   const studentLinks = (
     <>
       <li>
-        <Link to='/profile'>
-          <FontAwesomeIcon icon={faUserCircle} /> Profile
+        <Link to='/dashboard'>
+          <FontAwesomeIcon icon={faLaptop} /> Dashboard
         </Link>
       </li>
       <li onClick={() => logoutWithConfirm()}>
