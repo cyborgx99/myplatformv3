@@ -57,13 +57,13 @@ const CreateUpdateTransaction = ({ updateTransaction }) => {
   };
 
   return (
-    <div className='create-transaction'>
+    <div className='create-update-transaction'>
       {updateTransaction ? (
         <h3>Update Transaction</h3>
       ) : (
         <h3>Add New Transaction</h3>
       )}
-      <span>Transaction</span>
+      <span>Transaction:</span>
       <select
         value={transaction}
         onChange={(e) => setTransaction(e.target.value)}
@@ -74,27 +74,30 @@ const CreateUpdateTransaction = ({ updateTransaction }) => {
           </option>
         ))}
       </select>
-      <span>Amount</span>
+      <span>Amount:</span>
       <input
         type='number'
         placeholder='Amount'
         name='amount'
         value={amount}
-        onChange={(e) => setAmount(e.target.value)}
+        onChange={(e) => setAmount(Math.abs(e.target.value))}
       />
-      <span>Date</span>
+      <span>Date:</span>
       <input
+        required
         type='date'
         name='date'
         value={date}
         onChange={(e) => setDate(e.target.value)}
       />
       {updateTransaction ? (
-        <button onClick={(e) => updateTransactionById()}>
+        <button className='btn' onClick={(e) => updateTransactionById()}>
           Update Transaction
         </button>
       ) : (
-        <button onClick={(e) => createNewTransaction()}>Add Transaction</button>
+        <button className='btn' onClick={(e) => createNewTransaction()}>
+          Add Transaction
+        </button>
       )}
     </div>
   );

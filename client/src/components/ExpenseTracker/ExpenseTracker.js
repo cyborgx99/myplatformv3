@@ -12,6 +12,8 @@ import {
 import { formatDate } from '../../utility/expenseTrackerHelpers';
 import CreateUpdateTransaction from './CreateUpdateTransaction';
 import swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 const ExpenseTracker = () => {
   const dispatch = useDispatch();
@@ -43,34 +45,52 @@ const ExpenseTracker = () => {
   };
 
   return (
-    <div style={{ margin: '0 2rem' }}>
+    <div className='expense-container'>
       <h1>My Balance:</h1>
-      <h1>{total}</h1>
-      <div>
-        <h3>Paid Lessons: </h3>
-        <h3>{positiveAmounts}</h3>
-      </div>
-      <div>
-        <h3>Spent Lessons: </h3>
-        <h3>{negativeAmounts}</h3>
-      </div>
+      <h1 className={total >= 0 ? 'positive-color' : 'negative-color'}>
+        {total}
+      </h1>
+      {/* <div className='expense-amounts'>
+        <h3>
+          Paid Lessons:{' '}
+          <span className='positive-color'>{positiveAmounts}</span>
+        </h3>
+        <h3>
+          Spent Lessons:{' '}
+          <span className='negative-color'>{negativeAmounts}</span>
+        </h3>
+      </div> */}
       <button
+        className='btn'
         onClick={(e) =>
           dispatch(toggleModal('open', <CreateUpdateTransaction />))
         }
       >
         Add Transaction
       </button>
-      <div>
-        <h1>Lesson History</h1>
+      <h1>Lesson History</h1>
+      <div className='scroll-style-3 expense-history'>
         <ul>
           {transactions.map((transaction) => (
-            <li key={transaction._id}>
-              {transaction.positive === false
-                ? `-${transaction.amount}`
-                : transaction.amount}{' '}
-              {transaction.transaction} {formatDate(transaction.date)}
+            <li
+              className={`expense-history-li ${
+                transaction.positive
+                  ? ' expense-positive '
+                  : ' expense-negative '
+              }`}
+              key={transaction._id}
+            >
+              <span>
+                {transaction.positive === false
+                  ? `-${transaction.amount}`
+                  : transaction.amount}
+              </span>
+              <span> {transaction.transaction}</span>
+              <span>{formatDate(transaction.date)}</span>
+
               <button
+                title='Update'
+                className='mini-btn'
                 onClick={(e) =>
                   dispatch(
                     toggleModal(
@@ -82,10 +102,14 @@ const ExpenseTracker = () => {
                   )
                 }
               >
-                Edit
+                <FontAwesomeIcon icon={faEdit} />
               </button>
-              <button onClick={() => confirmedDeletion(transaction._id)}>
-                Delete
+              <button
+                title='Delete'
+                className='mini-btn mini-delete'
+                onClick={() => confirmedDeletion(transaction._id)}
+              >
+                <FontAwesomeIcon icon={faTimesCircle} />
               </button>
             </li>
           ))}

@@ -16,9 +16,11 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toggleModal } from '../../actions/modal';
 import { getCurrentProfile } from '../../actions/profile';
 import Spinner from '../../components/Spinner/Spinner';
 import { formatDate } from '../../utility/expenseTrackerHelpers';
+import CreateUpdateProfile from './CreateUpdateProfile';
 
 const Profile = () => {
   const profile = useSelector((state) => state.profile);
@@ -93,6 +95,15 @@ const Profile = () => {
         </div>
       )}
 
+      {profile && profile.bio && (
+        <div className='profile-item'>
+          <h3>
+            <FontAwesomeIcon icon={faInfoCircle} color='#555555' /> About me:
+          </h3>
+          <p>{profile && profile.bio}</p>
+        </div>
+      )}
+
       {profile && profile.instagram && (
         <a href={profile.instagram} target='_blank' rel='noopener noreferrer'>
           <FontAwesomeIcon icon={faInstagram} color='#E1306C' />
@@ -116,15 +127,14 @@ const Profile = () => {
           <FontAwesomeIcon icon={faTwitter} color='#1DA1F2' />
         </a>
       )}
-
-      {profile && profile.bio && (
-        <div className='profile-item'>
-          <h3>
-            <FontAwesomeIcon icon={faInfoCircle} color='#555555' /> About me:
-          </h3>
-          <p>{profile && profile.bio}</p>
-        </div>
-      )}
+      <div className='profile-btn-container'>
+        <button
+          onClick={() => dispatch(toggleModal('open', <CreateUpdateProfile />))}
+        >
+          Edit Profile
+        </button>
+        <button className='delete-btn'>Delete Profile</button>
+      </div>
     </div>
   );
 };
