@@ -22,6 +22,7 @@ app.use(cors());
 // Routes
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/profile', profile);
+app.use('/api/v1/expense-tracker', expensetracker);
 
 // after all routes
 app.use(errorHandler);

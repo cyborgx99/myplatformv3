@@ -1,19 +1,19 @@
-import axios from 'axios';
 import { toggleModal } from './modal';
 import { toggleSpinner } from './spinner';
-import swal from 'sweetalert2';
 import {
-  GET_PROFILE_FAIL,
-  GET_PROFILE_SUCCESS,
-  PROFILE_CREATE_FAIL,
-  PROFILE_CREATE_SUCCESS,
-  PROFILE_DELETE_FAIL,
-  PROFILE_DELETE_SUCCESS,
-  PROFILE_UPDATE_FAIL,
-  PROFILE_UPDATE_SUCCESS,
+  GET_TRANSACTIONS_FAIL,
+  GET_TRANSACTIONS_SUCCESS,
+  TRANSACTION_CREATE_FAIL,
+  TRANSACTION_CREATE_SUCCESS,
+  TRANSACTION_UPDATE_FAIL,
+  TRANSACTION_UPDATE_SUCCESS,
+  DELETE_TRANSACTION_SUCCESS,
+  DELETE_TRANSACTION_FAIL,
 } from './types';
+import axios from 'axios';
+import swal from 'sweetalert2';
 
-export const createUserProfile = (profileObject) => async (dispatch) => {
+export const createTransaciton = (transactionObject) => async (dispatch) => {
   try {
     dispatch(toggleSpinner('on'));
     const config = {
@@ -22,24 +22,24 @@ export const createUserProfile = (profileObject) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      '/api/v1/profile/create',
-      profileObject,
+      '/api/v1/expense-tracker/create',
+      transactionObject,
       config
     );
-    swal.fire({
-      icon: 'success',
-      title: 'Profile has been created',
-    });
     dispatch(toggleModal('closed', ''));
     dispatch(toggleSpinner('off'));
     dispatch({
-      type: PROFILE_CREATE_SUCCESS,
+      type: TRANSACTION_CREATE_SUCCESS,
       payload: data.data,
+    });
+    swal.fire({
+      icon: 'success',
+      text: 'Transaction has been created',
     });
   } catch (error) {
     // console.log(error.response.data.errors);
     dispatch({
-      type: PROFILE_CREATE_FAIL,
+      type: TRANSACTION_CREATE_FAIL,
       payload:
         error.response && error.response.data.errors
           ? error.response.data.errors
@@ -54,7 +54,9 @@ export const createUserProfile = (profileObject) => async (dispatch) => {
   }
 };
 
-export const updateUserProfile = (profileObject, id) => async (dispatch) => {
+export const updateTransaciton = (transactionObject, id) => async (
+  dispatch
+) => {
   try {
     dispatch(toggleSpinner('on'));
     const config = {
@@ -63,30 +65,29 @@ export const updateUserProfile = (profileObject, id) => async (dispatch) => {
       },
     };
     const { data } = await axios.put(
-      `/api/v1/profile/${id}`,
-      profileObject,
+      `/api/v1/expense-tracker/${id}`,
+      transactionObject,
       config
     );
-    swal.fire({
-      icon: 'success',
-      title: 'Profile has been updated',
-    });
     dispatch(toggleModal('closed', ''));
     dispatch(toggleSpinner('off'));
     dispatch({
-      type: PROFILE_UPDATE_SUCCESS,
+      type: TRANSACTION_UPDATE_SUCCESS,
       payload: data.data,
+    });
+    swal.fire({
+      icon: 'success',
+      text: 'Transaction has been updated',
     });
   } catch (error) {
     // console.log(error.response.data.errors);
     dispatch({
-      type: PROFILE_UPDATE_FAIL,
+      type: TRANSACTION_UPDATE_FAIL,
       payload:
         error.response && error.response.data.errors
           ? error.response.data.errors
           : error.message,
     });
-
     swal.fire({
       icon: 'warning',
       html: error.response.data.errors.split(',').join('<br>'),
@@ -96,16 +97,16 @@ export const updateUserProfile = (profileObject, id) => async (dispatch) => {
 };
 
 //Get the current users profile
-export const getCurrentProfile = () => async (dispatch) => {
+export const getAllTransactions = () => async (dispatch) => {
   try {
-    const { data } = await axios.get('/api/v1/profile/my');
+    const { data } = await axios.get('/api/v1/expense-tracker/transactions');
     dispatch({
-      type: GET_PROFILE_SUCCESS,
+      type: GET_TRANSACTIONS_SUCCESS,
       payload: data.data,
     });
   } catch (error) {
     dispatch({
-      type: GET_PROFILE_FAIL,
+      type: GET_TRANSACTIONS_FAIL,
       payload:
         error.response && error.response.data.errors
           ? error.response.data.errors
@@ -114,20 +115,20 @@ export const getCurrentProfile = () => async (dispatch) => {
   }
 };
 
-export const deleteProfile = (id) => async (dispatch) => {
+export const deleteTransaction = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.delete(`/api/v1/profile/${id}`);
+    const { data } = await axios.delete(`/api/v1/expense-tracker/${id}`);
     dispatch({
-      type: PROFILE_DELETE_SUCCESS,
+      type: DELETE_TRANSACTION_SUCCESS,
       payload: data.data,
     });
     swal.fire({
       icon: 'success',
-      text: 'Profile has been deleted',
+      text: 'Transaction has been deleted',
     });
   } catch (error) {
     dispatch({
-      type: PROFILE_DELETE_FAIL,
+      type: DELETE_TRANSACTION_FAIL,
       payload:
         error.response && error.response.data.errors
           ? error.response.data.errors

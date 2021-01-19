@@ -9,7 +9,8 @@ import ErrorResponse from '../middleware/ErrorResponse.js';
 export const getMyProfile = asyncHandler(async (req, res, next) => {
   const profile = await Profile.findOne({
     user: req.user.id,
-  }).populate('user', ['name', 'lastName']);
+  });
+  // .populate('user', ['name', 'lastName']);
 
   if (!profile) {
     return next(new ErrorResponse(`There's no profile for this user`, 400));

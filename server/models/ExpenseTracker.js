@@ -6,16 +6,20 @@ const ExpenseTrackerSchema = mongoose.Schema({
     ref: 'User',
     trim: true,
     required: true,
-    unique: true,
   },
   transaction: {
     type: String,
     trim: true,
+    enum: ['Conducted', 'Missed', 'Payment'],
     required: [true, 'Please add a transaction name'],
   },
   amount: {
     type: Number,
     required: [true, 'Please add an amount'],
+  },
+  positive: {
+    type: Boolean,
+    required: [true],
   },
   date: {
     type: Date,

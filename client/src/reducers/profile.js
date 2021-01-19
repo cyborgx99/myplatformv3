@@ -1,4 +1,6 @@
 import {
+  GET_PROFILE_FAIL,
+  GET_PROFILE_SUCCESS,
   PROFILE_CREATE_FAIL,
   PROFILE_CREATE_SUCCESS,
   PROFILE_UPDATE_FAIL,
@@ -28,6 +30,7 @@ export default function profileReducer(state = initialState, action) {
   switch (type) {
     case PROFILE_CREATE_SUCCESS:
     case PROFILE_UPDATE_SUCCESS:
+    case GET_PROFILE_SUCCESS:
       const {
         avatar,
         skype,
@@ -67,6 +70,7 @@ export default function profileReducer(state = initialState, action) {
 
     case PROFILE_CREATE_FAIL:
     case PROFILE_UPDATE_FAIL:
+    case GET_PROFILE_FAIL:
       return {
         ...state,
         loading: false,
