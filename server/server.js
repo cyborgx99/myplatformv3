@@ -8,6 +8,8 @@ import cors from 'cors';
 import auth from './routes/auth.js';
 import profile from './routes/profile.js';
 import expensetracker from './routes/expensetracker.js';
+import user from './routes/user.js';
+import calendar from './routes/calendar.js';
 import errorHandler from './middleware/errorHandler.js';
 
 dotenv.config();
@@ -23,6 +25,8 @@ app.use(cors());
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/profile', profile);
 app.use('/api/v1/expense-tracker', expensetracker);
+app.use('/api/v1/user', user);
+app.use('/api/v1/calendar', calendar);
 
 // after all routes
 app.use(errorHandler);

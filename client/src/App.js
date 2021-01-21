@@ -9,6 +9,7 @@ import { loadUser } from './actions/auth';
 import Spinner from './components/Spinner/Spinner';
 import SpinningModal from './components/Modal/SpinningModal';
 import Dashboard from './pages/Dashboard/Dashboard';
+import FullCalendar from './components/Calendar/FullCalendar';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const App = () => {
       <Route exact path='/' component={LandingPage} />
       <Route exact path='/confirm/:token' component={LandingPage} />
       <Route exact path='/dashboard' component={Dashboard} />
+      <Route exact path='/calendar' component={FullCalendar} />
     </Router>
   );
 };

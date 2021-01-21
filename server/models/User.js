@@ -20,6 +20,13 @@ const UserSchema = new mongoose.Schema(
         'Please add a valid email',
       ],
     },
+    password: {
+      type: String,
+      required: [true, 'Please add a password'],
+      minlength: 6,
+      //   not gonna return password by default
+      select: false,
+    },
     emailVerified: {
       type: Boolean,
       default: false,
@@ -29,12 +36,9 @@ const UserSchema = new mongoose.Schema(
       enum: ['student', 'teacher'],
       default: 'student',
     },
-    password: {
-      type: String,
-      required: [true, 'Please add a password'],
-      minlength: 6,
-      //   not gonna return password by default
-      select: false,
+    myTeacher: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
     },
     isAuthenticated: {
       type: Boolean,
