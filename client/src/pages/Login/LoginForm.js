@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
-import { toggleModal } from '../actions/modal';
-import SignUpForm from './SignUpForm';
-import ResetPassForm from './ResetPassForm';
-import { login } from '../actions/auth';
+import { toggleModal } from '../../actions/modal';
+import SignUpForm from '../SignUp/SignUpForm';
+import ResetPassForm from '../ResetPassword/ResetPassForm';
+import { login } from '../../actions/auth';
+import { useHistory } from 'react-router-dom';
 
-const LoginForm = () => {
+const LoginForm = ({ from }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
+    await dispatch(login(email, password));
+    history.replace(from);
   };
 
   return (
@@ -68,6 +70,10 @@ const LoginForm = () => {
       </p>
     </div>
   );
+};
+
+LoginForm.defaultProps = {
+  from: '/dashboard',
 };
 
 export default LoginForm;

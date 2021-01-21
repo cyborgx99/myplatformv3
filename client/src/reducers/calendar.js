@@ -5,6 +5,8 @@ import {
   CALENDAR_EVENT_UPDATE_SUCCESS,
   GET_CALENDAR_EVENTS_FAIL,
   GET_CALENDAR_EVENTS_SUCCESS,
+  DELETE_CALENDAR_EVENT_FAIL,
+  DELETE_CALENDAR_EVENT_SUCCESS,
 } from '../actions/types';
 
 const initialState = {
@@ -43,9 +45,18 @@ export default function calendarReducer(state = initialState, action) {
         ),
       };
 
+    case DELETE_CALENDAR_EVENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        events: state.events.filter((event) => event._id !== payload),
+      };
+
     case CALENDAR_EVENT_CREATE_FAIL:
     case GET_CALENDAR_EVENTS_FAIL:
     case CALENDAR_EVENT_UPDATE_FAIL:
+    case DELETE_CALENDAR_EVENT_FAIL:
       return {
         ...state,
         loading: false,

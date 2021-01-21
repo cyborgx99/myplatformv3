@@ -2,9 +2,9 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { toggleModal } from '../actions/modal';
-import LoginForm from './LoginForm';
-import SignUpForm from './SignUpForm';
+import { toggleModal } from '../../actions/modal';
+import LoginForm from '../Login/LoginForm';
+import SignUpForm from '../SignUp/SignUpForm';
 
 const ResetPassForm = () => {
   const [email, setEmail] = useState('');

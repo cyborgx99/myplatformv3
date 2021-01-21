@@ -41,7 +41,7 @@ const CalendarEventForm = ({ event }) => {
   };
 
   return (
-    <div>
+    <div className='create-calendar-event'>
       <h2>Add Calendar Event</h2>
       <label>Student</label>
       <select onChange={(e) => setNewEvent(e.target.value)} value={newEvent}>
@@ -61,7 +61,9 @@ const CalendarEventForm = ({ event }) => {
         <option value='recurring'>Recurring</option>
         <option value='onetime'>One time</option>
       </select>
-      <button onClick={() => addCalendarEvent()}>Add Event</button>
+      <button className='btn' onClick={() => addCalendarEvent()}>
+        Add Event
+      </button>
     </div>
   );
 };

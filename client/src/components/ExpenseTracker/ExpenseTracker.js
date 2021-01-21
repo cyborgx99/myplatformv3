@@ -83,7 +83,7 @@ const ExpenseTracker = () => {
               <span>
                 {transaction.positive === false
                   ? `-${transaction.amount}`
-                  : transaction.amount}
+                  : `${transaction.amount}`}
               </span>
               <span> {transaction.transaction}</span>
               <span>{formatDate(transaction.date)}</span>

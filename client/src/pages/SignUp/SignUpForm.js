@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
-import { toggleModal } from '../actions/modal';
-import LoginForm from './LoginForm';
-import ResetPassForm from './ResetPassForm';
-import { register } from '../actions/auth';
+import { toggleModal } from '../../actions/modal';
+import LoginForm from '../Login/LoginForm';
+import ResetPassForm from '../ResetPassword/ResetPassForm';
+import { register } from '../../actions/auth';
 import swal from 'sweetalert2';
 
 const SignUpForm = () => {

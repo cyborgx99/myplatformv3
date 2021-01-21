@@ -5,15 +5,28 @@ import {
   getAllTransactins,
   updateTransactionById,
 } from '../controllers/expensetracker.js';
-import { protectedRoute } from '../middleware/auth.js';
+import { authorizeOnly, protectedRoute } from '../middleware/auth.js';
 
 const router = express.Router();
 
 router.get('/transactions', protectedRoute, getAllTransactins);
-router.post('/create', protectedRoute, createTransaction);
+router.post(
+  '/create',
+  protectedRoute,
+  authorizeOnly('teacher', 'mastermind'),
+  createTransaction
+);
 router
   .route('/:id')
-  .put(protectedRoute, updateTransactionById)
-  .delete(protectedRoute, deleteTransaction);
+  .put(
+    protectedRoute,
+    authorizeOnly('teacher', 'mastermind'),
+    updateTransactionById
+  )
+  .delete(
+    protectedRoute,
+    authorizeOnly('teacher', 'mastermind'),
+    deleteTransaction
+  );
 
 export default router;

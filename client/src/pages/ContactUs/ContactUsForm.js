@@ -10,7 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { contactUs } from '../actions/auth';
+import { contactUs } from '../../actions/auth';
 
 const ContactUsForm = () => {
   const dispatch = useDispatch();

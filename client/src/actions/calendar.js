@@ -9,6 +9,8 @@ import {
   GET_CALENDAR_EVENTS_FAIL,
   CALENDAR_EVENT_UPDATE_SUCCESS,
   CALENDAR_EVENT_UPDATE_FAIL,
+  DELETE_CALENDAR_EVENT_SUCCESS,
+  DELETE_CALENDAR_EVENT_FAIL,
 } from './types';
 
 // create calendar event (teacher / mastermind only)
@@ -97,6 +99,28 @@ export const updateEventTime = (eventObject, id) => async (dispatch) => {
     // console.log(error.response.data.errors);
     dispatch({
       type: CALENDAR_EVENT_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.errors
+          ? error.response.data.errors
+          : error.message,
+    });
+  }
+};
+
+export const deleteCalendarEvent = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.delete(`/api/v1/calendar/events/event/${id}`);
+    dispatch({
+      type: DELETE_CALENDAR_EVENT_SUCCESS,
+      payload: data.data,
+    });
+    swal.fire({
+      icon: 'success',
+      text: 'Event has been deleted',
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_CALENDAR_EVENT_FAIL,
       payload:
         error.response && error.response.data.errors
           ? error.response.data.errors

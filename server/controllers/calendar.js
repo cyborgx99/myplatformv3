@@ -28,7 +28,7 @@ export const getAllCalendarEvents = asyncHandler(async (req, res, next) => {
 
 // @desc  update a transaction
 // @route PUT /api/v1/calendar/events/event/:id
-// @access Private
+// @access Private (teacher / admin only)
 export const updateEventTime = asyncHandler(async (req, res, next) => {
   console.log(req.params.id);
   let calendarEvent = await Calendar.findById(req.params.id);
@@ -50,5 +50,28 @@ export const updateEventTime = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     data: calendarEvent,
+  });
+});
+
+// @desc  Delete a calendar event by id
+// @route DELETE /api/v1/calendar/events/event/:id
+// @access Private (teacher / admin only)
+export const deleteCalendarEvent = asyncHandler(async (req, res, next) => {
+  const calendarEvent = await Calendar.findById(req.params.id);
+
+  if (!calendarEvent) {
+    return next(new ErrorResponse(`Event Not Found`, 404));
+  }
+
+  // Make sure user is the creator / owner
+  if (calendarEvent.teacherId.toString() !== req.user.id) {
+    return next(new ErrorResponse(`Not authorized`, 401));
+  }
+
+  await calendarEvent.remove();
+
+  res.status(200).json({
+    success: true,
+    data: calendarEvent._id,
   });
 });

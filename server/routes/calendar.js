@@ -1,9 +1,11 @@
 import express from 'express';
 import {
   createCalendarEvent,
+  deleteCalendarEvent,
   getAllCalendarEvents,
   updateEventTime,
 } from '../controllers/calendar.js';
+
 import { authorizeOnly, protectedRoute } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -15,12 +17,14 @@ router.post(
   createCalendarEvent
 );
 
-router.put(
-  '/events/event/:id',
-  protectedRoute,
-  authorizeOnly('teacher', 'mastermind'),
-  updateEventTime
-);
+router
+  .route('/events/event/:id')
+  .put(protectedRoute, authorizeOnly('teacher', 'mastermind'), updateEventTime)
+  .delete(
+    protectedRoute,
+    authorizeOnly('teacher', 'mastermind'),
+    deleteCalendarEvent
+  );
 
 router.get('/events/:teacherId', protectedRoute, getAllCalendarEvents);
 

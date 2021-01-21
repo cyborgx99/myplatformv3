@@ -9,12 +9,13 @@ import {
   faDesktop,
   faSignOutAlt,
   faLaptop,
+  faChalkboardTeacher,
 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import LoginForm from '../../pages/LoginForm';
-import SignUpForm from '../../pages/SignUpForm';
+import LoginForm from '../../pages/Login/LoginForm';
+import SignUpForm from '../../pages/SignUp/SignUpForm';
 import { toggleModal } from '../../actions/modal';
-import ContactUsForm from '../../pages/ContactUsForm';
+import ContactUsForm from '../../pages/ContactUs/ContactUsForm';
 import { logout } from '../../actions/auth';
 import swal from 'sweetalert2';
 
@@ -74,6 +75,24 @@ const Navbar = (props) => {
     </>
   );
 
+  const teacherLinks = (
+    <>
+      <li>
+        <Link to='/dashboard'>
+          <FontAwesomeIcon icon={faLaptop} /> Dashboard
+        </Link>
+      </li>
+      <li>
+        <Link to='/teacher'>
+          <FontAwesomeIcon icon={faChalkboardTeacher} /> Teacher Page
+        </Link>
+      </li>
+      <li onClick={() => logoutWithConfirm()}>
+        <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+      </li>
+    </>
+  );
+
   return (
     <div id='nav-container'>
       <nav id='main-navbar'>
@@ -81,6 +100,7 @@ const Navbar = (props) => {
           {sharedLinks}
           {!auth.user.isAuthenticated && guestLinks}
           {auth.user.role === 'student' && studentLinks}
+          {auth.user.role === 'teacher' && teacherLinks}
         </ul>
       </nav>
       <button className='show-nav-btn'>
