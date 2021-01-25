@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Redirect, useLocation, useParams } from 'react-router-dom';
 import { confirmEmail } from '../../actions/auth';
 import { toggleModal } from '../../actions/modal';
 import LoginForm from '../Login/LoginForm';
 
-const LandingPage = ({ match }) => {
+const LandingPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const { token } = useParams();
 
-  console.log(location);
-  const token = match.params.token;
   const { from, red } = location.state || { from: { pathname: '/' } };
   const auth = useSelector((state) => state.auth);
-
+  console.log(location.state);
   useEffect(() => {
     if (token) {
       dispatch(confirmEmail(token));
@@ -21,6 +20,7 @@ const LandingPage = ({ match }) => {
     if (!auth.user && red === 'red') {
       dispatch(toggleModal('open', <LoginForm from={from} />));
     }
+
     // eslint-disable-next-line
   }, []);
 

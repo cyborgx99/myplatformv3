@@ -1,27 +1,37 @@
 import { useSelector } from 'react-redux';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
+const ProtectedRoute = ({ children, ...rest }) => {
   const auth = useSelector((state) => state.auth);
+  const location = useLocation();
 
   return (
     <Route
       {...rest}
       render={(props) =>
         rest.roles.includes(auth.user.role) ||
-        rest.studentId === auth.user._id ? (
-          <Component {...props} />
+        props.match.params.studentId === auth.user._id ? (
+          children
         ) : (
           <Redirect
             to={{
               pathname: '/',
-              state: { from: props.location, red: 'red' },
+              state: { from: location, red: 'red' },
             }}
           />
         )
       }
     />
   );
+};
+
+ProtectedRoute.defaultProps = {
+  roles: '',
+};
+
+ProtectedRoute.propTypes = {
+  roles: PropTypes.array.isRequired,
 };
 
 export default ProtectedRoute;

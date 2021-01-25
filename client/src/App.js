@@ -11,7 +11,9 @@ import SpinningModal from './components/Modal/SpinningModal';
 import Dashboard from './pages/Dashboard/Dashboard';
 import TeacherPage from './pages/Teacher/TeacherPage';
 import ProtectedRoute from './routing/ProtectedRoute';
-import FourOFour from './pages/FourOFour';
+import FourOFour from './pages/FourOFour/FourOFour';
+import CombineLessons from './pages/AllLessons/AllLessonsParent';
+import Notes from './components/LessonComponents/Notes/Notes';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -25,21 +27,39 @@ const App = () => {
   if (auth.loading === true) return <Spinner />;
   return (
     <Router>
-      <Route path='/' component={Navbar} />
-      <Route path='/' component={Modal} />
-      <Route path='/' component={SpinningModal} />
-      <Route exact path='/' component={LandingPage} />
+      {/*  */}
+      <Route path='/'>
+        <Navbar />
+      </Route>
+      <Route path='/'>
+        <Modal />
+      </Route>
+      <Route path='/'>
+        <SpinningModal />
+      </Route>
+      {/*  */}
       <Switch>
-        <Route exact path='/confirm/:token' component={LandingPage} />
-        <ProtectedRoute
-          roles={['teacher2', 'qeqwe']}
-          studentId='6001cb3660727627d8737b09'
-          exact
-          path='/dashboard'
-          component={Dashboard}
-        />
-        <Route exact path='/teacher' component={TeacherPage} />
-        <Route path='*' component={FourOFour} />
+        <Route exact path='/'>
+          <LandingPage />
+        </Route>
+        <Route exact path='/confirm/:token'>
+          <LandingPage />
+        </Route>
+        <ProtectedRoute roles={['teacher', 'qeqwe']} exact path='/dashboard'>
+          <Dashboard />
+        </ProtectedRoute>
+        <Route exact path='/teacher'>
+          <TeacherPage />
+        </Route>
+        <Route path='/lessons'>
+          <CombineLessons />
+        </Route>
+        <Route path='/notes'>
+          <Notes />
+        </Route>
+        <Route path='*'>
+          <FourOFour />
+        </Route>
       </Switch>
     </Router>
   );
