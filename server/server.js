@@ -41,7 +41,7 @@ app.use('/api/v1/expense-tracker', expensetracker);
 app.use('/api/v1/user', user);
 app.use('/api/v1/calendar', calendar);
 
-// after all routes
+// error handling middleware after all routes
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;

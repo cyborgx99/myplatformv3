@@ -4,7 +4,7 @@ import ProtectedRoute from '../../../../routing/ProtectedRoute';
 import Egzamin2015Basic from './Egzamin2015Basic/Egzamin2015Basic';
 
 const EgzaminRoutes = () => {
-  const { path, url } = useRouteMatch();
+  const { path } = useRouteMatch();
 
   return (
     <ProtectedRoute

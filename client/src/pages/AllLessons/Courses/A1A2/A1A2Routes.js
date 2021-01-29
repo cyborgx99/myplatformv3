@@ -3,15 +3,16 @@ import { useRouteMatch } from 'react-router-dom';
 import ProtectedRoute from '../../../../routing/ProtectedRoute';
 import A1A2Lesson1 from './A1A2Lesson1/A1A2Lesson1';
 
-const A1A2Routes = ({ page, setRoomId, socket }) => {
-  const { path, url } = useRouteMatch();
+const A1A2Routes = () => {
+  const { path } = useRouteMatch();
 
   return (
     <ProtectedRoute
+      exact
       path={`${path}/a1a2/lesson1/:studentId`}
       roles={['teacher']}
     >
-      <A1A2Lesson1 socket={socket} page={page} setRoomId={setRoomId} />
+      <A1A2Lesson1 />
     </ProtectedRoute>
   );
 };

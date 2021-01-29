@@ -1,0 +1,200 @@
+/* LEsson Navigation */
+
+.lesson-nav {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.lesson-nav button {
+  padding: 0.2rem 0.3rem;
+  margin: 0.15rem;
+  background-color: rgb(210, 225, 255);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.lesson-nav .ls:hover,
+.lesson-nav .selected-ls {
+  background-color: rgb(71, 132, 255);
+  color: white;
+}
+
+.lesson-nav .hw {
+  background-color: rgb(185, 250, 185);
+  color: black;
+}
+.lesson-nav .hw:hover,
+.lesson-nav .selected-hw {
+  background-color: rgb(30, 200, 30);
+  color: white;
+}
+
+/* LEsson Navigation END */
+
+/* NOTES */
+.notes-container {
+  margin-left: 12rem;
+  display: flex;
+  max-width: 24rem;
+  height: 24rem;
+  flex-direction: column;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.note-type {
+  display: flex;
+  gap: 1rem;
+}
+
+.private {
+  background-color: rgb(255, 252, 205) !important;
+}
+
+.content-editable {
+  outline: none;
+  /* position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); */
+  font-size: 1.15rem;
+  background-color: rgb(218, 248, 255);
+  width: 97%;
+  height: 85%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  white-space: initial;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.notes-btn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* */
+
+.badge {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  margin: 0.19rem;
+  height: 19px;
+  width: 19px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.badge-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.badge-black {
+  background-color: black;
+}
+
+.badge-blue {
+  background-color: blue;
+}
+
+.badge-red {
+  background-color: red;
+}
+
+.badge-green {
+  background-color: green;
+}
+
+.badge-orange {
+  background-color: orange;
+}
+
+/* NOTES END */
+
+/* VideoChat  */
+
+.videoChat-container {
+  background: url('https://res.cloudinary.com/cyborgx999/image/upload/v1607471745/sayprivet/user-3331256_1280_wbgayg.png')
+    no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 640px;
+  height: 480px;
+  margin-left: 5rem;
+  position: relative;
+}
+.videoChat-container:hover .videoChat-buttons {
+  visibility: visible;
+}
+
+.videoChat-buttons {
+  position: absolute;
+  left: 0;
+  top: 450px;
+  z-index: 10;
+  visibility: hidden;
+}
+
+.button-icon {
+  font-size: 1.5rem;
+  width: 35px !important;
+  margin: 0 0.25rem;
+  border: none;
+  outline: none;
+}
+
+.videoChat-user video {
+  object-fit: cover;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 150px;
+  height: 115px;
+  transform: rotateY(180deg);
+  z-index: 10;
+  -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+  -moz-transform: rotateY(180deg); /* Firefox */
+  /* background-color: violet;
+  background: violet; */
+}
+
+.videoChat-user video::content {
+  background: url('https://res.cloudinary.com/cyborgx999/image/upload/v1607471745/sayprivet/user-3331256_1280_wbgayg.png');
+}
+
+.videoChat-otherUser video {
+  width: 640px;
+  height: 480px;
+  z-index: 1;
+}
+
+.videoChat-user img {
+  border: 1px white solid;
+  object-fit: cover;
+  position: absolute;
+  width: 151px;
+  height: 115px;
+  z-index: 11;
+  top: 360px;
+  left: 484px;
+}
+
+.videoChat-otherUser img {
+  width: 640px;
+  height: 480px;
+  position: absolute;
+  object-fit: cover;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+}
+
+/* VideoChat END */

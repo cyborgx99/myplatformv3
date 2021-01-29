@@ -4,6 +4,7 @@ const LessonSchema = new mongoose.Schema({
   studentId: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
+    required: true,
   },
   course: {
     type: String,
@@ -14,10 +15,12 @@ const LessonSchema = new mongoose.Schema({
     required: true,
   },
   page: {
-    type: String,
-  },
-  pageData: {
-    type: String,
+    number: {
+      type: String,
+    },
+    data: {
+      type: String,
+    },
   },
   privateNotes: {
     type: String,

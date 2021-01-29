@@ -12,8 +12,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import TeacherPage from './pages/Teacher/TeacherPage';
 import ProtectedRoute from './routing/ProtectedRoute';
 import FourOFour from './pages/FourOFour/FourOFour';
-import CombineLessons from './pages/AllLessons/AllLessonsParent';
-import Notes from './components/LessonComponents/Notes/Notes';
+import CombineLessons from './pages/AllLessons/CombineLessons';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -53,9 +52,6 @@ const App = () => {
         </Route>
         <Route path='/lessons'>
           <CombineLessons />
-        </Route>
-        <Route path='/notes'>
-          <Notes />
         </Route>
         <Route path='*'>
           <FourOFour />

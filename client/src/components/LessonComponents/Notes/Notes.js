@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import NotesButton from './NotesButton';
-import './Notes.css';
 import PropTypes from 'prop-types';
 
-const Notes = ({ socket }) => {
+const Notes = ({ socket, eventName }) => {
   const [sharedNotes, setSharedNotes] = useState('');
   const [privateNotes, setPrivateNotes] = useState('');
   const [notesType, setNotesType] = useState('shared');
@@ -12,14 +11,24 @@ const Notes = ({ socket }) => {
   const button = useRef('');
 
   useEffect(() => {
-    socket.on('change', (msg) => {
-      setSharedNotes(msg);
-    });
+    if (socket) {
+      socket.on(eventName, (value) => {
+        setSharedNotes(value);
+      });
+    }
+    // eslint-disable-next-line
   }, []);
 
   const sharedNotesChange = (e) => {
     setSharedNotes(e.target.value);
-    socket.emit('inputs', e.target.value);
+    if (socket) {
+      const data = {
+        eventName,
+        value: e.target.value,
+      };
+
+      socket.emit('inputs', data);
+    }
   };
 
   const onPaste = (e) => {
@@ -142,6 +151,7 @@ const Notes = ({ socket }) => {
 
 Notes.propTypes = {
   socket: PropTypes.object.isRequired,
+  eventName: PropTypes.string.isRequired,
 };
 
 export default Notes;
