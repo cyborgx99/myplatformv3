@@ -48,7 +48,7 @@ const Notes = ({ socket, eventName }) => {
   return (
     <div className='notes-container'>
       <div className='note-type'>
-        <label className='container'>
+        <label>
           <input
             type='radio'
             name='shared'
@@ -56,10 +56,9 @@ const Notes = ({ socket, eventName }) => {
             value={notesType}
             onChange={(e) => setNotesType(e.target.name)}
           />
-          <span className='checkmark'></span>
-          Shared
+          <span className='checkmark'></span> Shared
         </label>
-        <label className='container'>
+        <label>
           <input
             type='radio'
             checked={notesType === 'private'}
@@ -67,8 +66,7 @@ const Notes = ({ socket, eventName }) => {
             value={notesType}
             onChange={(e) => setNotesType(e.target.name)}
           />
-          <span className='checkmark'></span>
-          Private
+          <span className='checkmark'></span> Private
         </label>
       </div>
 

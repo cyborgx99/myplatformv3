@@ -1,18 +1,9 @@
 import mongoose from 'mongoose';
 
 const LessonSchema = new mongoose.Schema({
-  studentId: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  course: {
+  lessonName: {
+    // a1a1/lesson1/123123
     type: String,
-    required: true,
-  },
-  lesson: {
-    type: String,
-    required: true,
   },
   page: {
     number: {

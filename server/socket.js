@@ -8,8 +8,10 @@ export const socketLogic = (io) => {
       console.log(roomId);
       const ids = await io.of('/video').in(socket.room).allSockets();
       const users = Array.from(ids);
+      console.log(users);
 
       if (users.length === 2) {
+        console.log('asd');
         socket.to(users[0]).emit('user joined', users[1]);
         socket.emit('other user', users[0]);
       }

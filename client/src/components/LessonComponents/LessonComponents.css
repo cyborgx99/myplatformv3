@@ -52,6 +52,11 @@
   gap: 1rem;
 }
 
+.note-type label,
+.note-type input[type='radio'] {
+  cursor: pointer;
+}
+
 .private {
   background-color: rgb(255, 252, 205) !important;
 }
@@ -78,8 +83,6 @@
   flex-direction: row;
   align-items: center;
 }
-
-/* */
 
 .badge {
   cursor: pointer;
@@ -162,8 +165,6 @@
   z-index: 10;
   -webkit-transform: rotateY(180deg); /* Safari and Chrome */
   -moz-transform: rotateY(180deg); /* Firefox */
-  /* background-color: violet;
-  background: violet; */
 }
 
 .videoChat-user video::content {
@@ -198,3 +199,66 @@
 }
 
 /* VideoChat END */
+
+/* Picture Gallery */
+
+.gallery-grid {
+  max-width: 500px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.gallery-grid-item div {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+}
+
+.gallery-grid-item input {
+  text-align: center;
+  border: none;
+  border-bottom: 1px black solid;
+  outline: none;
+  height: 30px;
+  font-size: 1.5rem;
+}
+
+.gallery-grid-item img {
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+}
+
+/* STYLED ANSWER TOOLTIP */
+
+[data-title]:hover:after {
+  opacity: 1;
+  transition: all 0.1s ease 0.5s;
+  visibility: visible;
+}
+[data-title]:after {
+  content: attr(data-title);
+  background-color: #00ff00;
+  color: #111;
+  font-size: 105%;
+  position: absolute;
+  padding: 2px 3px;
+  bottom: 0.7rem;
+  left: 45%;
+  width: fit-content;
+  word-wrap: break-word;
+  white-space: initial;
+  box-shadow: 1px 1px 3px #222222;
+  opacity: 0;
+  border: 1px solid #111111;
+  z-index: 99999;
+  visibility: hidden;
+}
+[data-title] {
+  position: relative;
+}
+
+/* STYLED ANSWER TOOLTIP END */
+
+/* Picture Gallery END */

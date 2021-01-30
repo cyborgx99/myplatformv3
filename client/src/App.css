@@ -118,6 +118,17 @@ a {
   cursor: pointer;
 }
 
+/* Spinner */
+
+.spinner-wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Spinner END */
+
 /* Utils End */
 
 /* LandingPage */

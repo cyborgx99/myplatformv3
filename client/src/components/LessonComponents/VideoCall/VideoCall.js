@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMicrophone,
@@ -212,6 +213,10 @@ const VideoCall = ({ roomId }) => {
       </div>
     </div>
   );
+};
+
+VideoCall.propTypes = {
+  roomId: PropTypes.string.isRequired,
 };
 
 export default VideoCall;
