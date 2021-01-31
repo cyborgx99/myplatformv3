@@ -3,7 +3,10 @@
 .lesson-nav {
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  width: 125px;
+  background-color: white;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .lesson-nav button {
@@ -36,18 +39,24 @@
 
 /* NOTES */
 .notes-container {
-  margin-left: 12rem;
+  position: relative;
+  width: 100%;
   display: flex;
-  max-width: 24rem;
-  height: 24rem;
+  flex-grow: 0;
   flex-direction: column;
   background-color: white;
   justify-content: center;
   align-items: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  min-width: 19rem;
+  max-width: 30rem;
 }
 
 .note-type {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: -1%;
   display: flex;
   gap: 1rem;
 }
@@ -68,10 +77,14 @@
     top: 50%;
     transform: translate(-50%, -50%); */
   font-size: 1.15rem;
+  position: absolute;
+  left: 1.5%;
+  bottom: 1.5%;
   background-color: rgb(218, 248, 255);
   width: 97%;
   height: 85%;
-  overflow-y: scroll;
+  max-height: 85%;
+  overflow-y: visible;
   overflow-x: hidden;
   word-wrap: break-word;
   white-space: initial;
@@ -79,7 +92,12 @@
 }
 
 .notes-btn-container {
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  transform: translate(-50%, 0);
   display: flex;
+  z-index: 100;
   flex-direction: row;
   align-items: center;
 }
@@ -125,14 +143,14 @@
 /* VideoChat  */
 
 .videoChat-container {
-  background: url('https://res.cloudinary.com/cyborgx999/image/upload/v1607471745/sayprivet/user-3331256_1280_wbgayg.png')
-    no-repeat;
+  /* background: url('https://res.cloudinary.com/cyborgx999/image/upload/v1607471745/sayprivet/user-3331256_1280_wbgayg.png')
+    no-repeat; */
   background-size: cover;
   background-position: center;
-  width: 640px;
-  height: 480px;
-  margin-left: 5rem;
+  width: 610px;
+  height: 430px;
   position: relative;
+  grid-area: lessonVideo;
 }
 .videoChat-container:hover .videoChat-buttons {
   visibility: visible;
@@ -140,8 +158,8 @@
 
 .videoChat-buttons {
   position: absolute;
-  left: 0;
-  top: 450px;
+  left: 1px;
+  bottom: 0;
   z-index: 10;
   visibility: hidden;
 }
@@ -167,13 +185,14 @@
   -moz-transform: rotateY(180deg); /* Firefox */
 }
 
-.videoChat-user video::content {
+/* .videoChat-user video::content {
   background: url('https://res.cloudinary.com/cyborgx999/image/upload/v1607471745/sayprivet/user-3331256_1280_wbgayg.png');
-}
+} */
 
 .videoChat-otherUser video {
-  width: 640px;
-  height: 480px;
+  width: 610px;
+  height: 430px;
+  object-fit: cover;
   z-index: 1;
 }
 
@@ -184,13 +203,13 @@
   width: 151px;
   height: 115px;
   z-index: 11;
-  top: 360px;
-  left: 484px;
+  right: 5px;
+  bottom: 5px;
 }
 
 .videoChat-otherUser img {
-  width: 640px;
-  height: 480px;
+  width: 100%;
+  height: 100%;
   position: absolute;
   object-fit: cover;
   top: 0px;
@@ -203,10 +222,10 @@
 /* Picture Gallery */
 
 .gallery-grid {
-  max-width: 500px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+  background-color: white;
 }
 
 .gallery-grid-item div {
@@ -218,9 +237,10 @@
 .gallery-grid-item input {
   text-align: center;
   border: none;
-  border-bottom: 1px black solid;
+  border-bottom: 2px black solid;
   outline: none;
   height: 30px;
+  background-color: rgb(253, 255, 226);
   font-size: 1.5rem;
 }
 
@@ -229,6 +249,38 @@
   width: 250px;
   object-fit: cover;
 }
+
+.listOfWords-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+  position: -webkit-sticky;
+  position: sticky;
+}
+
+.drag-item {
+  width: max-content;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  padding: 0.2rem;
+  margin: 0.2rem;
+}
+
+/* Picture Gallery END */
+
+/* INput */
+.correct-answer {
+  color: black;
+  background-color: var(--light-color) !important;
+  font-weight: normal;
+}
+/* INput END */
 
 /* STYLED ANSWER TOOLTIP */
 
@@ -261,4 +313,27 @@
 
 /* STYLED ANSWER TOOLTIP END */
 
-/* Picture Gallery END */
+.lesson-pages-container {
+  grid-area: lessonPages;
+
+  overflow-x: hidden;
+}
+
+.lesson-container {
+  padding: 0.1rem 1rem;
+  display: grid;
+  grid-template-areas:
+    'lessonVideo lessonPages'
+    'lessonNavNotes lessonPages';
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.2rem;
+  width: 100vw;
+  height: 99vh;
+}
+
+.lesson-notes-nav {
+  display: flex;
+  gap: 0.3rem;
+  grid-area: lessonNavNotes;
+}

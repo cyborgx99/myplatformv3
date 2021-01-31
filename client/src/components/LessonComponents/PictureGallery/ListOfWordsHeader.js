@@ -1,22 +1,22 @@
 import React from 'react';
 import DragItem from '../Input/DragItem';
 
-const ListOfWordsHeader = ({ answer }) => {
+const ListOfWordsHeader = ({ answers }) => {
   return (
-    <>
-      {answer.a1 && <DragItem text={answer.a1} />}
-      {answer.a3 && <DragItem text={answer.a3} />}
-      {answer.a12 && <DragItem text={answer.a12} />}
-      {answer.a8 && <DragItem text={answer.a8} />}
-      {answer.a7 && <DragItem text={answer.a7} />}
-      {answer.a6 && <DragItem text={answer.a6} />}
-      {answer.a4 && <DragItem text={answer.a4} />}
-      {answer.a5 && <DragItem text={answer.a5} />}
-      {answer.a9 && <DragItem text={answer.a9} />}
-      {answer.a11 && <DragItem text={answer.a11} />}
-      {answer.a10 && <DragItem text={answer.a10} />}
-      {answer.a2 && <DragItem text={answer.a2} />}
-    </>
+    <div className='listOfWords-container'>
+      {answers.a1 && <DragItem text={answers.a1[0]} />}
+      {answers.a3 && <DragItem text={answers.a3[0]} />}
+      {answers.a12 && <DragItem text={answers.a12[0]} />}
+      {answers.a8 && <DragItem text={answers.a8[0]} />}
+      {answers.a7 && <DragItem text={answers.a7[0]} />}
+      {answers.a6 && <DragItem text={answers.a6[0]} />}
+      {answers.a4 && <DragItem text={answers.a4[0]} />}
+      {answers.a5 && <DragItem text={answers.a5[0]} />}
+      {answers.a9 && <DragItem text={answers.a9[0]} />}
+      {answers.a11 && <DragItem text={answers.a11[0]} />}
+      {answers.a10 && <DragItem text={answers.a10[0]} />}
+      {answers.a2 && <DragItem text={answers.a2[0]} />}
+    </div>
   );
 };
 

@@ -17,6 +17,7 @@ const InputWdropArea = ({
     accept: 'text',
     drop: (item) => {
       // do update
+
       setInputValue(item.text);
 
       //   handleDrop(spot, item);
@@ -36,7 +37,11 @@ const InputWdropArea = ({
   };
 
   const correctAnswer = () => {
-    if (answers.includes(inputValue.toLocaleLowerCase())) {
+    if (
+      answers
+        .map((v) => v.toLowerCase())
+        .includes(inputValue.toLocaleLowerCase())
+    ) {
       return true;
     }
   };

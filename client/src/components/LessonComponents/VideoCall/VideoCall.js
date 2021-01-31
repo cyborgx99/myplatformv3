@@ -48,6 +48,7 @@ const VideoCall = ({ roomId }) => {
   }, []);
 
   useEffect(() => {
+    window.addEventListener('beforeunload', handleUnload);
     return () => {
       // disconnect socket
       socketRef.current.close();
@@ -56,6 +57,7 @@ const VideoCall = ({ roomId }) => {
         userStream.current.getTracks().forEach(function (track) {
           track.stop();
         });
+      window.removeEventListener('beforeunload', handleUnload);
     };
     //eslint-disable-next-line
   }, []);
@@ -173,6 +175,11 @@ const VideoCall = ({ roomId }) => {
     userStream.current.getVideoTracks()[0].enabled = !userStream.current.getVideoTracks()[0]
       .enabled;
     setOffMyCamera(!offMyCamera);
+  };
+
+  const handleUnload = () => {
+    // disconnect socket manually!
+    socketRef.current.close();
   };
 
   return (

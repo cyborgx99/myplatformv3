@@ -7,14 +7,14 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const CombineLessons = () => {
   return (
-    <div>
+    <>
       <Switch>
         <DndProvider backend={HTML5Backend}>
           <A1A2Routes />
           <EgzaminRoutes />
         </DndProvider>
       </Switch>
-    </div>
+    </>
   );
 };
 

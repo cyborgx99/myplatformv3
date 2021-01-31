@@ -20,7 +20,7 @@ const LessonNavigation = ({ socket, setPage, eventName, page }) => {
   };
 
   return (
-    <nav style={{ marginLeft: '10rem' }} className='lesson-nav'>
+    <nav className='lesson-nav'>
       <button
         className={page === 'page1' ? 'selected-ls' : 'ls'}
         name='page1'

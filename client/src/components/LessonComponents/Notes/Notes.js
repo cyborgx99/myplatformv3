@@ -66,7 +66,7 @@ const Notes = ({ socket, eventName }) => {
             value={notesType}
             onChange={(e) => setNotesType(e.target.name)}
           />
-          <span className='checkmark'></span> Private
+          Private
         </label>
       </div>
 

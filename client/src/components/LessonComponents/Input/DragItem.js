@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 
-const DragItem = ({ text, page, question }) => {
+const DragItem = ({ text, page, question, currentCompleted }) => {
   const savedOpacity = () => {
     if (
       currentCompleted &&
@@ -19,6 +19,8 @@ const DragItem = ({ text, page, question }) => {
       currentCompleted[page][question]
     ) {
       return false;
+    } else {
+      return true;
     }
   };
 
