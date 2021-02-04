@@ -1,8 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import PictureGallery from '../../../../../components/LessonComponents/PictureGallery/PictureGallery';
-
-const answ = {
+export const answ = {
   a1: [`I don't know`, `i dunno`, `i don't know12`],
   a2: ['2'],
   a3: ['3'],
@@ -17,7 +13,7 @@ const answ = {
   a12: ['11'],
 };
 
-const P1Pictures = {
+export const P1Pictures = {
   p1:
     'https://res.cloudinary.com/cyborgx999/image/upload/v1603229695/sayprivet/lesson1/home_uudgrj.jpg',
   p2:
@@ -44,19 +40,11 @@ const P1Pictures = {
     'https://res.cloudinary.com/cyborgx999/image/upload/v1601729986/sayprivet/lesson1/1_2_kpwyoe.jpg',
 };
 
-const A1A2Lesson1Pages = ({ page, socket }) => {
-  return (
-    <div className='lesson-pages-container scroll-style-3'>
-      {page === 'page1' && (
-        <PictureGallery answers={answ} pictures={P1Pictures} />
-      )}
-    </div>
-  );
+export const tableData = {
+  r1c1answer: ['123'],
+  tr1c2: '44',
+  tr1c3: '22',
+  tr1c4: '33',
+  tr1c5: '25',
+  tr1c6: '26',
 };
-
-A1A2Lesson1Pages.propTypes = {
-  socket: PropTypes.object.isRequired,
-  page: PropTypes.string.isRequired,
-};
-
-export default A1A2Lesson1Pages;

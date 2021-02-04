@@ -3,7 +3,7 @@ import ContentEditable from 'react-contenteditable';
 import NotesButton from './NotesButton';
 import PropTypes from 'prop-types';
 
-const Notes = ({ socket, eventName }) => {
+const Notes = React.memo(({ socket, eventName }) => {
   const [sharedNotes, setSharedNotes] = useState('');
   const [privateNotes, setPrivateNotes] = useState('');
   const [notesType, setNotesType] = useState('shared');
@@ -18,6 +18,8 @@ const Notes = ({ socket, eventName }) => {
     }
     // eslint-disable-next-line
   }, []);
+
+  console.log('Notes');
 
   const sharedNotesChange = (e) => {
     setSharedNotes(e.target.value);
@@ -145,7 +147,7 @@ const Notes = ({ socket, eventName }) => {
       />
     </div>
   );
-};
+});
 
 Notes.propTypes = {
   socket: PropTypes.object.isRequired,

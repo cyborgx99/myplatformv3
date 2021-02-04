@@ -9,7 +9,7 @@ import {
   faVideoSlash,
 } from '@fortawesome/free-solid-svg-icons';
 
-const VideoCall = ({ roomId }) => {
+const VideoCall = React.memo(({ roomId }) => {
   const userVideo = useRef();
   const partnerVideo = useRef();
   const peerRef = useRef();
@@ -182,6 +182,8 @@ const VideoCall = ({ roomId }) => {
     socketRef.current.close();
   };
 
+  console.log('VideoCall');
+
   return (
     <div className='videoChat-container'>
       <div className='videoChat-buttons'>
@@ -220,7 +222,7 @@ const VideoCall = ({ roomId }) => {
       </div>
     </div>
   );
-};
+});
 
 VideoCall.propTypes = {
   roomId: PropTypes.string.isRequired,

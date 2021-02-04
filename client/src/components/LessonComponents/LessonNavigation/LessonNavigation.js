@@ -19,6 +19,8 @@ const LessonNavigation = ({ socket, setPage, eventName, page }) => {
     socket.emit('inputs', data);
   };
 
+  console.log('Navigation');
+
   return (
     <nav className='lesson-nav'>
       <button

@@ -4,23 +4,14 @@ import PictureGallery from '../../../../../components/LessonComponents/PictureGa
 import AudioPlayer from '../../../../../components/LessonComponents/AudioPlayer/AudioPlayer';
 import Table from '../../../../../components/LessonComponents/Table/Table';
 
-import { answ, P1Pictures, tableData, galleryData } from './A1A1Lesson1Assets';
+import { tableData } from './A1A1Lesson2Assets';
 
-console.log('A1A2Lesson1');
+console.log('A1A2Lesson2');
 
-const A1A2Lesson1 = ({ page, socket, roomId }) => {
+const A1A2Lesson2 = ({ page, socket, roomId }) => {
   return (
     <div className='lesson-pages-container scroll-style-3'>
-      {page === 'page1' && (
-        <PictureGallery
-          socket={socket}
-          page={page}
-          roomId={roomId}
-          galleryData={galleryData}
-          answers={answ}
-          pictures={P1Pictures}
-        />
-      )}
+      {page === 'page1' && <h1>LESSON 2</h1>}
       {page === 'page2' && (
         <AudioPlayer
           socket={socket}
@@ -31,21 +22,19 @@ const A1A2Lesson1 = ({ page, socket, roomId }) => {
       )}
       {page === 'page3' && (
         <Table
-          socket={socket}
-          roomId={roomId}
           page={page}
-          tableHead={tableData.tableHead}
-          tableRowData={tableData.tableRowData}
-          tableRowInputs={tableData.tableRowInputs}
+          roomId={roomId}
+          socket={socket}
+          tableData={tableData}
         />
       )}
     </div>
   );
 };
 
-A1A2Lesson1.propTypes = {
+A1A2Lesson2.propTypes = {
   socket: PropTypes.object.isRequired,
   page: PropTypes.string.isRequired,
 };
 
-export default A1A2Lesson1;
+export default A1A2Lesson2;

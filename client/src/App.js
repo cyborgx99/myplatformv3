@@ -44,15 +44,23 @@ const App = () => {
         <Route exact path='/confirm/:token'>
           <LandingPage />
         </Route>
-        <ProtectedRoute roles={['teacher', 'qeqwe']} exact path='/dashboard'>
+        <ProtectedRoute
+          exact
+          path='/dashboard'
+          roles={['teacher', 'student', 'mastermind']}
+        >
           <Dashboard />
         </ProtectedRoute>
-        <Route exact path='/teacher'>
+        <ProtectedRoute exact path='/teacher' roles={['teacher', 'mastermind']}>
           <TeacherPage />
-        </Route>
-        <Route path='/lessons'>
+        </ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path='/lessons/:courseId/:lesson/:studentId'
+          roles={['teacher', 'mastermind']}
+        >
           <CombineLessons />
-        </Route>
+        </ProtectedRoute>
         <Route path='*'>
           <FourOFour />
         </Route>

@@ -55,6 +55,7 @@ export const socketLogic = (io) => {
 
     // data transfer
     socket.on('inputs', (data) => {
+      console.log(data);
       const { eventName, value } = data;
       socket.broadcast.to(socket.room).emit(eventName, value);
     });

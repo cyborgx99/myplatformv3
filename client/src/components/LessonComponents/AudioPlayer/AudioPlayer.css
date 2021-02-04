@@ -1,0 +1,137 @@
+audio::-webkit-media-controls-panel {
+  background-color: #17a2b8;
+}
+
+/**
+   * Audio controls
+   */
+
+.audio-player {
+  height: 70px;
+  min-width: 300px;
+  max-width: 300px;
+  margin: 0 auto;
+  background-color: #2b1e47;
+  border-radius: 8px;
+  position: relative;
+}
+
+.audio-player * {
+  height: 100%;
+  color: #ffffff;
+  position: absolute;
+}
+
+.audio-player .controls.button {
+  background: transparent;
+  left: 19px;
+  bottom: 45px;
+  outline: none;
+}
+
+.audio-player .play {
+  color: #ffffff;
+  background-color: #2b1e47;
+  border: none;
+  font-size: 23px;
+}
+
+.audio-player .play {
+  left: 0;
+
+  background: transparent;
+}
+.audio-player .backward {
+  left: 54px;
+  background: transparent;
+  bottom: 45px;
+  outline: none;
+  color: #ffffff;
+  background-color: #2b1e47;
+  border: none;
+  font-size: 20px;
+}
+.audio-player .forward {
+  left: 88px;
+  background: transparent;
+  bottom: 45px;
+  outline: none;
+  color: #ffffff;
+  background-color: #2b1e47;
+  border: none;
+  font-size: 20px;
+}
+
+.progress-clock1 {
+  top: 12px;
+  left: 139px;
+}
+.progress-clock2 {
+  top: 12px;
+  left: 207px;
+}
+/* 
+  .audio-player .play:after {
+    content: '▶';
+  } */
+
+.audio-player .progress {
+  left: 129px;
+  top: 25px;
+
+  max-width: 160px;
+}
+
+.volume {
+  left: 15px;
+  top: 25px;
+  max-width: 100px;
+}
+
+/**
+  * Progress bar customisation
+  */
+
+.custom-progress {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  /* Outer bar */
+  border: none;
+  border-radius: 5px;
+  height: 10px;
+  margin: 20px 0px 30px;
+}
+
+/**
+  * Progress bar - Webkit
+  */
+/* Outer bar */
+.custom-progress::-webkit-progress-bar {
+  border-radius: 5px;
+  background-color: whitesmoke;
+}
+/* Inner bar */
+.custom-progress::-webkit-progress-value {
+  border-radius: 5px;
+  background-color: #6f2591;
+}
+/**
+  * Progress bar - Mozilla
+  */
+
+/* Inner bar */
+.custom-progress::-moz-progress-bar {
+  border-radius: 5px;
+  background-color: #6f2591;
+}
+
+/**
+  Progress bar - IE/Edge
+  /* Inner bar */
+
+.custom-progress::-ms-fill {
+  border-radius: 5px;
+  background-color: #6f2591;
+}

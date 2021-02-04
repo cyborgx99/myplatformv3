@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDrop } from 'react-dnd';
 
-const InputWdropArea = ({
+const InputWithDropArea = ({
   socket,
   eventName,
   options,
@@ -13,12 +13,26 @@ const InputWdropArea = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
 
+  useEffect(() => {
+    socket.on(eventName, (msg) => {
+      setInputValue(msg);
+    });
+    // eslint-disable-next-line
+  }, []);
+
   const [{ canDrop }, dropRef] = useDrop({
     accept: 'text',
     drop: (item) => {
       // do update
 
       setInputValue(item.text);
+      if (socket) {
+        const data = {
+          eventName: eventName,
+          value: item.text,
+        };
+        socket.emit('inputs', data);
+      }
 
       //   handleDrop(spot, item);
     },
@@ -34,6 +48,13 @@ const InputWdropArea = ({
 
   const inputChange = (e) => {
     setInputValue(e.target.value);
+    if (socket) {
+      const data = {
+        eventName: eventName,
+        value: e.target.value,
+      };
+      socket.emit('inputs', data);
+    }
   };
 
   const correctAnswer = () => {
@@ -62,7 +83,7 @@ const InputWdropArea = ({
             </option>
           ))}
         </select>
-      ) : dnd ? (
+      ) : dnd === 'dnd' ? (
         // if we pass the dnd prop we have a drop area othewise just an input
         <div className='drop-area' ref={dropRef}>
           <input
@@ -92,7 +113,7 @@ const InputWdropArea = ({
   );
 };
 
-InputWdropArea.propTypes = {
+InputWithDropArea.propTypes = {
   socket: PropTypes.object.isRequired,
   eventName: PropTypes.string.isRequired,
   answers: PropTypes.array.isRequired,
@@ -100,4 +121,4 @@ InputWdropArea.propTypes = {
   roomId: PropTypes.string.isRequired,
 };
 
-export default InputWdropArea;
+export default InputWithDropArea;
