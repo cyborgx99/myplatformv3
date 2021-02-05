@@ -68,7 +68,7 @@ const ExpenseTracker = () => {
       >
         Add Transaction
       </button>
-      <h1>Lesson History</h1>
+      <h1>Lesson History:</h1>
       <div className='scroll-style-3 expense-history'>
         <ul>
           {transactions.map((transaction) => (

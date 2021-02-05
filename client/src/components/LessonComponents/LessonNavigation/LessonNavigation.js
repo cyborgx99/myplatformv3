@@ -2,15 +2,17 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../LessonComponents.css';
 
-const LessonNavigation = ({ socket, setPage, eventName, page }) => {
+const LessonNavigation = ({ socket, setPage, eventName, page, roomId }) => {
   useEffect(() => {
     socket.on(eventName, (msg) => {
+      sessionStorage.setItem(`${roomId}/selectedPage`, msg);
       setPage(msg);
     });
     // eslint-disable-next-line
   }, []);
 
   const setSetPage = (e) => {
+    sessionStorage.setItem(`${roomId}/selectedPage`, e.target.name);
     setPage(e.target.name);
     const data = {
       eventName,

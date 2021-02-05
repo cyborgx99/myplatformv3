@@ -271,7 +271,7 @@ export const logout = asyncHandler(async (req, res, next) => {
     });
 });
 
-// @desc get users details via token in cookie (auth middleware )
+// @desc get users details via token in cookie (auth middleware)
 // @route POST /api/v1/auth/getme
 // @access Private
 export const getMe = asyncHandler(async (req, res, next) => {

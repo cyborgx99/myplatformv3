@@ -9,11 +9,14 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import A1A2 from './Courses/A1A2/A1A2';
 
 const CombineLessons = () => {
-  const [page, setPage] = useState('page1');
-
   const location = useLocation();
-  const { studentId } = useParams();
   const roomId = location.pathname;
+
+  const [page, setPage] = useState(
+    sessionStorage.getItem(`${roomId}/selectedPage`) || 'page1'
+  );
+
+  const { studentId } = useParams();
 
   useEffect(() => {
     socket.emit('joinRoom', roomId);
@@ -21,8 +24,8 @@ const CombineLessons = () => {
   }, []);
 
   const pages = {
-    ls: 6,
-    hw: 4,
+    ls: 4,
+    hw: 2,
   };
   console.log('Combine lessons');
 
@@ -30,6 +33,7 @@ const CombineLessons = () => {
     <div className='lesson-container'>
       <div className='lesson-notes-nav'>
         <LessonNavigation
+          roomId={roomId}
           socket={socket}
           eventName='pageChange'
           page={page}
