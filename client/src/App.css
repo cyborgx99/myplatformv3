@@ -260,8 +260,18 @@ a {
   cursor: pointer;
 }
 
+#main-navbar ul li:hover {
+  background-color: #276fbf;
+  border-radius: 5px;
+}
+
 #main-navbar ul a {
   color: white;
+}
+
+.highLighted {
+  background-color: #276fbf;
+  border-radius: 5px;
 }
 
 .show-nav-btn {
@@ -293,6 +303,7 @@ a {
 
 .credentials-content input,
 .credentials-content textarea {
+  border-radius: 5px;
   width: 100%;
   padding: 0.5rem;
   margin: 0.3rem 0rem;
@@ -614,6 +625,7 @@ a {
 .create-calendar-event input,
 .create-calendar-event textarea,
 .create-calendar-event select {
+  border-radius: 5px;
   width: 100%;
   padding: 0.5rem;
   margin: 0.3rem 0rem;
@@ -623,3 +635,114 @@ a {
 }
 
 /* CALENDAR END */
+
+/* Flashcards */
+
+.create-update-flashcard {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-update-flashcard h3 {
+  text-align: center;
+}
+
+.create-update-flashcard span {
+  font-weight: bold;
+}
+
+.create-update-flashcard input {
+  border-radius: 5px;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.3rem 0rem;
+  font-size: 1.05rem;
+  resize: none;
+  border: 1px solid black;
+}
+
+.create-update-flashcard input:focus {
+  box-shadow: 0 0 3pt 2pt var(--primary-color);
+}
+
+.flashcards {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flashcard-item {
+  background-color: transparent;
+  width: 400px;
+  height: 250px;
+}
+
+.flashcard-inner {
+  background: white;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.flashcard-front,
+.flashcard-back {
+  display: flex;
+  justify-content: center;
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flashcard-front p,
+.flashcard-back p {
+  padding: 1.2rem 1.7rem;
+  overflow-y: auto;
+}
+
+.flashcard-front svg,
+.flashcard-back svg {
+  position: absolute;
+}
+
+.flashcard-front {
+  transform: rotateX(0deg);
+  z-index: 2;
+}
+
+.flip-icon {
+  right: 8px;
+  top: 5px;
+}
+.speak-icon {
+  right: 8px;
+  bottom: 5px;
+}
+
+.edit-icon {
+  left: 8px;
+  bottom: 5px;
+}
+
+.delete-icon {
+  left: 8px;
+  top: 5px;
+}
+
+.flashcard-back {
+  transform: rotateY(180deg);
+}
+
+.flashcard-item.show-answer .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+/* Flashcards END */

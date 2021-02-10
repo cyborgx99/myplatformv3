@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import PictureGallery from '../../../../../components/LessonComponents/PictureGallery/PictureGallery';
 import AudioPlayer from '../../../../../components/LessonComponents/AudioPlayer/AudioPlayer';
 import Table from '../../../../../components/LessonComponents/Table/Table';
-
 import { tableData } from './A1A1Lesson2Assets';
 
 console.log('A1A2Lesson2');
 
-const A1A2Lesson2 = ({ page, socket, roomId }) => {
+const A1A2Lesson2 = ({ page, socket, roomId, setTotalPages }) => {
+  useEffect(() => {
+    setTotalPages({
+      p: [1, 2],
+      hw: [1, 2],
+    });
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div className='lesson-pages-container scroll-style-3'>
       {page === 'page1' && <h1>LESSON 2</h1>}

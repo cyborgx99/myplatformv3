@@ -10,6 +10,7 @@ import profile from './routes/profile.js';
 import expensetracker from './routes/expensetracker.js';
 import user from './routes/user.js';
 import calendar from './routes/calendar.js';
+import flashcard from './routes/flashcard.js';
 import errorHandler from './middleware/errorHandler.js';
 
 import http from 'http';
@@ -40,6 +41,7 @@ app.use('/api/v1/profile', profile);
 app.use('/api/v1/expense-tracker', expensetracker);
 app.use('/api/v1/user', user);
 app.use('/api/v1/calendar', calendar);
+app.use('/api/v1/flashcard', flashcard);
 
 // error handling middleware after all routes
 app.use(errorHandler);

@@ -73,6 +73,7 @@ const FullCalendarComponent = () => {
         dispatch(toggleModal('open', <CalendarEventForm event={e} />))
       }
       editable={true}
+      eventResize={(e) => dropToChangeTime(e)}
       allDaySlot={false}
       selectOverlap={false}
       selectMirror={true}

@@ -96,7 +96,7 @@ export const updateTransaciton = (transactionObject, id) => async (
   }
 };
 
-//Get the current users profile
+//Get the current users transactions
 export const getAllTransactions = () => async (dispatch) => {
   try {
     const { data } = await axios.get('/api/v1/expense-tracker/transactions');

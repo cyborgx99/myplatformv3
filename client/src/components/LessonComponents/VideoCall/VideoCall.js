@@ -51,7 +51,7 @@ const VideoCall = React.memo(({ roomId }) => {
     window.addEventListener('beforeunload', handleUnload);
     return () => {
       // disconnect socket
-      socketRef.current.close();
+      socketRef.current && socketRef.current.close();
       // stop using users mic and camera
       userStream.current &&
         userStream.current.getTracks().forEach(function (track) {

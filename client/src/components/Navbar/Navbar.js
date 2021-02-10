@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBars,
@@ -20,6 +20,7 @@ import { logout } from '../../actions/auth';
 import swal from 'sweetalert2';
 
 const Navbar = (props) => {
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
@@ -38,9 +39,13 @@ const Navbar = (props) => {
     }
   };
 
+  const highlightedClass = (linkTo) => {
+    if (linkTo === pathname) return 'highLighted';
+  };
+
   const sharedLinks = (
     <>
-      <li>
+      <li className={highlightedClass('/')}>
         <Link to='/'>
           <FontAwesomeIcon icon={faDesktop} /> Platform
         </Link>
@@ -64,7 +69,7 @@ const Navbar = (props) => {
 
   const studentLinks = (
     <>
-      <li>
+      <li className={highlightedClass('/dashboard')}>
         <Link to='/dashboard'>
           <FontAwesomeIcon icon={faLaptop} /> Dashboard
         </Link>
@@ -77,12 +82,12 @@ const Navbar = (props) => {
 
   const teacherLinks = (
     <>
-      <li>
+      <li className={highlightedClass('/dashboard')}>
         <Link to='/dashboard'>
           <FontAwesomeIcon icon={faLaptop} /> Dashboard
         </Link>
       </li>
-      <li>
+      <li className={highlightedClass('/teacher')}>
         <Link to='/teacher'>
           <FontAwesomeIcon icon={faChalkboardTeacher} /> Teacher Page
         </Link>

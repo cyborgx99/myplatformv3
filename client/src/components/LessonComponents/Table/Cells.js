@@ -1,8 +1,7 @@
 import React from 'react';
 import InputWithDropArea from '../Input/InputWithDropArea';
 
-const Cells = ({ cellData, cellInput, socket, page, roomId }) => {
-  console.log(cellData);
+const Cells = ({ cellData, socket, page, roomId }) => {
   return (
     <>
       {cellData &&

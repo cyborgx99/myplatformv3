@@ -6,13 +6,16 @@ import { toggleModal } from '../../actions/modal';
 import SignUpForm from '../SignUp/SignUpForm';
 import ResetPassForm from '../ResetPassword/ResetPassForm';
 import { login } from '../../actions/auth';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
-const LoginForm = ({ from }) => {
+const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+
+  const { from } = location.state || { from: { pathname: '/' } };
 
   const onSubmit = async (e) => {
     e.preventDefault();

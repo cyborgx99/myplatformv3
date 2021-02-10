@@ -6,6 +6,7 @@ import profileReducer from './profile';
 import expenseReducer from './expenseTracker';
 import userReducer from './user';
 import calendarReducer from './calendar';
+import flashcardReducer from './flashcard';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   expenseTracker: expenseReducer,
   user: userReducer,
   calendar: calendarReducer,
+  flashcard: flashcardReducer,
 });
 
 export default rootReducer;

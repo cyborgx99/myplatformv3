@@ -11,7 +11,8 @@ const ProtectedRoute = ({ children, ...rest }) => {
       {...rest}
       render={(props) =>
         rest.roles.includes(auth.user.role) ||
-        props.match.params.studentId === auth.user._id ? (
+        (props.match.params.studentId &&
+          props.match.params.studentId === auth.user._id) ? (
           children
         ) : (
           <Redirect

@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PictureGallery from '../../../../../components/LessonComponents/PictureGallery/PictureGallery';
-import AudioPlayer from '../../../../../components/LessonComponents/AudioPlayer/AudioPlayer';
 import Table from '../../../../../components/LessonComponents/Table/Table';
-import {
-  answ,
-  P1Pictures,
-  P2tableData,
-  galleryData,
-  P2exerciseData,
-  P2exercise2Data,
-} from './A1A1Lesson1Assets';
+import { P2tableData, galleryData, P2exerciseData } from './A1A1Lesson1Assets';
 import Exercise from '../../../../../components/LessonComponents/Exercise/Exercise';
 
 console.log('A1A2Lesson1');
 
-const A1A2Lesson1 = ({ page, socket, roomId }) => {
+const A1A2Lesson1 = ({ page, socket, roomId, setTotalPages }) => {
+  useEffect(() => {
+    setTotalPages({
+      p: [1, 2, 3],
+      hw: [1],
+    });
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div className='lesson-pages-container scroll-style-3'>
       {page === 'page1' && (
@@ -24,8 +24,6 @@ const A1A2Lesson1 = ({ page, socket, roomId }) => {
           page={page}
           roomId={roomId}
           galleryData={galleryData}
-          answers={answ}
-          pictures={P1Pictures}
         />
       )}
       {page === 'page2' && (

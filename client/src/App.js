@@ -8,11 +8,13 @@ import { useEffect } from 'react';
 import { loadUser } from './actions/auth';
 import Spinner from './components/Spinner/Spinner';
 import SpinningModal from './components/Modal/SpinningModal';
-import Dashboard from './pages/Dashboard/Dashboard';
+
 import TeacherPage from './pages/Teacher/TeacherPage';
 import ProtectedRoute from './routing/ProtectedRoute';
 import FourOFour from './pages/FourOFour/FourOFour';
 import CombineLessons from './pages/AllLessons/CombineLessons';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Flashcards from './components/Flashcard/Flashcards';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,9 +49,16 @@ const App = () => {
         <ProtectedRoute
           exact
           path='/dashboard'
-          roles={['teacher', 'student', 'mastermind']}
+          roles={['teacher', 'mastermind', 'student']}
         >
           <Dashboard />
+        </ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path='/flashcards'
+          roles={['teacher', 'mastermind', 'student']}
+        >
+          <Flashcards />
         </ProtectedRoute>
         <ProtectedRoute exact path='/teacher' roles={['teacher', 'mastermind']}>
           <TeacherPage />
