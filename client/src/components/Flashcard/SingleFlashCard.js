@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { toggleModal } from '../../actions/modal';
 import CreateEditFlashcard from './CreateEditFlashcard';
 
-const SingleFlashCard = ({ flashcard }) => {
+const SingleFlashCard = ({ flashcard, index, currentCard, currentDeck }) => {
   const flashcardRef = useRef('');
 
   const dispatch = useDispatch();
@@ -35,10 +35,20 @@ const SingleFlashCard = ({ flashcard }) => {
     }
   };
 
+  const currentCardClass = () => {
+    if (index === currentCard) {
+      return ' current-flashcard ';
+    }
+  };
+
   return (
-    <div ref={flashcardRef} className='flashcard-item'>
+    <div ref={flashcardRef} className={`flashcard-item ${currentCardClass()}`}>
       <div className='flashcard-inner'>
         <div className='flashcard-front'>
+          <p className='deck-name scroll-style-3'>
+            {' '}
+            (Deck: {flashcard.deckName}){' '}
+          </p>
           <p className='scroll-style-3'> {flashcard.frontSide}</p>
           <FontAwesomeIcon
             className='flip-icon'
@@ -65,6 +75,9 @@ const SingleFlashCard = ({ flashcard }) => {
           <FontAwesomeIcon className='speak-icon' icon={faVolumeUp} />
         </div>
         <div className='flashcard-back'>
+          <p className='deck-name scroll-style-3'>
+            (Deck: {flashcard.deckName}){' '}
+          </p>
           <p className='scroll-style-3'> {flashcard.backSide} </p>
           <FontAwesomeIcon
             className='flip-icon'

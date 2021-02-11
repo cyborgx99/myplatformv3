@@ -47,29 +47,27 @@ const Notes = React.memo(({ socket, eventName }) => {
 
   const handleClick = (e) => {};
 
+  const selectedClass = (mode) => {
+    if (notesType === mode) {
+      return 'notes-selected';
+    }
+  };
+
   return (
     <div className='notes-container'>
       <div className='note-type'>
-        <label>
-          <input
-            type='radio'
-            name='shared'
-            checked={notesType === 'shared'}
-            value={notesType}
-            onChange={(e) => setNotesType(e.target.name)}
-          />
-          <span className='checkmark'></span> Shared
-        </label>
-        <label>
-          <input
-            type='radio'
-            checked={notesType === 'private'}
-            name='private'
-            value={notesType}
-            onChange={(e) => setNotesType(e.target.name)}
-          />
+        <button
+          onClick={(e) => setNotesType('shared')}
+          className={`notes-select ${selectedClass('shared')}`}
+        >
+          Shared
+        </button>
+        <button
+          onClick={(e) => setNotesType('private')}
+          className={`notes-select ${selectedClass('private')}`}
+        >
           Private
-        </label>
+        </button>
       </div>
 
       <button
