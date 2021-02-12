@@ -16,15 +16,36 @@ const Flashcards = () => {
   const [currentCard, setCurrentCard] = useState(1);
   const [currentDeck, setCurrentDeck] = useState('');
   const [cardMode, setCardMode] = useState('allCards');
+  const [gameMode, setGameMode] = useState('');
   const { flashcards } = useSelector((state) => state.flashcard);
 
   const deckArray = () => {
-    if (currentDeck) {
-      return flashcards.filter(
-        (flashcard) => flashcard.deckName === currentDeck
+    const filterByDeck = () => {
+      if (currentDeck) {
+        const singleDeck = flashcards.filter(
+          (flashcard) => flashcard.deckName === currentDeck
+        );
+        return singleDeck;
+      } else {
+        return flashcards;
+      }
+    };
+
+    if (gameMode) {
+      return filterByDeck().filter(
+        (flashcard) => flashcard.dateToShowCard < new Date().toISOString()
       );
     } else {
-      return flashcards;
+      return filterByDeck();
+    }
+  };
+
+  // remove duplicates of deckNames from the array of all flashcards
+  const deckNames = () => {
+    if (gameMode) {
+      return [...new Set(deckArray().map((flashcard) => flashcard.deckName))];
+    } else {
+      return [...new Set(flashcards.map((flashcard) => flashcard.deckName))];
     }
   };
 
@@ -40,14 +61,19 @@ const Flashcards = () => {
   };
 
   const moveCardsRight = () => {
-    if (currentCard !== deckArray().length) {
+    if (currentCard < deckArray().length) {
       setCurrentCard(currentCard + 1);
     }
   };
 
-  const selectedClass = (mode) => {
+  const selectedCardClass = (mode) => {
     if (cardMode === mode) {
       return 'selected-mode';
+    }
+  };
+  const selectedGameClass = (mode) => {
+    if (gameMode === mode) {
+      return 'selected-game-mode';
     }
   };
 
@@ -59,73 +85,93 @@ const Flashcards = () => {
 
   return (
     <div className='flashcard-container'>
-      <button
-        className='btn'
-        onClick={(e) => dispatch(toggleModal('open', <CreateEditFlashcard />))}
-      >
-        Add New Card
-      </button>
       <div className='flashcards'>
         <div className='mode-btn'>
           <button
             value=''
             name='allCards'
             onClick={(e) => onDeckChange(e)}
-            className={`select-mode ${selectedClass('allCards')}`}
+            className={`select-mode ${selectedCardClass('allCards')}`}
           >
             All Cards
           </button>
           <select
             value={currentDeck}
             name='deck'
-            className={`select-mode ${selectedClass('deck')}`}
+            className={`select-mode ${selectedCardClass('deck')}`}
             onChange={(e) => onDeckChange(e)}
           >
             <option></option>
-            {flashcards.map((flashcard, i) => (
-              <option key={i} value={flashcard.deckName}>
-                {flashcard.deckName}
+            {deckNames().map((flashcard, i) => (
+              <option key={i} value={flashcard}>
+                {flashcard}
               </option>
             ))}
           </select>
           <button
             name='inputMode'
-            onClick={(e) => setCardMode(e.target.name)}
-            className={`select-mode ${selectedClass('inputMode')}`}
+            onClick={(e) =>
+              setGameMode(e.target.name !== gameMode ? e.target.name : '')
+            }
+            className={`select-mode ${selectedGameClass('inputMode')}`}
           >
             Input Mode
           </button>
           <button
             name='voiceMode'
-            onClick={(e) => setCardMode(e.target.name)}
-            className={`select-mode ${selectedClass('voiceMode')}`}
+            onClick={(e) =>
+              setGameMode(e.target.name !== gameMode ? e.target.name : '')
+            }
+            className={`select-mode ${selectedGameClass('voiceMode')}`}
           >
             Voice Mode
           </button>
         </div>
-        {deckArray().map((flashcard, i) => (
-          <SingleFlashCard
-            key={i}
-            index={i + 1}
-            currentCard={currentCard}
-            flashcard={flashcard}
-          />
-        ))}
-        <div className='left-right-btns'>
-          <span>
-            <FontAwesomeIcon
-              color='#07a0c3'
-              onClick={(e) => moveCardsLeft(e)}
-              icon={faLongArrowAltLeft}
-            />{' '}
-            {`${currentCard} / ${deckArray().length}`}{' '}
-            <FontAwesomeIcon
-              color='#07a0c3'
-              onClick={(e) => moveCardsRight(e)}
-              icon={faLongArrowAltRight}
+        {deckArray().length === 0 ? (
+          <div className='flashcard-item current-flashcard'>
+            <div className='flashcard-inner'>
+              <div className='flashcard-front'>
+                <span>No cards for revision today</span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          deckArray().map((flashcard, i) => (
+            <SingleFlashCard
+              key={i}
+              index={i + 1}
+              gameMode={gameMode}
+              currentCard={currentCard}
+              setCurrentCard={setCurrentCard}
+              flashcard={flashcard}
             />
-          </span>
-        </div>
+          ))
+        )}
+        {deckArray().length !== 0 && (
+          <div className='left-right-btns'>
+            <span>
+              <FontAwesomeIcon
+                color='#07a0c3'
+                onClick={(e) => moveCardsLeft(e)}
+                icon={faLongArrowAltLeft}
+              />{' '}
+              {`${currentCard} / ${deckArray().length}`}{' '}
+              <FontAwesomeIcon
+                color='#07a0c3'
+                onClick={(e) => moveCardsRight(e)}
+                icon={faLongArrowAltRight}
+              />
+            </span>
+          </div>
+        )}
+        <button
+          className='btn'
+          onClick={(e) =>
+            dispatch(toggleModal('open', <CreateEditFlashcard />))
+          }
+        >
+          Add New Card
+        </button>
       </div>
     </div>
   );

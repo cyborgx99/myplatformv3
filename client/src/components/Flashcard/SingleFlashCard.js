@@ -1,21 +1,50 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faEdit,
   faSyncAlt,
   faTimes,
   faVolumeUp,
 } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert2';
-import { deleteFlashcard } from '../../actions/flashcard';
+import { deleteFlashcard, updateFlashcard } from '../../actions/flashcard';
 import { useDispatch } from 'react-redux';
 import { toggleModal } from '../../actions/modal';
 import CreateEditFlashcard from './CreateEditFlashcard';
 
-const SingleFlashCard = ({ flashcard, index, currentCard, currentDeck }) => {
+const SingleFlashCard = ({
+  flashcard,
+  index,
+  currentCard,
+  gameMode,
+  setCurrentCard,
+}) => {
   const flashcardRef = useRef('');
-
   const dispatch = useDispatch();
+
+  const [inputAnswer, setInputAnswer] = useState('');
+
+  useEffect(() => {
+    if (
+      inputAnswer.toLocaleLowerCase() === flashcard.backSide.toLocaleLowerCase()
+    ) {
+      swal
+        .fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Correct!',
+          showConfirmButton: false,
+          timer: 2000,
+        })
+        .then((result) => {
+          /* Read more about handling dismissals below */
+          const flashcardObject = {
+            dateToShowCard: addDays(flashcard.showCardInDays + 1 || 1),
+            showCardInDays: flashcard.showCardInDays + 1 || 1,
+          };
+          dispatch(updateFlashcard(flashcardObject, flashcard._id));
+        });
+    }
+  }, [inputAnswer]);
 
   const flipCard = (e) => {
     e.stopPropagation();
@@ -32,6 +61,7 @@ const SingleFlashCard = ({ flashcard, index, currentCard, currentDeck }) => {
     const id = flashcard._id;
     if (confirmed.isConfirmed === true) {
       dispatch(deleteFlashcard(id));
+      setCurrentCard(currentCard - 1);
     }
   };
 
@@ -41,23 +71,89 @@ const SingleFlashCard = ({ flashcard, index, currentCard, currentDeck }) => {
     }
   };
 
+  const addDays = (days) => {
+    return new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+  };
+
+  const correctAnswer = () => {
+    if (inputAnswer === flashcard.backSide) {
+      return true;
+    }
+  };
+
+  const handleDeckClick = () => {
+    dispatch(
+      toggleModal('open', <CreateEditFlashcard flashCardToUpdate={flashcard} />)
+    );
+  };
+
+  const SpeechRecogMic = () => {
+    window.SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = new window.SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.start();
+    // recognition.onstart = (e) => {
+    //   setActiveMicroPhone(true);
+    // };
+    // recognition.onend = (e) => {
+    //   setActiveMicroPhone(false);
+    // };
+    recognition.onresult = (e) => {
+      const msg = e.results[0][0].transcript;
+      setInputAnswer(msg);
+    };
+  };
+
   return (
     <div ref={flashcardRef} className={`flashcard-item ${currentCardClass()}`}>
       <div className='flashcard-inner'>
         <div className='flashcard-front'>
-          <p className='deck-name scroll-style-3'>
+          <p
+            onClick={() => handleDeckClick()}
+            className='deck-name scroll-style-3'
+          >
             {' '}
             (Deck: {flashcard.deckName}){' '}
           </p>
           <p className='scroll-style-3'> {flashcard.frontSide}</p>
+          {gameMode === 'inputMode' && (
+            <input
+              disabled={correctAnswer()}
+              value={inputAnswer}
+              onChange={(e) => setInputAnswer(e.target.value)}
+              className={correctAnswer() && 'correct-answer'}
+              type='text'
+            />
+          )}
+
           <FontAwesomeIcon
             className='flip-icon'
             onClick={(e) => flipCard(e)}
             icon={faSyncAlt}
           />
           <FontAwesomeIcon
-            className='edit-icon'
-            onClick={(e) =>
+            className='delete-icon'
+            onClick={(e) => deleteFlashcardById(e)}
+            icon={faTimes}
+          />
+          {gameMode === 'voiceMode' && (
+            <>
+              <a className={correctAnswer() && 'correct-answer'}>
+                {' '}
+                {inputAnswer || 'Speak up'}{' '}
+              </a>
+              <FontAwesomeIcon
+                onClick={(e) => SpeechRecogMic(e)}
+                className='speak-icon'
+                icon={faVolumeUp}
+              />
+            </>
+          )}
+        </div>
+        <div className='flashcard-back'>
+          <p
+            onClick={() =>
               dispatch(
                 toggleModal(
                   'open',
@@ -65,17 +161,8 @@ const SingleFlashCard = ({ flashcard, index, currentCard, currentDeck }) => {
                 )
               )
             }
-            icon={faEdit}
-          />
-          <FontAwesomeIcon
-            className='delete-icon'
-            onClick={(e) => deleteFlashcardById(e)}
-            icon={faTimes}
-          />
-          <FontAwesomeIcon className='speak-icon' icon={faVolumeUp} />
-        </div>
-        <div className='flashcard-back'>
-          <p className='deck-name scroll-style-3'>
+            className='deck-name scroll-style-3'
+          >
             (Deck: {flashcard.deckName}){' '}
           </p>
           <p className='scroll-style-3'> {flashcard.backSide} </p>
@@ -85,23 +172,10 @@ const SingleFlashCard = ({ flashcard, index, currentCard, currentDeck }) => {
             icon={faSyncAlt}
           />
           <FontAwesomeIcon
-            className=' edit-icon'
-            onClick={(e) =>
-              dispatch(
-                toggleModal(
-                  'open',
-                  <CreateEditFlashcard flashCardToUpdate={flashcard} />
-                )
-              )
-            }
-            icon={faEdit}
-          />
-          <FontAwesomeIcon
             className=' delete-icon'
             onClick={(e) => deleteFlashcardById(e)}
             icon={faTimes}
           />
-          <FontAwesomeIcon className=' speak-icon' icon={faVolumeUp} />
         </div>
       </div>
     </div>

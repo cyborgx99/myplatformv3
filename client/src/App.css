@@ -47,10 +47,10 @@ a {
   color: white;
   outline: none;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.25rem;
   font-size: 1.05rem;
   border-radius: 8px;
-  margin: 0.3rem 0rem;
+  margin: 0.2rem 0rem;
 }
 .btn:hover {
   color: white;
@@ -727,17 +727,11 @@ a {
   flex-grow: 0;
 }
 
-.deck-name {
-  font-size: 0.85rem;
-  color: #888;
-}
-
 .flashcard-front,
 .flashcard-back {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-
+  justify-content: space-around;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -751,9 +745,21 @@ a {
   overflow-y: auto;
 }
 
-.flashcard-front svg,
-.flashcard-back svg {
+p.deck-name {
+  margin-top: 5px;
+  font-size: 0.85rem;
+  color: #888;
+  cursor: pointer;
+  display: inline;
+  align-self: center;
+  padding: 0;
+}
+
+.flashcard-front span {
   position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .flashcard-front {
@@ -762,20 +768,17 @@ a {
 }
 
 .flip-icon {
+  position: absolute;
   right: 8px;
   top: 5px;
 }
 .speak-icon {
-  right: 8px;
-  bottom: 5px;
-}
-
-.edit-icon {
-  left: 8px;
-  bottom: 5px;
+  align-self: center;
+  font-size: 1.5rem;
 }
 
 .delete-icon {
+  position: absolute;
   left: 8px;
   top: 5px;
 }
@@ -793,7 +796,7 @@ a {
 .select-mode {
   display: inline-block;
   padding: 4px;
-  width: 90px;
+  width: 95px;
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 1px;
@@ -814,7 +817,12 @@ a {
 }
 
 .selected-mode {
-  background-image: linear-gradient(298deg, blue, var(--primary-color));
+  background-image: linear-gradient(98deg, blue, var(--primary-color));
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.selected-game-mode {
+  background-image: linear-gradient(98deg, orange, red);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
 

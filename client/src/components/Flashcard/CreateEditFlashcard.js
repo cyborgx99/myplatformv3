@@ -9,22 +9,18 @@ const CreateEditFlashcard = ({ flashCardToUpdate }) => {
 
   const dispatch = useDispatch();
 
-  const updateFlashcardById = async (e) => {
+  const handleFlashcard = () => {
     const flashcardObject = {
       deckName,
       frontSide,
       backSide,
     };
-    const id = flashCardToUpdate._id;
-    dispatch(updateFlashcard(flashcardObject, id));
-  };
-  const createNewFlashCard = () => {
-    const flashcardObject = {
-      deckName,
-      frontSide,
-      backSide,
-    };
-    dispatch(createNewCard(flashcardObject));
+    if (flashCardToUpdate) {
+      const id = flashCardToUpdate._id;
+      dispatch(updateFlashcard(flashcardObject, id));
+    } else {
+      dispatch(createNewCard(flashcardObject));
+    }
   };
 
   return (
@@ -59,11 +55,11 @@ const CreateEditFlashcard = ({ flashCardToUpdate }) => {
         onChange={(e) => setBackSide(e.target.value)}
       />
       {flashCardToUpdate ? (
-        <button className='btn' onClick={(e) => updateFlashcardById()}>
+        <button className='btn' onClick={(e) => handleFlashcard()}>
           Update FlashCard
         </button>
       ) : (
-        <button className='btn' onClick={(e) => createNewFlashCard()}>
+        <button className='btn' onClick={(e) => handleFlashcard()}>
           Add New FlashCard
         </button>
       )}

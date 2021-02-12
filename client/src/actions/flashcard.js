@@ -97,7 +97,10 @@ export const deleteFlashcard = (id) => async (dispatch) => {
 
 export const updateFlashcard = (flashcardObject, id) => async (dispatch) => {
   try {
-    dispatch(toggleSpinner('on'));
+    if (!flashcardObject.dateToShowCard) {
+      dispatch(toggleSpinner('on'));
+    }
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -114,10 +117,12 @@ export const updateFlashcard = (flashcardObject, id) => async (dispatch) => {
       type: FLASHCARD_UPDATE_SUCCESS,
       payload: data.data,
     });
-    swal.fire({
-      icon: 'success',
-      text: 'Flashcard has been updated',
-    });
+    if (!flashcardObject.dateToShowCard) {
+      swal.fire({
+        icon: 'success',
+        text: 'Flashcard has been updated',
+      });
+    }
   } catch (error) {
     // console.log(error.response.data.errors);
     dispatch({

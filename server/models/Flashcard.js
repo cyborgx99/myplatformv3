@@ -22,6 +22,13 @@ const FlashcardSchema = mongoose.Schema(
       trim: true,
       type: String,
     },
+    dateToShowCard: {
+      type: Date,
+      default: new Date(),
+    },
+    showCardInDays: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
