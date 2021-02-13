@@ -16,8 +16,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import swal from 'sweetalert2';
 import { toggleModal } from '../../actions/modal';
-import { getCurrentProfile } from '../../actions/profile';
+import { deleteProfile, getCurrentProfile } from '../../actions/profile';
 import Spinner from '../../components/Spinner/Spinner';
 import { formatDate } from '../../utility/expenseTrackerHelpers';
 import CreateUpdateProfile from './CreateUpdateProfile';
@@ -30,6 +31,21 @@ const Profile = () => {
     dispatch(getCurrentProfile());
     // eslint-disable-next-line
   }, []);
+
+  const deleteProfileHandler = async () => {
+    const result = await swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it.',
+    });
+
+    if (result.isConfirmed === true) {
+      dispatch(deleteProfile(profile.profileId));
+    }
+  };
 
   if (profile.loading === true) return <Spinner />;
 
@@ -103,37 +119,46 @@ const Profile = () => {
           <p>{profile && profile.bio}</p>
         </div>
       )}
+      <div className='profile-social-icons'>
+        {profile && profile.instagram && (
+          <a href={profile.instagram} target='_blank' rel='noopener noreferrer'>
+            <FontAwesomeIcon icon={faInstagram} color='#E1306C' />
+          </a>
+        )}
 
-      {profile && profile.instagram && (
-        <a href={profile.instagram} target='_blank' rel='noopener noreferrer'>
-          <FontAwesomeIcon icon={faInstagram} color='#E1306C' />
-        </a>
-      )}
+        {profile && profile.facebook && (
+          <a href={profile.facebook} target='_blank' rel='noopener noreferrer'>
+            <FontAwesomeIcon icon={faFacebook} color='#4267B2' />
+          </a>
+        )}
 
-      {profile && profile.facebook && (
-        <a href={profile.facebook} target='_blank' rel='noopener noreferrer'>
-          <FontAwesomeIcon icon={faFacebook} color='#4267B2' />
-        </a>
-      )}
+        {profile && profile.linkedin && (
+          <a href={profile.linkedin} target='_blank' rel='noopener noreferrer'>
+            <FontAwesomeIcon icon={faLinkedin} color='#0e76a8' />
+          </a>
+        )}
 
-      {profile && profile.linkedin && (
-        <a href={profile.linkedin} target='_blank' rel='noopener noreferrer'>
-          <FontAwesomeIcon icon={faLinkedin} color='#0e76a8' />
-        </a>
-      )}
+        {profile && profile.twitter && (
+          <a href={profile.twitter} target='_blank' rel='noopener noreferrer'>
+            <FontAwesomeIcon icon={faTwitter} color='#1DA1F2' />
+          </a>
+        )}
+      </div>
 
-      {profile && profile.twitter && (
-        <a href={profile.twitter} target='_blank' rel='noopener noreferrer'>
-          <FontAwesomeIcon icon={faTwitter} color='#1DA1F2' />
-        </a>
-      )}
       <div className='profile-btn-container'>
         <button
           onClick={() => dispatch(toggleModal('open', <CreateUpdateProfile />))}
         >
-          Edit Profile
+          {profile.profileId ? 'Edit Profile' : 'Create Profile'}
         </button>
-        <button className='delete-btn'>Delete Profile</button>
+        {profile.profileId && (
+          <button
+            onClick={(e) => deleteProfileHandler()}
+            className='delete-btn'
+          >
+            Delete Profile
+          </button>
+        )}
       </div>
     </div>
   );

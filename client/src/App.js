@@ -46,6 +46,9 @@ const App = () => {
         <Route exact path='/confirm/:token'>
           <LandingPage />
         </Route>
+        <Route exact path='/reset-password/:resetPassToken'>
+          <LandingPage />
+        </Route>
         <ProtectedRoute
           exact
           path='/dashboard'

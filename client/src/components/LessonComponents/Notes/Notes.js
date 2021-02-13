@@ -75,7 +75,10 @@ const Notes = React.memo(({ socket, eventName }) => {
         style={{ display: 'none' }}
         onClick={() => handleClick()}
       ></button>
-      <div className='notes-btn-container'>
+      <div
+        onMouseDown={(e) => e.preventDefault()}
+        className='notes-btn-container'
+      >
         <NotesButton className={'badge badge-primary'} cmd='italic' name='I' />
         <NotesButton className={'badge badge-primary'} cmd='bold' name='B' />
         <NotesButton

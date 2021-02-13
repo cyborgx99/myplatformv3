@@ -10,7 +10,7 @@
   --green-main: #beffd9;
   --green-hover: #5e981f;
   --success-color: #dfffe6;
-  --secondary-color: #dbebff;
+  --secondary-color: #a2ccff;
   --mainTransition: all 0.3s ease-in-out;
   --letterSpacing: 0.5rem;
 }
@@ -47,7 +47,7 @@ a {
   color: white;
   outline: none;
   width: 100%;
-  padding: 0.25rem;
+  padding: 0.35rem;
   font-size: 1.05rem;
   border-radius: 8px;
   margin: 0.2rem 0rem;
@@ -88,7 +88,7 @@ a {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px;
+  padding: 12px;
   border: 0px solid #888;
   width: fit-content;
 }
@@ -305,7 +305,7 @@ a {
 .credentials-content textarea {
   border-radius: 5px;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.4rem;
   margin: 0.3rem 0rem;
   font-size: 1.05rem;
   resize: none;
@@ -400,12 +400,11 @@ a {
 }
 
 .my-profile-info {
-  align-self: stretch;
-  max-width: 24rem;
+  /* align-self: stretch; */
+  width: 24rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -442,7 +441,7 @@ a {
   gap: 0.5rem;
 }
 .profile-btn-container button {
-  width: 50%;
+  flex-grow: 1;
   padding: 5px;
   border-radius: 5px;
   background-color: var(--primary-color);
@@ -459,12 +458,17 @@ a {
   background-color: var(--danger-hover);
 }
 
+.profile-social-icons {
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.3rem;
+}
+
 /* Profile END */
 
 /* Expense tracker */
 
 .expense-container {
-  align-self: stretch;
   background-color: white;
   flex: 0 0 24rem;
   border-radius: 5px;
@@ -501,7 +505,7 @@ a {
 }
 
 .expense-positive {
-  background-color: var(--success-color);
+  background-color: var(--light-color);
 }
 
 .expense-negative {
@@ -540,14 +544,20 @@ a {
 .create-update-transaction textarea,
 .create-update-transaction select {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.4rem;
   margin: 0.3rem 0rem;
   font-size: 1.05rem;
   resize: none;
+  border-radius: 5px;
+}
+.create-update-transaction input:focus,
+.create-update-transaction textarea:focus,
+.create-update-transaction select:focus {
+  box-shadow: 0 0 3pt 2pt var(--primary-color);
 }
 
 .positive-color {
-  color: var(--success-color);
+  color: var(--light-color);
 }
 .negative-color {
   color: var(--danger-color);
@@ -585,7 +595,7 @@ a {
 
 /* CALENDAR */
 .fc-timegrid-slot {
-  height: 3.6em !important ;
+  height: 4em !important ;
   border-bottom: 0 !important;
 }
 
@@ -610,9 +620,9 @@ a {
 }
 
 .swipeViewSection {
-  width: 880px;
+  width: 980px;
   height: 100%;
-  flex: 0 0 880px;
+  flex: 0 0 980px;
   scroll-snap-align: start;
 }
 
@@ -632,6 +642,12 @@ a {
   font-size: 1.05rem;
   resize: none;
   border: 1px solid black;
+}
+
+.create-calendar-event input:focus,
+.create-calendar-event textarea:focus,
+.create-calendar-event select:focus {
+  box-shadow: 0 0 3pt 2pt var(--primary-color);
 }
 
 /* CALENDAR END */
@@ -768,6 +784,7 @@ p.deck-name {
 }
 
 .flip-icon {
+  cursor: pointer;
   position: absolute;
   right: 8px;
   top: 5px;
@@ -778,6 +795,7 @@ p.deck-name {
 }
 
 .delete-icon {
+  cursor: pointer;
   position: absolute;
   left: 8px;
   top: 5px;

@@ -10,6 +10,8 @@ import {
   USER_CONFIRM_EMAIL_FAIL,
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_FAIL,
+  RESET_PASSWORD_REQUEST_SUCCESS,
+  RESET_PASSWORD_REQUEST_FAIL,
 } from './types';
 import swal from 'sweetalert2';
 import { toggleModal } from './modal';
@@ -174,6 +176,82 @@ export const loadUser = () => async (dispatch) => {
     //   icon: 'warning',
     //   html: error.response.data.errors.split(',').join('<br>'),
     // });
+  }
+};
+
+export const requestResetPassword = (email) => async (dispatch) => {
+  try {
+    dispatch(toggleSpinner('on'));
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const { data } = await axios.put(
+      `/api/v1/auth/reset-request`,
+      { email },
+      config
+    );
+    dispatch({
+      type: RESET_PASSWORD_REQUEST_SUCCESS,
+      payload: data.data,
+    });
+    dispatch(toggleSpinner('off'));
+    swal.fire({
+      icon: 'success',
+      text: 'Request has been sent',
+    });
+  } catch (error) {
+    // console.log(error.response.data.errors);
+    dispatch({
+      type: RESET_PASSWORD_REQUEST_FAIL,
+      payload:
+        error.response && error.response.data.errors
+          ? error.response.data.errors
+          : error.message,
+    });
+    dispatch(toggleSpinner('off'));
+  }
+};
+
+export const setNewPasswordAction = (resetPasswordLink, newPassword) => async (
+  dispatch
+) => {
+  try {
+    dispatch(toggleSpinner('on'));
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const { data } = await axios.put(
+      `/api/v1/auth/reset-password`,
+      { resetPasswordLink, newPassword },
+      config
+    );
+    dispatch({
+      type: RESET_PASSWORD_REQUEST_SUCCESS,
+      payload: data.data,
+    });
+    swal.fire({
+      icon: 'success',
+      text: 'New Password Has Been Set',
+    });
+    dispatch(toggleSpinner('off'));
+  } catch (error) {
+    // console.log(error.response.data.errors);
+    dispatch({
+      type: RESET_PASSWORD_REQUEST_FAIL,
+      payload:
+        error.response && error.response.data.errors
+          ? error.response.data.errors
+          : error.message,
+    });
+    swal.fire({
+      icon: 'warning',
+      html: error.response.data.errors.split(',').join('<br>'),
+    });
+    dispatch(toggleSpinner('off'));
   }
 };
 

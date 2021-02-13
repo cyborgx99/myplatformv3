@@ -10,6 +10,7 @@ import {
   faSignOutAlt,
   faLaptop,
   faChalkboardTeacher,
+  faBookOpen,
 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from '../../pages/Login/LoginForm';
@@ -74,6 +75,11 @@ const Navbar = (props) => {
           <FontAwesomeIcon icon={faLaptop} /> Dashboard
         </Link>
       </li>
+      <li className={highlightedClass('/flashcards')}>
+        <Link to='/flashcards'>
+          <FontAwesomeIcon icon={faBookOpen} /> Flashcards
+        </Link>
+      </li>
       <li onClick={() => logoutWithConfirm()}>
         <FontAwesomeIcon icon={faSignOutAlt} /> Logout
       </li>
@@ -90,6 +96,11 @@ const Navbar = (props) => {
       <li className={highlightedClass('/teacher')}>
         <Link to='/teacher'>
           <FontAwesomeIcon icon={faChalkboardTeacher} /> Teacher Page
+        </Link>
+      </li>
+      <li className={highlightedClass('/flashcards')}>
+        <Link to='/flashcards'>
+          <FontAwesomeIcon icon={faBookOpen} /> Flashcards
         </Link>
       </li>
       <li onClick={() => logoutWithConfirm()}>

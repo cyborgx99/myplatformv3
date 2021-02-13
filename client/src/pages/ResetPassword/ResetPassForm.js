@@ -2,6 +2,7 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { requestResetPassword } from '../../actions/auth';
 import { toggleModal } from '../../actions/modal';
 import LoginForm from '../Login/LoginForm';
 import SignUpForm from '../SignUp/SignUpForm';
@@ -14,6 +15,11 @@ const ResetPassForm = () => {
   };
 
   const dispatch = useDispatch();
+
+  const requestPasswordReset = () => {
+    dispatch(requestResetPassword(email));
+    setEmail('');
+  };
 
   return (
     <div className='credentials-content'>
@@ -33,7 +39,12 @@ const ResetPassForm = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <button type='submit' className='btn' value='Request'>
+        <button
+          onClick={(e) => requestPasswordReset()}
+          type='button'
+          className='btn'
+          value='Request'
+        >
           Request
         </button>
         <p>

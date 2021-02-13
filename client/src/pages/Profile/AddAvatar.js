@@ -32,7 +32,12 @@ const AddAvatar = ({ newAvatar, currentAvatar, setNewAvatar }) => {
     <div className='add-avatar-container'>
       <img
         onClick={(e) => handleClick(e)}
-        src={newAvatar ? newAvatar : currentAvatar}
+        src={
+          newAvatar
+            ? newAvatar
+            : currentAvatar ||
+              'https://res.cloudinary.com/cyborgx999/image/upload/v1600122730/sayprivet/ujjxn9rmbuknai9u5vao.png'
+        }
         alt='avatar'
       />
       <input
@@ -48,8 +53,7 @@ const AddAvatar = ({ newAvatar, currentAvatar, setNewAvatar }) => {
 };
 
 AddAvatar.defaultProps = {
-  currentAvatar:
-    'https://res.cloudinary.com/cyborgx999/image/upload/v1600122730/sayprivet/ujjxn9rmbuknai9u5vao.png',
+  currentAvatar: '',
 };
 
 export default AddAvatar;

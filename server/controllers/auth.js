@@ -169,7 +169,7 @@ export const resetPasswordRequest = asyncHandler(async (req, res, next) => {
 
 export const setNewPassword = asyncHandler(async (req, res, next) => {
   const { resetPasswordLink, newPassword } = req.body;
-
+  console.log('1', resetPasswordLink);
   jwt.verify(
     resetPasswordLink,
     process.env.JWT_RESET_PASSWORD,

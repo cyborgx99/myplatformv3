@@ -5,11 +5,12 @@ import swal from 'sweetalert2';
 import { confirmEmail } from '../../actions/auth';
 import { toggleModal } from '../../actions/modal';
 import LoginForm from '../Login/LoginForm';
+import SetNewPassword from '../ResetPassword/SetNewPassword';
 
 const LandingPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { token } = useParams();
+  const { token, resetPassToken } = useParams();
 
   const auth = useSelector((state) => state.auth);
 
@@ -20,6 +21,16 @@ const LandingPage = () => {
     if (token) {
       dispatch(confirmEmail(token));
     }
+
+    if (resetPassToken) {
+      dispatch(
+        toggleModal(
+          'open',
+          <SetNewPassword resetPasswordLink={resetPassToken} />
+        )
+      );
+    }
+
     if (red === 'red' && !auth.user.isAuthenticated) {
       dispatch(toggleModal('open', <LoginForm from={from} />));
     } else if (red === 'red') {
@@ -32,7 +43,7 @@ const LandingPage = () => {
     // eslint-disable-next-line
   }, []);
 
-  if (token) {
+  if (token || resetPassToken) {
     return <Redirect to='/' />;
   }
 
