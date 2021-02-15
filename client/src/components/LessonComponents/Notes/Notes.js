@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import NotesButton from './NotesButton';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
+import { getAllNotes, saveNotes } from '../../../actions/lesson';
+import { useDispatch } from 'react-redux';
 
 const Notes = React.memo(({ socket, eventName }) => {
   const [sharedNotes, setSharedNotes] = useState('');
@@ -10,7 +13,14 @@ const Notes = React.memo(({ socket, eventName }) => {
 
   const button = useRef('');
 
+  const dispatch = useDispatch();
+
+  const { pathname } = useLocation();
+  const lessonName = pathname;
+
   useEffect(() => {
+    dispatch(getAllNotes(lessonName));
+
     if (socket) {
       socket.on(eventName, (value) => {
         setSharedNotes(value);
@@ -47,6 +57,14 @@ const Notes = React.memo(({ socket, eventName }) => {
 
   const handleClick = (e) => {};
 
+  const saveNotesHandler = (e) => {
+    const notesObject = {
+      lessonName,
+      sharedNotes,
+    };
+    dispatch(saveNotes(notesObject));
+  };
+
   const selectedClass = (mode) => {
     if (notesType === mode) {
       return 'notes-selected';
@@ -56,6 +74,9 @@ const Notes = React.memo(({ socket, eventName }) => {
   return (
     <div className='notes-container'>
       <div className='note-type'>
+        <button onClick={(e) => saveNotesHandler()} className={`notes-select`}>
+          Save
+        </button>
         <button
           onClick={(e) => setNotesType('shared')}
           className={`notes-select ${selectedClass('shared')}`}

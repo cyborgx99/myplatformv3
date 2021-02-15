@@ -4,15 +4,14 @@ const LessonSchema = new mongoose.Schema({
   lessonName: {
     // a1a1/lesson1/123123
     type: String,
+    unique: true,
   },
-  page: {
-    number: {
-      type: String,
+  pages: [
+    {
+      pageQuestion: String,
+      pageQuestionData: String,
     },
-    data: {
-      type: String,
-    },
-  },
+  ],
   privateNotes: {
     type: String,
   },

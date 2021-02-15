@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDrop } from 'react-dnd';
+import { savePageData } from '../../../actions/lesson';
+import { useDispatch } from 'react-redux';
 
 const InputWithDropArea = ({
   socket,
@@ -13,12 +15,34 @@ const InputWithDropArea = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     socket.on(eventName, (msg) => {
       setInputValue(msg);
     });
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (
+      answers
+        .map((v) => v.toLowerCase())
+        .includes(inputValue.toLocaleLowerCase())
+    ) {
+      const pages = {
+        pageQuestion: `${page}${eventName}`,
+        pageQuestionData: inputValue,
+      };
+
+      const pagesObject = {
+        lessonName: roomId,
+        pages,
+      };
+
+      dispatch(savePageData(pagesObject));
+    }
+  }, [inputValue]);
 
   const [{ canDrop }, dropRef] = useDrop({
     accept: 'text',

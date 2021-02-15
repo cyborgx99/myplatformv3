@@ -80,7 +80,7 @@ export const P2tableData = {
     ],
     [
       { text: 'Stand' },
-      { ans: ['Stands'], eventName: 'table1' },
+      { ans: ['Stand'], eventName: 'table1' },
       { ans: ['Stood'], eventName: 'table2' },
       { ans: ['Stood'], eventName: 'table3' },
       { ans: ['Standing'], eventName: 'table4' },
