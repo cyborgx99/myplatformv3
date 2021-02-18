@@ -185,7 +185,7 @@ const VideoCall = React.memo(({ roomId }) => {
   console.log('VideoCall');
 
   return (
-    <div className='videoChat-container'>
+    <>
       <div className='videoChat-buttons'>
         <button onClick={(e) => toggleMic(e)}>
           {mutedMic ? (
@@ -220,7 +220,7 @@ const VideoCall = React.memo(({ roomId }) => {
           ></img>
         )}
       </div>
-    </div>
+    </>
   );
 });
 

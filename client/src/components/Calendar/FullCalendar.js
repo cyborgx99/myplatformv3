@@ -25,25 +25,21 @@ const FullCalendarComponent = () => {
   }, []);
 
   const dropToChangeTime = (e) => {
-    //   one time event time update
+    const eventObject = {};
+    const id = e.event.extendedProps._id;
+
     if (e.event._def.recurringDef !== null) {
-      const eventObject = {
-        startTime: e.event.start.toString().slice(16, 21),
-        endTime: e.event.end.toString().slice(16, 21),
-        daysOfWeek: [e.event.start.getDay()],
-      };
-      const id = e.event.extendedProps._id;
-      dispatch(updateEventTime(eventObject, id));
+      //   one time event time update
+      eventObject.startTime = e.event.start.toString().slice(16, 21);
+      eventObject.endTime = e.event.end.toString().slice(16, 21);
+      eventObject.daysOfWeek = [e.event.start.getDay()];
     } else {
       // recurring event time update
-      const eventObject = {
-        start: e.event.start,
-        end: e.event.end,
-        daysOfWeek: null,
-      };
-      const id = e.event.extendedProps._id;
-      dispatch(updateEventTime(eventObject, id));
+      eventObject.start = e.event.start;
+      eventObject.end = e.event.end;
+      eventObject.daysOfWeek = null;
     }
+    dispatch(updateEventTime(eventObject, id));
   };
 
   const deleteOnClick = async (e) => {

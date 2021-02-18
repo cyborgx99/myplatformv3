@@ -36,19 +36,15 @@ export const lessonSaveUpdateNotes = asyncHandler(async (req, res, next) => {
 // @desc Get all lesson notes
 // @route GET /api/v1/lesson/get-notes/:lessonName
 // @access Private
-export const getLessonNotes = asyncHandler(async (req, res, next) => {
+export const getCurrentLessonData = asyncHandler(async (req, res, next) => {
   // check if lesson exists
-  console.log('getnotes');
+  console.log('Get Current Lesson Data');
   const foundLesson = await Lesson.findOne({
     lessonName: req.body.lessonName,
   });
-  const notes = {
-    sharedNotes: foundLesson.sharedNotes || '',
-    privateNotes: foundLesson.privateNotes || '',
-  };
   res.status(200).json({
     success: true,
-    data: notes,
+    data: foundLesson,
   });
 });
 
@@ -56,48 +52,42 @@ export const getLessonNotes = asyncHandler(async (req, res, next) => {
 // @route POST /api/v1/lesson/save-pages
 // @access Private
 export const lessonSaveUpdatePages = asyncHandler(async (req, res, next) => {
-  // we expect lessonName, pages: { pageQuestion: String, pageQuestionData: String}
+  // We expect lessonName: String, pages: { pageQuestion: String, pageQuestionData: String}
 
-  // check if lesson exists
+  // Check if lesson exists
   let findLesson = await Lesson.findOne({ lessonName: req.body.lessonName });
 
   if (!findLesson) {
-    // create and return new if not found
+    // Create and return new if not found
     const lesson = await Lesson.create(req.body);
     return res.status(201).json({
       success: true,
       data: lesson,
     });
   } else {
-    //try to update if pageQuestion is already in the db
-    findLesson = await Lesson.findOneAndUpdate(
-      {
-        lessonName: req.body.lessonName,
-        'pages.pageQuestion': req.body.pages.pageQuestion,
-      },
-      {
-        'pages.$.pageQuestionData': req.body.pages.pageQuestionData,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    // Check if a (unique) question is alredy in the array. If it isn't, add it.
+    if (
+      findLesson.pages
+        .map((page) => page.pageQuestion)
+        .indexOf(req.body.pages.pageQuestion) === -1
+    ) {
+      findLesson.pages.push(req.body.pages);
+      await findLesson.save();
 
-    if (findLesson !== null) {
-      // if it's not null, it has been found and updated, so we return it.
       return res.status(200).json({
         success: true,
         data: findLesson,
       });
     } else {
-      // pageQuestion is not in the db, so we add it to the array and return it.
+      // Rare case (we should not update anything unless the original lesson asset has been changed)
+      //Update if pageQuestion is already in the db
       findLesson = await Lesson.findOneAndUpdate(
         {
           lessonName: req.body.lessonName,
+          'pages.pageQuestion': req.body.pages.pageQuestion,
         },
         {
-          $push: { pages: req.body.pages },
+          'pages.$.pageQuestionData': req.body.pages.pageQuestionData,
         },
         {
           new: true,

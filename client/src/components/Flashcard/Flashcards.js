@@ -138,7 +138,7 @@ const Flashcards = () => {
         ) : (
           deckArray().map((flashcard, i) => (
             <SingleFlashCard
-              key={i}
+              key={flashcard._id}
               index={i + 1}
               gameMode={gameMode}
               currentCard={currentCard}

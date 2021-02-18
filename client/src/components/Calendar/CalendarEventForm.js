@@ -17,27 +17,21 @@ const CalendarEventForm = ({ event }) => {
   }, []);
 
   const addCalendarEvent = () => {
+    const eventObject = {
+      teacherId: auth.user._id,
+      studentId: newEvent.split('/', 2)[1],
+      title: newEvent.split('/', 2)[0],
+    };
     if (eventType === 'recurring') {
-      const eventObject = {
-        teacherId: auth.user._id,
-        studentId: newEvent.split('/', 2)[1],
-        title: newEvent.split('/', 2)[0],
-        startTime: event.start.toString().slice(16, 21),
-        endTime: event.end.toString().slice(16, 21),
-        daysOfWeek: [event.start.getDay()],
-      };
-      dispatch(createEvent(eventObject));
+      eventObject.startTime = event.start.toString().slice(16, 21);
+      eventObject.endTime = event.end.toString().slice(16, 21);
+      eventObject.daysOfWeek = [event.start.getDay()];
     } else {
-      const eventObject = {
-        teacherId: auth.user._id,
-        studentId: newEvent.split('/', 2)[1],
-        title: newEvent.split('/', 2)[0],
-        start: event.start,
-        end: event.end,
-        daysOfWeek: null,
-      };
-      dispatch(createEvent(eventObject));
+      eventObject.start = event.start;
+      eventObject.end = event.end;
+      eventObject.daysOfWeek = null;
     }
+    dispatch(createEvent(eventObject));
   };
 
   return (

@@ -1,27 +1,14 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
+import { useSelector } from 'react-redux';
 
-const DragItem = ({ text, page, question, currentCompleted }) => {
-  const savedOpacity = () => {
-    if (
-      currentCompleted &&
-      currentCompleted[page] &&
-      currentCompleted[page][question]
-    ) {
-      return ' drag-opacity ';
-    }
-  };
+const DragItem = ({ text }) => {
+  const lesson = useSelector((state) => state.lesson);
 
-  const cannotDrag = () => {
-    if (
-      currentCompleted &&
-      currentCompleted[page] &&
-      currentCompleted[page][question]
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+  const setCanDragAndOpacity = () => {
+    return lesson.pages.filter((page) => page.pageQuestionData === text)[0]
+      ? true
+      : false;
   };
 
   const [{ opacity }, dragRef] = useDrag({
@@ -29,12 +16,12 @@ const DragItem = ({ text, page, question, currentCompleted }) => {
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
-    canDrag: cannotDrag(),
+    canDrag: !setCanDragAndOpacity(),
   });
 
   return (
     <span
-      className={`drag-item ${savedOpacity()}`}
+      className={`drag-item ${setCanDragAndOpacity() && ' opacity '}`}
       ref={dragRef}
       style={{ opacity }}
     >

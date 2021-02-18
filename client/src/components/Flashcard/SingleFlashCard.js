@@ -44,6 +44,7 @@ const SingleFlashCard = ({
           dispatch(updateFlashcard(flashcardObject, flashcard._id));
         });
     }
+    // eslint-disable-next-line
   }, [inputAnswer]);
 
   const flipCard = (e) => {
@@ -119,10 +120,11 @@ const SingleFlashCard = ({
           <p className='scroll-style-3'> {flashcard.frontSide}</p>
           {gameMode === 'inputMode' && (
             <input
+              placeholder='Type in your answer'
               disabled={correctAnswer()}
               value={inputAnswer}
               onChange={(e) => setInputAnswer(e.target.value)}
-              className={correctAnswer() && 'correct-answer'}
+              className={`inputMode ${correctAnswer() && ' correct-answer '}`}
               type='text'
             />
           )}
@@ -139,15 +141,16 @@ const SingleFlashCard = ({
           />
           {gameMode === 'voiceMode' && (
             <>
-              <a className={correctAnswer() && 'correct-answer'}>
+              <span className={correctAnswer() && 'correct-answer'}>
                 {' '}
-                {inputAnswer || 'Speak up'}{' '}
-              </a>
-              <FontAwesomeIcon
-                onClick={(e) => SpeechRecogMic(e)}
-                className='speak-icon'
-                icon={faVolumeUp}
-              />
+                <FontAwesomeIcon
+                  onClick={(e) => SpeechRecogMic(e)}
+                  className='speak-icon'
+                  icon={faVolumeUp}
+                />
+                {'    '}
+                {inputAnswer || 'Speak'}{' '}
+              </span>
             </>
           )}
         </div>

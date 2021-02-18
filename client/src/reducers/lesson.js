@@ -1,54 +1,55 @@
 import {
-  GET_NOTES_FAIL,
-  GET_NOTES_SUCCESS,
+  GET_LESSON_DATA_FAIL,
+  GET_LESSON_DATA_SUCCESS,
+  NOTES_SAVED_FAIL,
   NOTES_SAVED_SUCCESS,
+  PAGES_SAVED_FAIL,
   PAGES_SAVED_SUCCESS,
 } from '../actions/types';
 
 const initialState = {
-  currentLesson: {},
+  lessonName: '',
+  pages: [],
   error: '',
   sharedNotes: '',
   privateNotes: '',
+  loading: true,
 };
 
 export default function lessonReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_NOTES_SUCCESS:
+    case GET_LESSON_DATA_SUCCESS:
       return {
         ...state,
-        sharedNotes: payload.sharedNotes,
+        lessonName: payload.lessonName,
         privateNotes: payload.privateNotes,
+        sharedNotes: payload.sharedNotes,
+        pages: payload.pages,
+        loading: false,
         error: '',
       };
 
     case NOTES_SAVED_SUCCESS:
-      if (payload.sharedNotes) {
-        return {
-          ...state,
-          sharedNotes: payload.sharedNotes,
-          error: '',
-        };
-      } else if (payload.privateNotes) {
-        return {
-          ...state,
-          privateNotes: payload.privateNotes,
-          error: '',
-        };
-      }
-      return;
+      return {
+        ...state,
+        privateNotes: payload.privateNotes,
+        sharedNotes: payload.sharedNotes,
+        error: '',
+      };
 
     case PAGES_SAVED_SUCCESS:
       return {
         ...state,
         loading: false,
         error: '',
-        currentLesson: payload,
+        pages: payload.pages,
       };
 
-    case GET_NOTES_FAIL:
+    case GET_LESSON_DATA_FAIL:
+    case NOTES_SAVED_FAIL:
+    case PAGES_SAVED_FAIL:
       return {
         ...state,
         loading: false,

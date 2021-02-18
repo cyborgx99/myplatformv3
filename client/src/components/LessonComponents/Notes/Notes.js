@@ -3,12 +3,14 @@ import ContentEditable from 'react-contenteditable';
 import NotesButton from './NotesButton';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { getAllNotes, saveNotes } from '../../../actions/lesson';
-import { useDispatch } from 'react-redux';
+import { getCurrentLessonData, saveNotes } from '../../../actions/lesson';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Notes = React.memo(({ socket, eventName }) => {
-  const [sharedNotes, setSharedNotes] = useState('');
-  const [privateNotes, setPrivateNotes] = useState('');
+  const lesson = useSelector((state) => state.lesson);
+
+  const [sharedNotes, setSharedNotes] = useState(lesson.sharedNotes || '');
+  const [privateNotes, setPrivateNotes] = useState(lesson.privateNotes || '');
   const [notesType, setNotesType] = useState('shared');
 
   const button = useRef('');
@@ -19,13 +21,21 @@ const Notes = React.memo(({ socket, eventName }) => {
   const lessonName = pathname;
 
   useEffect(() => {
-    dispatch(getAllNotes(lessonName));
+    // add event listener to save notes when page reloads
+    window.addEventListener('beforeunload', handleBlur);
+    dispatch(getCurrentLessonData(lessonName));
 
     if (socket) {
       socket.on(eventName, (value) => {
         setSharedNotes(value);
       });
     }
+
+    return () => {
+      // remove listener when leaving the page
+      window.removeEventListener('beforeunload', handleBlur);
+    };
+
     // eslint-disable-next-line
   }, []);
 
@@ -55,12 +65,11 @@ const Notes = React.memo(({ socket, eventName }) => {
     button.current.click();
   };
 
-  const handleClick = (e) => {};
-
-  const saveNotesHandler = (e) => {
+  const handleClick = (e) => {
     const notesObject = {
       lessonName,
       sharedNotes,
+      privateNotes,
     };
     dispatch(saveNotes(notesObject));
   };
@@ -72,11 +81,8 @@ const Notes = React.memo(({ socket, eventName }) => {
   };
 
   return (
-    <div className='notes-container'>
+    <>
       <div className='note-type'>
-        <button onClick={(e) => saveNotesHandler()} className={`notes-select`}>
-          Save
-        </button>
         <button
           onClick={(e) => setNotesType('shared')}
           className={`notes-select ${selectedClass('shared')}`}
@@ -90,7 +96,6 @@ const Notes = React.memo(({ socket, eventName }) => {
           Private
         </button>
       </div>
-
       <button
         ref={button}
         style={{ display: 'none' }}
@@ -167,7 +172,7 @@ const Notes = React.memo(({ socket, eventName }) => {
         html={privateNotes} // innerHTML of the editable div
         onChange={(e) => setPrivateNotes(e.target.value)} // handle innerHTML change
       />
-    </div>
+    </>
   );
 });
 

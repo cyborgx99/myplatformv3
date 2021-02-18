@@ -64,17 +64,17 @@ const ContactUsForm = () => {
           Submit
         </button>
       </form>
-      <div className='box'>
+      <div className='contact-us-box'>
         <p>
           <FontAwesomeIcon className='icon' icon={faTelegram} color='#0088cc' />
           <FontAwesomeIcon className='icon' icon={faWhatsapp} color='#25D366' />
           <FontAwesomeIcon className='icon' icon={faViber} color='#665cac' />:
-          +380 95 744 2776
         </p>
+        +380 95 744 2776
         <p>
           <FontAwesomeIcon icon={faEnvelopeSquare} color='#0088cc' />:
-          drew.mosheim@gmail.com
         </p>
+        drew.mosheim@gmail.com
       </div>
     </div>
   );

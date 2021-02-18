@@ -29,7 +29,10 @@ const CombineLessons = () => {
 
   return (
     <div className='lesson-container'>
-      <div className='lesson-notes-nav'>
+      <div className='videoChat-container'>
+        <VideoCall roomId={roomId} />
+      </div>
+      <div className='lesson-nav-container'>
         <LessonNavigation
           totalPages={totalPages}
           roomId={roomId}
@@ -38,17 +41,20 @@ const CombineLessons = () => {
           page={page}
           setPage={setPage}
         />
+      </div>
+      <div className='notes-container'>
         <Notes socket={socket} eventName='notes' />
       </div>
-      <VideoCall roomId={roomId} />
-      <DndProvider backend={HTML5Backend}>
-        <A1A2
-          setTotalPages={setTotalPages}
-          socket={socket}
-          page={page}
-          roomId={roomId}
-        />
-      </DndProvider>
+      <div className='lesson-pages-container scroll-style-3'>
+        <DndProvider backend={HTML5Backend}>
+          <A1A2
+            setTotalPages={setTotalPages}
+            socket={socket}
+            page={page}
+            roomId={roomId}
+          />
+        </DndProvider>
+      </div>
     </div>
   );
 };

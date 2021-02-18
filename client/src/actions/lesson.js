@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {
-  GET_NOTES_FAIL,
-  GET_NOTES_SUCCESS,
+  GET_LESSON_DATA_FAIL,
+  GET_LESSON_DATA_SUCCESS,
   NOTES_SAVED_FAIL,
   NOTES_SAVED_SUCCESS,
   PAGES_SAVED_FAIL,
@@ -64,8 +64,8 @@ export const savePageData = (pagesObject) => async (dispatch) => {
   }
 };
 
-//Get the current lesson notes
-export const getAllNotes = (lessonName) => async (dispatch) => {
+//Get current lesson Data
+export const getCurrentLessonData = (lessonName) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -73,17 +73,18 @@ export const getAllNotes = (lessonName) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      '/api/v1/lesson/get-notes',
+      '/api/v1/lesson/get-lesson',
       { lessonName },
       config
     );
+    console.log(data);
     dispatch({
-      type: GET_NOTES_SUCCESS,
+      type: GET_LESSON_DATA_SUCCESS,
       payload: data.data,
     });
   } catch (error) {
     dispatch({
-      type: GET_NOTES_FAIL,
+      type: GET_LESSON_DATA_FAIL,
       payload:
         error.response && error.response.data.errors
           ? error.response.data.errors
