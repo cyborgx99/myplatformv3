@@ -104,10 +104,7 @@ const AudioPlayer = ({ socket, source, eventChange, eventPlay }) => {
     }
   };
 
-  const timeForward = (time) => time + 10;
-  const timeBackward = (time) => time - 10;
-
-  // 10 second forward or rewind
+  // 10 second forward or rewind (takes a function that returns time and adds / subtracts 10)
   const handleTimeChange = (timeChange) => {
     const timeChanged = timeChange(audioPlayer.current.currentTime);
     audioPlayer.current.currentTime = timeChanged;
@@ -147,12 +144,15 @@ const AudioPlayer = ({ socket, source, eventChange, eventPlay }) => {
         )}
       </button>
       <button
-        onClick={() => handleTimeChange(timeBackward)}
+        onClick={() => handleTimeChange((time) => time - 10)}
         className='backward'
       >
         <FontAwesomeIcon icon={faBackward} />
       </button>
-      <button onClick={() => handleTimeChange(timeForward)} className='forward'>
+      <button
+        onClick={() => handleTimeChange((time) => time + 10)}
+        className='forward'
+      >
         <FontAwesomeIcon icon={faForward} />
       </button>
       <p className='progress-clock1'>{showTime(playerState)}</p>

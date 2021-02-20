@@ -11,7 +11,7 @@
   --green-hover: #5e981f;
   --success-color: #dfffe6;
   --secondary-color: #a2ccff;
-  --mainTransition: all 0.3s ease-in-out;
+  --mainTransition: all 2.3s ease-in-out;
   --letterSpacing: 0.5rem;
 }
 
@@ -150,6 +150,7 @@ a {
 }
 
 .landing-btn {
+  transition: var(--mainTransition);
   letter-spacing: 0.1em;
   cursor: pointer;
   font-size: 14px;
@@ -174,7 +175,7 @@ a {
   background-color: var(--primary-color);
   overflow: hidden;
   position: relative;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 .effect01:hover {
   border: 4px solid var(--primary-color);

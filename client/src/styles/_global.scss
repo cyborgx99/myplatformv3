@@ -1,0 +1,20 @@
+// Color variables
+$primary: #07a0c3;
+$primary-hover: #0f7c90;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  line-height: 1.5;
+  background: #f4f5f6;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
