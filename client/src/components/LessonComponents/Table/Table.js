@@ -2,7 +2,14 @@ import React from 'react';
 import Cells from './Cells';
 import TableHead from './TableHead';
 
-const Table = ({ tableHead, tableRowData, socket, page, roomId }) => {
+const Table = ({
+  tableHead,
+  tableRowData,
+  tableOptions,
+  socket,
+  page,
+  roomId,
+}) => {
   return (
     <>
       <table className='lesson-table'>
@@ -20,6 +27,8 @@ const Table = ({ tableHead, tableRowData, socket, page, roomId }) => {
                   page={page}
                   roomId={roomId}
                   cellData={rowData}
+                  tableHead={tableHead}
+                  tableOptions={tableOptions}
                 />
               </tr>
             ))}

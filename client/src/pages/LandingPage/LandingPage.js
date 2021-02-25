@@ -49,17 +49,16 @@ const LandingPage = () => {
 
   return (
     <section className='landing-page'>
-      <div className='landing-container1'>
-        <div className='land-content'>
+      <div className='landing-container'>
+        <div className='landing-content'>
           <h2>Learn English Anytime Anywhere</h2>
           <h1>Language Platform</h1>
-          <button className='landing-btn effect01' target='_blank'>
+          <button className='landing-btn swipe-overlay'>
             <span>Learn More</span>
           </button>
         </div>
       </div>
       <div className='divider'></div>
-      <div className='landing-container2'></div>
     </section>
   );
 };

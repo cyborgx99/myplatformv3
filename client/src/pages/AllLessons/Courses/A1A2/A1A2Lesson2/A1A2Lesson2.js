@@ -16,7 +16,7 @@ const A1A2Lesson2 = ({ page, socket, roomId, setTotalPages }) => {
   }, []);
 
   return (
-    <div className='lesson-pages-container scroll-style-3'>
+    <div className='lesson-pages-container scroll-style-1'>
       {page === 'page1' && <h1>LESSON 2</h1>}
       {page === 'page2' && (
         <AudioPlayer

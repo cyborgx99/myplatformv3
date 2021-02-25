@@ -78,7 +78,7 @@ const SignUpForm = () => {
           value={password2}
           onChange={(e) => setPassword2(e.target.value)}
         />
-        <button type='submit' className='btn'>
+        <button type='submit' className='btn-long'>
           Sign Up
         </button>
       </form>

@@ -1,5 +1,7 @@
-import './App.css';
-import './LessonComponents.css';
+// import './App.css';
+// import './LessonComponents.css';
+
+import './styles/app.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import LandingPage from './pages/LandingPage/LandingPage';

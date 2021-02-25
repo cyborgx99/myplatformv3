@@ -1,18 +1,17 @@
 import React from 'react';
-import { useRouteMatch } from 'react-router-dom';
-import ProtectedRoute from '../../../../routing/ProtectedRoute';
+import { Route } from 'react-router-dom';
 import Egzamin2015Basic from './Egzamin2015Basic/Egzamin2015Basic';
 
-const EgzaminRoutes = () => {
-  const { path } = useRouteMatch();
-
+const EgzaminRoutes = ({ socket, page, roomId, setTotalPages }) => {
   return (
-    <ProtectedRoute
-      path={`${path}/egzamin/lesson1/:studentId`}
-      roles={['teacher']}
-    >
-      <Egzamin2015Basic />
-    </ProtectedRoute>
+    <Route path='/lessons/egzamin-maturalny/lesson1/:studentId'>
+      <Egzamin2015Basic
+        socket={socket}
+        page={page}
+        roomId={roomId}
+        setTotalPages={setTotalPages}
+      />
+    </Route>
   );
 };
 

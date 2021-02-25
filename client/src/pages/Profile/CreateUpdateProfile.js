@@ -268,14 +268,14 @@ const CreateUpdateProfile = ({ history }) => {
       {profile.profileId ? (
         <button
           onClick={(e) => submitUpdateProfileForm(e)}
-          className='profile-btn'
+          className='btn-long'
         >
           Update Profile
         </button>
       ) : (
         <button
           onClick={(e) => submitCreateProfileForm(e)}
-          className='profile-btn'
+          className='btn-long'
         >
           Create Profile
         </button>

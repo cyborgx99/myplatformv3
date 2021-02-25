@@ -112,12 +112,12 @@ const SingleFlashCard = ({
         <div className='flashcard-front'>
           <p
             onClick={() => handleDeckClick()}
-            className='deck-name scroll-style-3'
+            className='deck-name scroll-style-1'
           >
             {' '}
             (Deck: {flashcard.deckName}){' '}
           </p>
-          <p className='scroll-style-3'> {flashcard.frontSide}</p>
+          <p className='scroll-style-1'> {flashcard.frontSide}</p>
           {gameMode === 'inputMode' && (
             <input
               placeholder='Type in your answer'
@@ -164,11 +164,11 @@ const SingleFlashCard = ({
                 )
               )
             }
-            className='deck-name scroll-style-3'
+            className='deck-name scroll-style-1'
           >
             (Deck: {flashcard.deckName}){' '}
           </p>
-          <p className='scroll-style-3'> {flashcard.backSide} </p>
+          <p className='scroll-style-1'> {flashcard.backSide} </p>
           <FontAwesomeIcon
             className='flip-icon'
             onClick={(e) => flipCard(e)}

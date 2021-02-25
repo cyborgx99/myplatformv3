@@ -179,6 +179,7 @@ const VideoCall = React.memo(({ roomId }) => {
 
   const handleUnload = () => {
     // disconnect socket manually!
+    setOtherUserOffCamera(true);
     socketRef.current.close();
   };
 
@@ -186,7 +187,7 @@ const VideoCall = React.memo(({ roomId }) => {
 
   return (
     <>
-      <div className='videoChat-buttons'>
+      <div className='videochat-buttons'>
         <button onClick={(e) => toggleMic(e)}>
           {mutedMic ? (
             <FontAwesomeIcon className='button-icon' icon={faMicrophoneSlash} />
@@ -202,23 +203,21 @@ const VideoCall = React.memo(({ roomId }) => {
           )}
         </button>
       </div>
-      <div className='videoChat-user'>
-        <video muted autoPlay ref={userVideo} />
-        {offMyCamera && (
-          <img
-            alt='vid'
-            src='https://res.cloudinary.com/cyborgx999/image/upload/v1607471745/sayprivet/user-3331256_1280_wbgayg.png'
-          ></img>
-        )}
+      <div className='videochat-user'>
+        <video
+          className={offMyCamera === true ? 'hidden' : null}
+          muted
+          autoPlay
+          ref={userVideo}
+        />
       </div>
-      <div className='videoChat-otherUser'>
-        <video playsInline autoPlay ref={partnerVideo} />
-        {otherUserOffCamera && (
-          <img
-            alt='vid'
-            src='https://res.cloudinary.com/cyborgx999/image/upload/v1607471745/sayprivet/user-3331256_1280_wbgayg.png'
-          ></img>
-        )}
+      <div className='videochat-other-user'>
+        <video
+          className={otherUserOffCamera === true ? 'hidden' : null}
+          playsInline
+          autoPlay
+          ref={partnerVideo}
+        />
       </div>
     </>
   );

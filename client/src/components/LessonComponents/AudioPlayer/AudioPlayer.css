@@ -8,9 +8,7 @@ audio::-webkit-media-controls-panel {
 
 .audio-player {
   height: 70px;
-  min-width: 300px;
-  max-width: 300px;
-  margin: 0 auto;
+  width: 300px;
   background-color: #2b1e47;
   border-radius: 8px;
   position: relative;

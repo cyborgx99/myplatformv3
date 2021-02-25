@@ -102,10 +102,9 @@ const InputWithDropArea = React.memo(
             onChange={(e) => inputChange(e)}
             className={correctAnswer() && 'correct-answer'}
           >
-            <option disabled></option>
-            {options.map((option) => (
-              <option key={option.key} value={option.value}>
-                {option.value}
+            {options.map((option, i) => (
+              <option key={i} value={option}>
+                {option}
               </option>
             ))}
           </select>

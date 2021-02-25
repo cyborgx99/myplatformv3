@@ -60,7 +60,7 @@ const ContactUsForm = () => {
           id='message'
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
-        <button type='submit' className='btn'>
+        <button type='submit' className='btn-long'>
           Submit
         </button>
       </form>

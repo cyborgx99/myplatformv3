@@ -76,7 +76,7 @@ const Notes = React.memo(({ socket, eventName }) => {
 
   const selectedClass = (mode) => {
     if (notesType === mode) {
-      return 'notes-selected';
+      return ' notes-selected ';
     }
   };
 
@@ -152,7 +152,7 @@ const Notes = React.memo(({ socket, eventName }) => {
         className={
           notesType !== 'shared'
             ? 'display-none'
-            : 'content-editable scroll-style-3'
+            : 'content-editable scroll-style-1'
         }
         onBlur={(e) => handleBlur(e)}
         onPaste={onPaste}
@@ -164,7 +164,7 @@ const Notes = React.memo(({ socket, eventName }) => {
         className={
           notesType !== 'private'
             ? 'display-none'
-            : 'content-editable scroll-style-3 private'
+            : 'content-editable scroll-style-1 private'
         }
         onBlur={(e) => handleBlur(e)}
         onPaste={onPaste}

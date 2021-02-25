@@ -147,6 +147,7 @@ const Profile = () => {
 
       <div className='profile-btn-container'>
         <button
+          className='btn-long'
           onClick={() => dispatch(toggleModal('open', <CreateUpdateProfile />))}
         >
           {profile.profileId ? 'Edit Profile' : 'Create Profile'}
@@ -154,7 +155,7 @@ const Profile = () => {
         {profile.profileId && (
           <button
             onClick={(e) => deleteProfileHandler()}
-            className='delete-btn'
+            className='btn-danger'
           >
             Delete Profile
           </button>

@@ -1,7 +1,7 @@
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -9,3 +9,44 @@ body {
   line-height: 1.5;
   background: #f4f5f6;
 }
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+// variables
+$primary: #276fbf;
+$primary-hover: darken($primary, 10%);
+$secondary: #07a0c3;
+$secondary-hover: darken($secondary, 10%);
+$danger: #da2c38;
+$danger-hover: darken($danger, 10%);
+$green: #7bfd79;
+$yellow: #f6ff76;
+$main-radius: 7px;
+
+// variables end //
+
+// MIXINGS //
+
+// set background color & text color
+@mixin set-background($color) {
+  background-color: $color;
+  color: set-text-color($color);
+}
+
+// absolute /relative centered
+@mixin positionTypeCenter($position) {
+  position: $position;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// MIXINGS END //
+
+@import 'main';
+@import 'lessons';
+@import 'mainmobile';
+@import 'lessonmobile';

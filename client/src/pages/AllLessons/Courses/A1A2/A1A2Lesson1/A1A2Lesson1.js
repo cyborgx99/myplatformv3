@@ -10,8 +10,8 @@ console.log('A1A2Lesson1');
 const A1A2Lesson1 = ({ page, socket, roomId, setTotalPages }) => {
   useEffect(() => {
     setTotalPages({
-      p: [1, 2, 3, 4, 5, 6],
-      hw: [1, 2, 3, 4],
+      p: [1, 2, 3, 4],
+      hw: [1, 2],
     });
     // eslint-disable-next-line
   }, []);

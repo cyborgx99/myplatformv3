@@ -15,7 +15,7 @@ const LoginForm = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const { from } = location.state || { from: { pathname: '/' } };
+  const { from } = location.state || { from: { pathname: '/dashboard' } };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +49,7 @@ const LoginForm = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type='submit' className='btn'>
+        <button type='submit' className='btn-long'>
           Login
         </button>
       </form>

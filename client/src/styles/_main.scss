@@ -1,63 +1,110 @@
-/* Global */
-
-:root {
-  --primary-color: #07a0c3;
-  --primary-hover: #0f7c90;
-  --dark-color: #343a40;
-  --light-color: #7ae582;
-  --danger-color: #f44336;
-  --danger-hover: #a32834;
-  --green-main: #beffd9;
-  --green-hover: #5e981f;
-  --success-color: #dfffe6;
-  --secondary-color: #a2ccff;
-  --mainTransition: all 2.3s ease-in-out;
-  --letterSpacing: 0.5rem;
-}
-
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Lato', sans-serif;
-  line-height: 1.5;
-  background: #f4f5f6;
-}
-
-a {
-  color: #333;
-  text-decoration: none;
-}
-
 /* Utils */
+
+// SCROLL STYLE 1
+.scroll-style-1::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.scroll-style-1::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f5f5f5;
+}
+
+.scroll-style-1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
+
+// SCROLL STYLE 2 END
+
+// set text color based on background
+@function set-text-color($color) {
+  @if (lightness($color) > 65) {
+    @return #333;
+  } @else {
+    @return #fff;
+  }
+}
+
+// Margin and padding bootstrap-like classes
+$spaceamounts: (1, 2, 3, 4, 5);
+
+@each $space in $spaceamounts {
+  .m-#{$space} {
+    margin: #{$space}rem;
+  }
+  .my-#{$space} {
+    margin: #{$space}rem 0;
+  }
+  .mx-#{$space} {
+    margin: 0 #{$space}rem;
+  }
+
+  .p-#{$space} {
+    padding: #{$space}rem;
+  }
+
+  .py-#{$space} {
+    padding: #{$space}rem 0;
+  }
+
+  .px-#{$space} {
+    padding: 0 #{$space}rem;
+  }
+}
+
 .text-primary {
-  color: var(--primary-color);
+  color: $primary;
+}
+
+.margin > * {
+  margin: 0.5rem 0;
 }
 
 .display-none {
   display: none;
 }
+.hidden {
+  visibility: hidden;
+}
 
-.btn {
-  background-color: var(--primary-color);
-  color: white;
+%btn {
+  display: inline-block;
   outline: none;
-  width: 100%;
   padding: 0.35rem;
   font-size: 1.05rem;
   border-radius: 8px;
   margin: 0.2rem 0rem;
+
+  &:hover {
+    transform: scale(0.99);
+    @include set-background($primary-hover);
+  }
+  &:focus {
+    outline: none;
+  }
 }
-.btn:hover {
-  color: white;
-  background-color: var(--primary-hover);
+
+.btn {
+  @extend %btn;
+  @include set-background($primary);
 }
-.btn:focus {
-  outline: none;
+.btn-long {
+  @extend %btn;
+  @include set-background($primary);
+  width: 100%;
+}
+
+.btn-danger {
+  @extend %btn;
+  @include set-background($danger);
+  width: 100%;
+  &:hover {
+    @include set-background($danger-hover);
+  }
 }
 
 /* Modal */
@@ -75,7 +122,7 @@ a {
 }
 
 .spinner-modal {
-  z-index: 1100;
+  z-index: 1100; /* more than site-modal */
 }
 
 .modal-content {
@@ -87,13 +134,15 @@ a {
   position: relative;
   left: 50%;
   top: 50%;
+  overflow: auto;
+  max-height: 100%;
   transform: translate(-50%, -50%);
   padding: 12px;
   border: 0px solid #888;
   width: fit-content;
 }
 
-.site-modal .close {
+.close {
   color: #aaa;
   right: 0;
   top: -11px;
@@ -102,13 +151,13 @@ a {
   font-weight: bold;
   width: 23px;
   padding: 4px;
-}
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+  &:hover,
+  &:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
 }
 
 /* Modal END */
@@ -131,94 +180,80 @@ a {
 
 /* Utils End */
 
-/* LandingPage */
-.landing-container1 {
+// Langing page //
+
+%b {
+  color: $secondary;
+  border-color: $secondary;
+  background: transparent;
+}
+%p {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $secondary;
+  width: 150%;
+  padding-top: 150%;
+  transition: 0.45s ease;
+}
+
+%c {
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-btn {
+  padding: 8px 15px;
+  border-radius: 6px;
+  border-width: 2px;
+  border-style: solid;
+  font-size: 20px;
+  font-family: 'Ubuntu', sans-serif;
+  cursor: pointer;
+  transition: 0.25s ease;
+  & > span {
+    position: relative;
+    z-index: 1;
+  }
+  &.swipe-overlay {
+    @extend %b;
+    @extend %c;
+    &::after {
+      @extend %p;
+      transform: rotate(25deg);
+      top: -100%;
+      left: -190%;
+    }
+    &:hover {
+      color: #fff;
+      &:after {
+        left: -30%;
+      }
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.landing-container {
   height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('/src/img/landing.jpg') no-repeat;
   position: relative;
+  background-position: right 50% bottom 80%;
   background-size: cover;
+  font-size: 0.8rem;
 }
 
-.land-content {
+.landing-content {
+  @include positionTypeCenter(absolute);
   text-align: center;
   color: white;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 
-.landing-btn {
-  transition: var(--mainTransition);
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 45px;
-  max-width: 160px;
-  position: relative;
-  text-decoration: none;
-  text-transform: uppercase;
-  width: 100%;
-  border-radius: 8px;
-}
-.landing-btn:hover {
-  text-decoration: none;
-}
-
-/*btn_background*/
-.effect01 {
-  color: #fff;
-  border: 4px solid var(--primary-color);
-  box-shadow: 0px 0px 0px 1px var(--primary-color) inset;
-  background-color: var(--primary-color);
-  overflow: hidden;
-  position: relative;
-  transition: all 0.5s ease-in-out;
-}
-.effect01:hover {
-  border: 4px solid var(--primary-color);
-  background-color: #fff;
-  box-shadow: 0px 0px 0px 4px #eee inset;
-}
-
-/*btn_text*/
-.effect01 span {
-  transition: all 0.2s ease-out;
-  z-index: 2;
-}
-.effect01:hover span {
-  letter-spacing: 0.13em;
-  color: #333;
-}
-
-/*highlight*/
-.effect01:after {
-  background: #fff;
-  border: 0px solid var(--primary-color);
-  content: '';
-  height: 155px;
-  left: -75px;
-  opacity: 0.8;
-  position: absolute;
-  top: -50px;
-  -webkit-transform: rotate(35deg);
-  transform: rotate(35deg);
-  width: 50px;
-  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1); /*easeOutCirc*/
-  z-index: 1;
-}
-.effect01:hover:after {
-  background: #fff;
-  border: 20px solid var(--primary-color);
-  opacity: 0;
-  left: 120%;
-  -webkit-transform: rotate(40deg);
-  transform: rotate(40deg);
-}
-
-/* LandingPage End */
+// Langing page //
 
 /* Navbar */
 
@@ -226,11 +261,11 @@ a {
   width: 12px;
   position: relative;
   z-index: 1000;
-}
 
-#nav-container:hover #main-navbar {
-  transform: translateX(0);
-  transition-delay: 0s;
+  &:hover #main-navbar {
+    transform: translateX(0);
+    transition-delay: 0s;
+  }
 }
 
 #main-navbar {
@@ -245,35 +280,34 @@ a {
   transform: translateX(calc(-100% + 10px));
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
   padding: 0.2rem;
-  border-bottom: 1px var(--primary-color) solid;
-}
+  border-bottom: 1px $primary solid;
 
-#main-navbar ul {
-  color: white;
-  overflow: hidden;
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  margin: auto;
-  flex-direction: column;
-  gap: 1rem;
-  flex-wrap: wrap;
-  list-style: none;
-  cursor: pointer;
-}
+  ul {
+    color: white;
+    overflow: hidden;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    flex-direction: column;
+    gap: 1rem;
+    flex-wrap: wrap;
+    list-style: none;
+    cursor: pointer;
 
-#main-navbar ul li:hover {
-  background-color: #276fbf;
-  border-radius: 5px;
-}
+    li:hover {
+      background-color: $primary;
+      border-radius: 5px;
+    }
 
-#main-navbar ul a {
-  color: white;
+    a {
+      color: white;
+    }
+  }
 }
-
 .highLighted {
   background-color: #276fbf;
-  border-radius: 5px;
+  border-radius: $main-radius;
 }
 
 .show-nav-btn {
@@ -284,71 +318,80 @@ a {
   top: 0;
   outline: none;
   left: 0;
-  color: #17a2b8;
+  color: $secondary;
   margin: 1rem 1.3rem;
   font-size: 2rem;
   animation: bounce 2s ease-in-out infinite;
   cursor: pointer;
 }
 
-/* Navbar end */
+/* Navbar END */
 
 /* Login Form */
 
 .credentials-content {
   padding: 0.2rem 1rem;
   text-align: center;
-  max-width: 15.5rem;
-  margin: auto;
   font-size: 1.1rem;
-}
 
-.credentials-content input,
-.credentials-content textarea {
-  border-radius: 5px;
-  width: 100%;
-  padding: 0.4rem;
-  margin: 0.3rem 0rem;
-  font-size: 1.05rem;
-  resize: none;
-  border: 1px solid black;
-}
+  input,
+  textarea {
+    border-radius: 5px;
+    width: 100%;
+    padding: 0.4rem;
+    margin: 0.3rem 0rem;
+    font-size: 1.05rem;
+    resize: none;
+    border: 1px solid black;
 
-.credentials-content input:focus,
-.credentials-content textarea:focus {
-  outline: none;
-  box-shadow: 0 0 3pt 2pt var(--primary-color);
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 3pt 2pt $primary;
+    }
+  }
 }
 
 /* Login Form  */
 
 /* Contact Us  */
-.contact-us-box p {
-  margin: 0.2rem;
-}
 .contact-us-box {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-}
-.icon {
-  font-size: 1.4rem;
-  margin: 0 0.25rem;
-}
-/* Contact Us END */
 
-/* bigger screens phone */
-@media screen and (min-width: 375px) and (orientation: portrait) {
-  .credentials-content {
-    max-width: 21rem;
+  p {
+    margin: 0.2rem;
+  }
+  .icon {
+    font-size: 1.4rem;
+    margin: 0 0.25rem;
   }
 }
+
+/* Contact Us END */
 
 /* Profile */
 
 .profile-content {
   font-size: 1rem;
   text-align: center;
+
+  input {
+    height: 16.5px;
+  }
+
+  input,
+  textarea {
+    margin: 0.2rem 0rem;
+    resize: none;
+    width: 150px;
+    border-radius: 4px;
+    border: 1px solid black;
+
+    &:focus {
+      box-shadow: 0 0 3pt 2pt $primary;
+    }
+  }
 }
 
 .add-avatar-container img,
@@ -358,24 +401,6 @@ a {
   height: 125px;
   margin: 0.25rem auto;
   object-fit: cover;
-}
-
-.profile-content input,
-.profile-content textarea {
-  margin: 0.2rem 0rem;
-  resize: none;
-  width: 150px;
-  border-radius: 4px;
-  border: 1px solid black;
-}
-
-.profile-content input {
-  height: 16.5px;
-}
-
-.profile-content input:focus,
-.profile-content textarea:focus {
-  box-shadow: 0 0 3pt 2pt var(--primary-color);
 }
 
 .add-avatar-container {
@@ -396,6 +421,7 @@ a {
 .my-profile-info {
   /* align-self: stretch; */
   width: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -403,21 +429,10 @@ a {
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   padding: 1rem;
-}
-.my-profile-info h1 {
-  text-align: center;
-}
 
-.profile-btn {
-  width: 100%;
-  color: white;
-  background-color: var(--primary-color);
-  padding: 3px;
-  border-radius: 5px;
-}
-
-.profile-btn:hover {
-  background-color: var(--primary-hover);
+  & h1 {
+    text-align: center;
+  }
 }
 
 .profile-item {
@@ -436,46 +451,12 @@ a {
   justify-content: space-between;
   gap: 0.5rem;
 }
-.profile-btn-container button {
-  flex-grow: 1;
-  padding: 5px;
-  border-radius: 5px;
-  background-color: var(--primary-color);
-  color: white;
-}
-.profile-btn-container button:hover {
-  background-color: var(--primary-hover);
-}
-
-.profile-btn-container .delete-btn {
-  background-color: var(--danger-color);
-}
-.profile-btn-container .delete-btn:hover {
-  background-color: var(--danger-hover);
-}
 
 .profile-social-icons {
   display: flex;
   justify-content: space-around;
   font-size: 1.3rem;
 }
-
-/* bigger screens phone */
-@media screen and (min-width: 375px) and (orientation: portrait) {
-  .profile-content input,
-  .profile-content textarea {
-    width: 175px;
-  }
-
-  .profile-content {
-    font-size: 1.15rem;
-  }
-
-  .profile-content input {
-    height: 25px;
-  }
-}
-
 /* Profile END */
 
 /* Expense tracker */
@@ -490,11 +471,12 @@ a {
   flex-direction: column;
   text-align: center;
   padding: 1rem;
+
+  & ul {
+    list-style: none;
+  }
 }
 
-.expense-container ul {
-  list-style: none;
-}
 .expense-amounts {
   border: 2px groove;
   margin: 0.5rem;
@@ -511,24 +493,25 @@ a {
   display: flex;
   margin: 0.5rem;
   border: 2px groove;
-}
-.expense-history-li:hover .mini-btn {
-  display: block;
+
+  &:hover .mini-btn {
+    display: block;
+  }
 }
 
 .expense-positive {
-  background-color: var(--light-color);
+  @include set-background($green);
 }
 
 .expense-negative {
-  background-color: var(--secondary-color);
+  @include set-background($yellow);
 }
 
 .mini-btn {
   display: none;
   border-radius: 5px;
   width: 30px;
-  background-color: var(--primary-color);
+  @include set-background($primary);
   position: absolute;
   padding: 2px;
   color: white;
@@ -538,7 +521,7 @@ a {
 
 .mini-delete {
   bottom: -4px;
-  background-color: var(--danger-color);
+  @include set-background($danger);
 }
 
 .expense-history {
@@ -550,54 +533,35 @@ a {
   text-align: center;
   display: flex;
   flex-direction: column;
-}
 
-.create-update-transaction input,
-.create-update-transaction textarea,
-.create-update-transaction select {
-  width: 100%;
-  padding: 0.4rem;
-  margin: 0.3rem 0rem;
-  font-size: 1.05rem;
-  resize: none;
-  border-radius: 5px;
-}
-.create-update-transaction input:focus,
-.create-update-transaction textarea:focus,
-.create-update-transaction select:focus {
-  box-shadow: 0 0 3pt 2pt var(--primary-color);
+  & input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.4rem;
+    margin: 0.3rem 0rem;
+    font-size: 1.05rem;
+    resize: none;
+    border-radius: 5px;
+
+    &:focus {
+      box-shadow: 0 0 3pt 2pt $primary;
+    }
+  }
 }
 
 .positive-color {
-  color: var(--light-color);
+  color: $green;
 }
 .negative-color {
-  color: var(--danger-color);
+  color: $danger-hover;
 }
 
 /* Expense tracker END */
 
-/* Scroll bar */
-.scroll-style-3::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #f5f5f5;
-}
-
-.scroll-style-3::-webkit-scrollbar {
-  width: 6px;
-  background-color: #f5f5f5;
-}
-
-.scroll-style-3::-webkit-scrollbar-thumb {
-  background-color: #000000;
-}
-
-/* Scroll bar */
-
 /* Dashboard */
 .dashboard-container {
-  gap: 0.5rem;
+  gap: 0.2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -642,24 +606,22 @@ a {
   text-align: center;
   display: flex;
   flex-direction: column;
-}
 
-.create-calendar-event input,
-.create-calendar-event textarea,
-.create-calendar-event select {
-  border-radius: 5px;
-  width: 100%;
-  padding: 0.5rem;
-  margin: 0.3rem 0rem;
-  font-size: 1.05rem;
-  resize: none;
-  border: 1px solid black;
-}
+  & input,
+  textarea,
+  select {
+    border-radius: 5px;
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.3rem 0rem;
+    font-size: 1.05rem;
+    resize: none;
+    border: 1px solid black;
 
-.create-calendar-event input:focus,
-.create-calendar-event textarea:focus,
-.create-calendar-event select:focus {
-  box-shadow: 0 0 3pt 2pt var(--primary-color);
+    &:focus {
+      box-shadow: 0 0 3pt 2pt $primary;
+    }
+  }
 }
 
 /* CALENDAR END */
@@ -669,28 +631,27 @@ a {
 .create-update-flashcard {
   display: flex;
   flex-direction: column;
-}
 
-.create-update-flashcard h3 {
-  text-align: center;
-}
+  & h3 {
+    text-align: center;
+  }
 
-.create-update-flashcard span {
-  font-weight: bold;
-}
+  & span {
+    font-weight: bold;
+  }
 
-.create-update-flashcard input {
-  border-radius: 5px;
-  width: 100%;
-  padding: 0.5rem;
-  margin: 0.3rem 0rem;
-  font-size: 1.05rem;
-  resize: none;
-  border: 1px solid black;
-}
-
-.create-update-flashcard input:focus {
-  box-shadow: 0 0 3pt 2pt var(--primary-color);
+  & input {
+    border-radius: 5px;
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.3rem 0rem;
+    font-size: 1.05rem;
+    resize: none;
+    border: 1px solid black;
+    &:focus {
+      box-shadow: 0 0 3pt 2pt $primary;
+    }
+  }
 }
 
 .flashcard-container {
@@ -741,10 +702,10 @@ a {
   cursor: pointer;
   margin: -5px 0px;
   font-size: 1.75rem;
-}
 
-.left-right-btns svg:hover {
-  color: var(--primary-hover);
+  &:hover {
+    color: $primary;
+  }
 }
 
 .mode-btn {
@@ -884,7 +845,7 @@ p.deck-name {
 }
 
 .selected-mode {
-  background-image: linear-gradient(98deg, blue, var(--primary-color));
+  background-image: linear-gradient(98deg, blue, $secondary);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -894,5 +855,13 @@ p.deck-name {
 }
 
 /* CHECKBOX END */
+
+/* INput */
+.correct-answer {
+  color: black;
+  background-color: $green !important;
+  font-weight: normal;
+}
+/* INput END */
 
 /* Flashcards END */

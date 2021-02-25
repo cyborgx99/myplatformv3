@@ -1,0 +1,41 @@
+@media screen and (min-width: 500px) {
+  .dashboard-container {
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    height: 100vh;
+    width: 100vw;
+    flex-wrap: wrap;
+  }
+
+  .expense-container {
+    max-width: 24rem;
+    flex: 1;
+  }
+
+  .my-profile-info {
+    max-width: 24rem;
+    flex: 1;
+  }
+
+  .credentials-content {
+    max-width: 24rem;
+  }
+
+  .profile-content {
+    font-size: 1.1rem;
+
+    input {
+      height: 20px;
+    }
+
+    input,
+    textarea {
+      width: 175px;
+    }
+
+    .form-text {
+      font-size: 1.1rem;
+    }
+  }
+}

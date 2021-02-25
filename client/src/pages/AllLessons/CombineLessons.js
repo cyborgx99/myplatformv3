@@ -6,7 +6,10 @@ import VideoCall from '../../components/LessonComponents/VideoCall/VideoCall';
 import socket from '../../components/LessonComponents/socketInit';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+
+// Courses
 import A1A2 from './Courses/A1A2/A1A2';
+import EgzaminMaturalny from './Courses/EgzaminMaturalny/EgzaminRoutes';
 
 const CombineLessons = () => {
   const { pathname } = useLocation();
@@ -29,10 +32,10 @@ const CombineLessons = () => {
 
   return (
     <div className='lesson-container'>
-      <div className='videoChat-container'>
+      <div className='videochat-container'>
         <VideoCall roomId={roomId} />
       </div>
-      <div className='lesson-nav-container'>
+      <div className='lesson-nav-container scroll-style-1'>
         <LessonNavigation
           totalPages={totalPages}
           roomId={roomId}
@@ -45,9 +48,15 @@ const CombineLessons = () => {
       <div className='notes-container'>
         <Notes socket={socket} eventName='notes' />
       </div>
-      <div className='lesson-pages-container scroll-style-3'>
+      <div className='lesson-pages-container scroll-style-1'>
         <DndProvider backend={HTML5Backend}>
           <A1A2
+            setTotalPages={setTotalPages}
+            socket={socket}
+            page={page}
+            roomId={roomId}
+          />
+          <EgzaminMaturalny
             setTotalPages={setTotalPages}
             socket={socket}
             page={page}
