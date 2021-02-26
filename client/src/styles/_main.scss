@@ -56,6 +56,15 @@ $spaceamounts: (1, 2, 3, 4, 5);
   }
 }
 
+.flex-row {
+  display: flex;
+  gap: 1rem;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .text-primary {
   color: $primary;
 }

@@ -1,25 +1,33 @@
 import React from 'react';
 import InputWithDropArea from '../Input/InputWithDropArea';
 
-const Exercise = ({ page, socket, roomId, exerciseData }) => {
+const TextWithGaps = ({
+  page,
+  socket,
+  roomId,
+  TextWithGapsData,
+  TextWithGapsOptions,
+}) => {
   return (
-    <div className='exercise'>
-      {exerciseData &&
-        exerciseData.map((data, i) => (
+    <div className='text-with-gaps'>
+      {TextWithGapsData &&
+        TextWithGapsData.map((data, i) => (
           <span key={i}>
-            {i + 1}. {data.before}{' '}
+            {data.before}
+            <strong>{data.taskNum}</strong>
             <InputWithDropArea
               page={page}
               socket={socket}
               roomId={roomId}
               eventName={`exercise${i + 1}`}
               answers={data.ans}
+              options={TextWithGapsOptions}
             />{' '}
-            {data.after}{' '}
+            {data.after}
           </span>
         ))}
     </div>
   );
 };
 
-export default Exercise;
+export default TextWithGaps;

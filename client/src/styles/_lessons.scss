@@ -182,6 +182,9 @@
   height: 18rem;
   flex-grow: 0;
   flex-shrink: 0;
+  & button {
+    text-align: center;
+  }
 }
 
 %navbtn {
@@ -499,6 +502,30 @@ and also iPads specifically.
   align-items: center;
   flex-shrink: 0;
   padding: 1rem 1.5rem;
+
+  ul {
+    list-style: none;
+  }
+  p {
+    text-indent: 1rem;
+    margin-bottom: 10px;
+  }
+}
+
+.text-with-gaps {
+  font-size: 1rem;
+
+  strong {
+    margin: 0 5px;
+  }
+
+  div {
+    display: inline-block;
+
+    select {
+      font-size: 1.25rem;
+    }
+  }
 }
 
 .lesson-container {

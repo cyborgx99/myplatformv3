@@ -39,7 +39,7 @@ const LessonNavigation = ({
             name={`page${i + 1}`}
             onClick={(e) => setSetPage(e)}
           >
-            {`Page ${i + 1}`}
+            {`Page ${i + 1} ${data}`}
           </button>
         ))}
       {totalPages.hw &&
@@ -50,7 +50,7 @@ const LessonNavigation = ({
             className={page === `homework${i + 1}` ? 'selected-hw' : 'hw'}
             onClick={(e) => setSetPage(e)}
           >
-            {`Homework ${i + 1}`}
+            {`Homework ${i + 1} ${data}`}
           </button>
         ))}
     </>
